@@ -10,11 +10,8 @@ import edu.gatech.cs2340.team33.runecrawl.Objects.General.PlayerType;
  */
 public class Player {
     private final String username;
-
     private final GameDifficulty difficulty;
-
     private final PlayerType type;
-
     private int currentHp;
 
     /**
@@ -24,11 +21,19 @@ public class Player {
      * @param difficulty Chosen difficulty level for the game.
      * @param type       Player's chosen type or character.
      * @throws IllegalArgumentException If the username is null, whitespace, or empty
+     * @throws IllegalArgumentException If the difficulty is null
+     * @throws IllegalArgumentException If the player type is null
      */
     public Player(String username, GameDifficulty difficulty, PlayerType type) {
         if (username == null || username.trim().isEmpty()) {
             throw new IllegalArgumentException("Username cannot be null, "
                     + "empty, or whitespace");
+        }
+        if (difficulty == null) {
+            throw new IllegalArgumentException("Difficulty cannot be null");
+        }
+        if (type == null) {
+            throw new IllegalArgumentException("Player type cannot be null");
         }
 
         this.username = username;
