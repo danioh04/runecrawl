@@ -55,8 +55,7 @@ public class ConfigurationActivity extends AppCompatActivity {
                 String playerName = nameInput.getText().toString();
                 Player player = new Player(playerName, difficulty, archetype);
 <<<<<<< HEAD
-                // TO DO: Replace null with x.class (next activity)
-                Intent nextActivity = new Intent(ConfigurationActivity.this, null);
+                Intent nextActivity = new Intent(ConfigurationActivity.this, EndClass.class);
 =======
                 Intent nextActivity = new Intent(ConfigurationActivity.this, EndScreen.class);
 >>>>>>> EndScreen
