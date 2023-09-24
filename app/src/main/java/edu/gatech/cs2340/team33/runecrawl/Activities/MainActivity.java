@@ -1,6 +1,7 @@
 package edu.gatech.cs2340.team33.runecrawl.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up a click listener for the Start Game button
         startGameButton.setOnClickListener((View v) -> {
-            // TODO: Start game functionality goes here
+            Intent intent = new Intent(MainActivity.this, Configuration.class);
+            startActivity(intent);
         });
 
         // Set up a click listener for the Exit Game button
