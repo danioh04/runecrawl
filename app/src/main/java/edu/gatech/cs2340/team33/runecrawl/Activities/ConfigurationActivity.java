@@ -54,8 +54,12 @@ public class ConfigurationActivity extends AppCompatActivity {
             try {
                 String playerName = nameInput.getText().toString();
                 Player player = new Player(playerName, difficulty, archetype);
+<<<<<<< HEAD
                 // TO DO: Replace null with x.class (next activity)
                 Intent nextActivity = new Intent(ConfigurationActivity.this, null);
+=======
+                Intent nextActivity = new Intent(ConfigurationActivity.this, EndScreen.class);
+>>>>>>> EndScreen
                 startActivity(nextActivity);
             } catch (Exception exception) {
                 errorMessage.setVisibility(View.VISIBLE);
