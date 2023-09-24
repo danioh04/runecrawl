@@ -10,11 +10,8 @@ import edu.gatech.cs2340.team33.runecrawl.Objects.General.PlayerType;
  */
 public class Player {
     private final String username;
-
     private final GameDifficulty difficulty;
-
     private final PlayerType type;
-
     private int currentHp;
 
     /**
