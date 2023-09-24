@@ -17,6 +17,8 @@ import edu.gatech.cs2340.team33.runecrawl.R;
 public class ConfigurationActivity extends AppCompatActivity {
     private GameDifficulty difficulty;
     private PlayerType archetype;
+    private String playerName;
+    private static Player player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +55,32 @@ public class ConfigurationActivity extends AppCompatActivity {
         playButton.setOnClickListener((View view) -> {
             try {
                 String playerName = nameInput.getText().toString();
-                Player player = new Player(playerName, difficulty, archetype);
-                // TO DO: Replace null with x.class (next activity)
-                Intent nextActivity = new Intent(ConfigurationActivity.this, null);
+                player = new Player(playerName, difficulty, archetype);
+                Intent nextActivity = new Intent(ConfigurationActivity.this, GameActivity.class);
                 startActivity(nextActivity);
             } catch (Exception exception) {
                 errorMessage.setVisibility(View.VISIBLE);
                 errorMessage.setText(exception.getMessage());
             }
         });
-    }
+        }
+        public static Player getPlayer() {
+            return player;
+        }
+//        public String getDifficulty() {
+//            return difficulty.toString();
+//        }
+//        public String getPlayerName() {
+//            return player.playerName;
+//        }
+//        public int getHitPoints() {
+//            return player.getCurrentHp();
+//        }
+//        public int getSpriteID() {
+//            return player.getType().getSpriteResId();
+//    }
+
+
+
+
 }
