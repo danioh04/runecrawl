@@ -55,7 +55,7 @@ public class ConfigurationActivity extends AppCompatActivity {
                 String playerName = nameInput.getText().toString();
                 Player player = new Player(playerName, difficulty, archetype);
 <<<<<<< HEAD
-                Intent nextActivity = new Intent(ConfigurationActivity.this, EndClass.class);
+                Intent nextActivity = new Intent(ConfigurationActivity.this, EndScreen.class);
 =======
                 Intent nextActivity = new Intent(ConfigurationActivity.this, EndScreen.class);
 >>>>>>> EndScreen
