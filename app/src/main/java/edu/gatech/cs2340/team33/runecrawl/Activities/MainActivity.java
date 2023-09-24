@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up a click listener for the Start Game button
         startGameButton.setOnClickListener((View v) -> {
-            Intent intent = new Intent(MainActivity.this, Configuration.class);
+            Intent intent = new Intent(MainActivity.this, ConfigurationActivity.class);
             startActivity(intent);
         });
 

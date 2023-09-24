@@ -14,7 +14,7 @@ import edu.gatech.cs2340.team33.runecrawl.Objects.General.PlayerType;
 import edu.gatech.cs2340.team33.runecrawl.Objects.Player;
 import edu.gatech.cs2340.team33.runecrawl.R;
 
-public class Configuration extends AppCompatActivity {
+public class ConfigurationActivity extends AppCompatActivity {
     private GameDifficulty difficulty;
     private PlayerType archetype;
 
@@ -55,7 +55,7 @@ public class Configuration extends AppCompatActivity {
                 String playerName = nameInput.getText().toString();
                 Player player = new Player(playerName, difficulty, archetype);
                 // TO DO: Replace null with x.class (next activity)
-                Intent nextActivity = new Intent(Configuration.this, null);
+                Intent nextActivity = new Intent(ConfigurationActivity.this, null);
                 startActivity(nextActivity);
             } catch (Exception exception) {
                 errorMessage.setVisibility(View.VISIBLE);
