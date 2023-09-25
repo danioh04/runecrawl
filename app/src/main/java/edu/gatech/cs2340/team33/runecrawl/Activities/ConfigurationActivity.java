@@ -64,21 +64,14 @@ public class ConfigurationActivity extends AppCompatActivity {
             }
         });
         }
-        public static Player getPlayer() {
+
+    /**
+     *  this is a class to to get the player oject so we can use its attributes
+     * @return ir returns the player object
+     */
+    public static Player getPlayer() {
             return player;
         }
-//        public String getDifficulty() {
-//            return difficulty.toString();
-//        }
-//        public String getPlayerName() {
-//            return player.playerName;
-//        }
-//        public int getHitPoints() {
-//            return player.getCurrentHp();
-//        }
-//        public int getSpriteID() {
-//            return player.getType().getSpriteResId();
-//    }
 
 
 
