@@ -35,11 +35,14 @@ public class ConfigurationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.configuration_screen);
 
+        // Find necessary text and buttons from the XML layout
         EditText nameInput = findViewById(R.id.nameInput);
         TextView errorMessage = findViewById(R.id.errorMessage);
         RadioGroup difficultyGroup = findViewById(R.id.difficultyGroup);
         RadioGroup characterGroup = findViewById(R.id.characterGroup);
+        Button playButton = findViewById(R.id.playButton);
 
+        // Adjust the game difficulty based off user input
         difficultyGroup.setOnCheckedChangeListener((RadioGroup group, int id) -> {
             if (id == R.id.easyButton) {
                 difficulty = GameDifficulty.EASY;
@@ -50,6 +53,7 @@ public class ConfigurationActivity extends AppCompatActivity {
             }
         });
 
+        // Adjust the character archetype based off user input
         characterGroup.setOnCheckedChangeListener((RadioGroup group, int id) -> {
             if (id == R.id.mageButton) {
                 archetype = PlayerType.MAGE;
@@ -60,8 +64,7 @@ public class ConfigurationActivity extends AppCompatActivity {
             }
         });
 
-        Button playButton = findViewById(R.id.playButton);
-
+        // Set up a click listener for the Start Game button and creates a player object
         playButton.setOnClickListener((View view) -> {
             try {
                 String playerName = nameInput.getText().toString();
@@ -73,17 +76,14 @@ public class ConfigurationActivity extends AppCompatActivity {
                 errorMessage.setText(exception.getMessage());
             }
         });
-        }
+    }
 
     /**
-     *  this is a class to to get the player oject so we can use its attributes
-     * @return ir returns the player object
+     * Exposes the configured player object to other screens.
+     *
+     * @return The player object.
      */
     public static Player getPlayer() {
-            return player;
-        }
-
-
-
-
+        return player;
+    }
 }
