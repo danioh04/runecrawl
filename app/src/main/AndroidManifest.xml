@@ -23,6 +23,9 @@
         <activity
             android:name=".Activities.ConfigurationActivity">
         </activity>
+        <activity
+            android:name=".Activities.GameActivity">
+        </activity>
     </application>
 
 </manifest>
