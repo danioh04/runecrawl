@@ -29,8 +29,6 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Set the layout for the game screen from XML
         setContentView(R.layout.game_screen);
 
         // Obtain references to UI components
@@ -42,7 +40,7 @@ public class GameActivity extends AppCompatActivity {
 
         // Set up a click listener for the end game button to transition to the end activity
         endButton.setOnClickListener((View view) -> {
-            Intent nextActivity = new Intent(GameActivity.this, EndActivity.class);
+            Intent nextActivity = new Intent(this, EndActivity.class);
             startActivity(nextActivity);
         });
 

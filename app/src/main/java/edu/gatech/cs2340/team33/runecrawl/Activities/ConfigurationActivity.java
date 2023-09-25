@@ -1,6 +1,5 @@
 package edu.gatech.cs2340.team33.runecrawl.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import edu.gatech.cs2340.team33.runecrawl.Objects.General.GameDifficulty;
 import edu.gatech.cs2340.team33.runecrawl.Objects.General.PlayerType;
@@ -19,9 +20,18 @@ import edu.gatech.cs2340.team33.runecrawl.R;
  * This activity allows for user input and options for difficulty and a character.
  */
 public class ConfigurationActivity extends AppCompatActivity {
+    private static Player player;
     private GameDifficulty difficulty;
     private PlayerType archetype;
-    private static Player player;
+
+    /**
+     * Exposes the configured player object to other screens.
+     *
+     * @return The player object.
+     */
+    public static Player getPlayer() {
+        return player;
+    }
 
     /**
      * Initializes the activity's user interface when it's created.
@@ -69,21 +79,12 @@ public class ConfigurationActivity extends AppCompatActivity {
             try {
                 String playerName = nameInput.getText().toString();
                 player = new Player(playerName, difficulty, archetype);
-                Intent nextActivity = new Intent(ConfigurationActivity.this, GameActivity.class);
+                Intent nextActivity = new Intent(this, GameActivity.class);
                 startActivity(nextActivity);
-            } catch (Exception exception) {
+            } catch (IllegalArgumentException exception) {
                 errorMessage.setVisibility(View.VISIBLE);
                 errorMessage.setText(exception.getMessage());
             }
         });
-    }
-
-    /**
-     * Exposes the configured player object to other screens.
-     *
-     * @return The player object.
-     */
-    public static Player getPlayer() {
-        return player;
     }
 }

@@ -1,7 +1,8 @@
 package edu.gatech.cs2340.team33.runecrawl.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import edu.gatech.cs2340.team33.runecrawl.R;
 
