@@ -55,13 +55,8 @@ public class ConfigurationActivity extends AppCompatActivity {
         playButton.setOnClickListener((View view) -> {
             try {
                 String playerName = nameInput.getText().toString();
-<<<<<<< HEAD
                 player = new Player(playerName, difficulty, archetype);
                 Intent nextActivity = new Intent(ConfigurationActivity.this, GameActivity.class);
-=======
-                Player player = new Player(playerName, difficulty, archetype);
-                Intent nextActivity = new Intent(ConfigurationActivity.this, EndActivity.class);
->>>>>>> EndScreen
                 startActivity(nextActivity);
             } catch (Exception exception) {
                 errorMessage.setVisibility(View.VISIBLE);

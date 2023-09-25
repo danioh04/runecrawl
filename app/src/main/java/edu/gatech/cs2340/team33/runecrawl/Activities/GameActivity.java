@@ -44,8 +44,7 @@ public class GameActivity extends AppCompatActivity {
         // create the end button game to leave the game and see the end screen
         Button endButton = findViewById(R.id.endGameButton);
         endButton.setOnClickListener((View view ) -> {
-            // TODO change the null to the end screen
-            Intent nextActivity = new Intent(GameActivity.this, null);
+            Intent nextActivity = new Intent(GameActivity.this, EndActivity.class);
             startActivity(nextActivity);
         });
         // how the items are meant to be displayed for the user to see
