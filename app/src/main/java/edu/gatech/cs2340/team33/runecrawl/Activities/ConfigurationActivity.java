@@ -14,12 +14,22 @@ import edu.gatech.cs2340.team33.runecrawl.Objects.General.PlayerType;
 import edu.gatech.cs2340.team33.runecrawl.Objects.Player;
 import edu.gatech.cs2340.team33.runecrawl.R;
 
+/**
+ * ConfigurationActivity is where the user is able to select customize their experience.
+ * This activity allows for user input and options for difficulty and a character.
+ */
 public class ConfigurationActivity extends AppCompatActivity {
     private GameDifficulty difficulty;
     private PlayerType archetype;
-    private String playerName;
     private static Player player;
 
+    /**
+     * Initializes the activity's user interface when it's created.
+     * This method binds the XML layout to the activity and sets up click listeners
+     * for the buttons.
+     *
+     * @param savedInstanceState Contains the activity's previously saved state if any.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
