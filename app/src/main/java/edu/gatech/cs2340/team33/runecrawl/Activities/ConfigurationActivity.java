@@ -54,11 +54,7 @@ public class ConfigurationActivity extends AppCompatActivity {
             try {
                 String playerName = nameInput.getText().toString();
                 Player player = new Player(playerName, difficulty, archetype);
-<<<<<<< HEAD
-                Intent nextActivity = new Intent(ConfigurationActivity.this, EndScreen.class);
-=======
-                Intent nextActivity = new Intent(ConfigurationActivity.this, EndScreen.class);
->>>>>>> EndScreen
+                Intent nextActivity = new Intent(ConfigurationActivity.this, EndActivity.class);
                 startActivity(nextActivity);
             } catch (Exception exception) {
                 errorMessage.setVisibility(View.VISIBLE);
