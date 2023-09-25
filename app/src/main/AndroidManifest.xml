@@ -20,12 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activities.ConfigurationActivity">
-        </activity>
-        <activity
-            android:name=".Activities.GameActivity">
-        </activity>
+        <activity android:name=".Activities.ConfigurationActivity" />
+        <activity android:name=".Activities.GameActivity" />
+        <activity android:name=".Activities.EndActivity" />
     </application>
 
 </manifest>
