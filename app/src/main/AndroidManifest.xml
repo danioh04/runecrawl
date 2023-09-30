@@ -13,16 +13,16 @@
         android:theme="@style/Theme.Runecrawl"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".Views.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.ConfigurationActivity" />
-        <activity android:name=".Activities.GameActivity" />
-        <activity android:name=".Activities.EndActivity" />
+        <activity android:name=".Views.ConfigurationActivity" />
+        <activity android:name=".Views.GameActivity" />
+        <activity android:name=".Views.EndActivity" />
     </application>
 
 </manifest>

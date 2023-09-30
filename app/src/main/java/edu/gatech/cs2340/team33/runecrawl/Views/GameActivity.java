@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.team33.runecrawl.Activities;
+package edu.gatech.cs2340.team33.runecrawl.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import edu.gatech.cs2340.team33.runecrawl.Objects.Player;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player;
 import edu.gatech.cs2340.team33.runecrawl.R;
 
 /**
@@ -38,18 +38,19 @@ public class GameActivity extends AppCompatActivity {
         ImageView spriteImage = findViewById(R.id.playerSprite);
         Button endButton = findViewById(R.id.endGameButton);
 
+        // Populate UI components with player details
+        playerName.setText(String.format("Name: %s", player.getUsername()));
+        difficulty.setText(String.format("Difficulty: %s", player.getDifficulty()));
+        hp.setText(String.format("HP: %s", player.getCurrentHp()));
+
+        // Display the sprite image based on the player's type
+        spriteImage.setImageResource(player.getType().getSpriteResId());
+
         // Set up a click listener for the end game button to transition to the end activity
         endButton.setOnClickListener((View view) -> {
             Intent nextActivity = new Intent(this, EndActivity.class);
             startActivity(nextActivity);
         });
 
-        // Populate UI components with player details
-        playerName.setText(player.getUsername());
-        difficulty.setText(player.getDifficulty().toString());
-        hp.setText(String.valueOf(player.getCurrentHp()));
-
-        // Display the sprite image based on the player's type
-        spriteImage.setImageResource(player.getType().getSpriteResId());
     }
 }
