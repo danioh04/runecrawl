@@ -26,7 +26,7 @@ public class EndActivity extends AppCompatActivity {
         // Creates a button that is intended to take you back to the config screen
         Button restartButton = findViewById(R.id.restartButton);
 
-        //// Set up a click listener for the restart button to take you back to config screen
+        // Set up a click listener for the restart button to take you back to config screen
         restartButton.setOnClickListener((View view) -> {
             Intent nextActivity = new Intent(this, ConfigurationActivity.class);
             startActivity(nextActivity);
