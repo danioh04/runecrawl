@@ -51,6 +51,5 @@ public class GameActivity extends AppCompatActivity {
             Intent nextActivity = new Intent(this, EndActivity.class);
             startActivity(nextActivity);
         });
-
     }
 }
