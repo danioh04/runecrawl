@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.team33.runecrawl.Objects.General;
+package edu.gatech.cs2340.team33.runecrawl.Model;
 
 import edu.gatech.cs2340.team33.runecrawl.R;
 

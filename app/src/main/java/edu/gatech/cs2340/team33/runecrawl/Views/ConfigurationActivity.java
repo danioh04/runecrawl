@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.team33.runecrawl.Activities;
+package edu.gatech.cs2340.team33.runecrawl.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import edu.gatech.cs2340.team33.runecrawl.Objects.General.GameDifficulty;
-import edu.gatech.cs2340.team33.runecrawl.Objects.General.PlayerType;
-import edu.gatech.cs2340.team33.runecrawl.Objects.Player;
+import edu.gatech.cs2340.team33.runecrawl.Model.GameDifficulty;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player;
+import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
 import edu.gatech.cs2340.team33.runecrawl.R;
 
 /**

@@ -1,7 +1,4 @@
-package edu.gatech.cs2340.team33.runecrawl.Objects;
-
-import edu.gatech.cs2340.team33.runecrawl.Objects.General.GameDifficulty;
-import edu.gatech.cs2340.team33.runecrawl.Objects.General.PlayerType;
+package edu.gatech.cs2340.team33.runecrawl.Model;
 
 /**
  * Represents a player in the RuneCrawl game.
