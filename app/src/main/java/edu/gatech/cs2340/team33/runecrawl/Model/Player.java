@@ -10,6 +10,7 @@ public class Player {
     private final GameDifficulty difficulty;
     private final PlayerType type;
     private int currentHp;
+    private int score;
 
     /**
      * Constructs a new Player with specified username, difficulty, and type.
@@ -26,9 +27,11 @@ public class Player {
             throw new IllegalArgumentException("Username cannot be null, "
                     + "empty, or whitespace");
         }
+
         if (difficulty == null) {
             throw new IllegalArgumentException("Difficulty cannot be null");
         }
+
         if (type == null) {
             throw new IllegalArgumentException("Player type cannot be null");
         }
@@ -37,6 +40,7 @@ public class Player {
         this.difficulty = difficulty;
         this.type = type;
         this.currentHp = difficulty.getStartingHp();
+        this.score = 100; // Temporarily start the player's score at 100
     }
 
     /**
@@ -76,6 +80,16 @@ public class Player {
     }
 
     /**
+     * Retrieves the current score of the player. Currently, the score is
+     * correlated with the time the player takes to complete the game.
+     *
+     * @return Current score of the player.
+     */
+    public int getScore() {
+        return score;
+    }
+
+    /**
      * Checks if the player is alive.
      * A player is considered alive if their HP is greater than 0.
      *
@@ -97,5 +111,18 @@ public class Player {
         if (currentHp < 0) {
             currentHp = 0;
         }
+    }
+
+    /**
+     * Decrease the player's score as they take more time to complete the game.
+     *
+     * @throws IllegalArgumentException If the current score is already at 0
+     */
+    public void decreaseScore() {
+        if (score <= 0) {
+            throw new IllegalArgumentException("Score is already 0 and cannot be decreased");
+        }
+
+        score -= 1;
     }
 }
