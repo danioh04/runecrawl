@@ -6,6 +6,7 @@ package edu.gatech.cs2340.team33.runecrawl.Model;
  * and a current health points (HP).
  */
 public class Player {
+    private static Player instance;
     private final String username;
     private final GameDifficulty difficulty;
     private final PlayerType type;
@@ -22,7 +23,7 @@ public class Player {
      * @throws IllegalArgumentException If the difficulty is null
      * @throws IllegalArgumentException If the player type is null
      */
-    public Player(String username, GameDifficulty difficulty, PlayerType type) {
+    private Player(String username, GameDifficulty difficulty, PlayerType type) {
         if (username == null || username.trim().isEmpty()) {
             throw new IllegalArgumentException("Username cannot be null, "
                     + "empty, or whitespace");
@@ -41,6 +42,35 @@ public class Player {
         this.type = type;
         this.currentHp = difficulty.getStartingHp();
         this.score = 100; // Temporarily start the player's score at 100
+    }
+
+    /**
+     * Provides the singleton instance of the Player. Creates the instance if it does not
+     * already exist.
+     *
+     * @param username   Unique username of the player.
+     * @param difficulty Chosen difficulty level for the game.
+     * @param type       Player's chosen type or character.
+     */
+    public static void initialize(String username, GameDifficulty difficulty, PlayerType type) {
+        if (instance == null) {
+            instance = new Player(username, difficulty, type);
+        }
+    }
+
+    /**
+     * Provides the singleton instance of the Player. Throws an exception if the instance
+     * is not yet created.
+     *
+     * @return The single instance of the Player.
+     * @throws IllegalStateException If the Player instance has not been initialized yet.
+     */
+    public static Player getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("Player instance has not been initialized. Call getInstance with parameters first.");
+        }
+
+        return instance;
     }
 
     /**

@@ -17,7 +17,7 @@ import edu.gatech.cs2340.team33.runecrawl.R;
  * Currently the goal is to display username, HP, difficulty and the sprite picked.
  */
 public class GameActivity extends AppCompatActivity {
-    private final Player player = ConfigurationActivity.getPlayer();
+    private final Player player = Player.getInstance();
 
     /**
      * Initializes the game activity screen.

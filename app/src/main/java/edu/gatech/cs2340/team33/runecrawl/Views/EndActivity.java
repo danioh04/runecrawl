@@ -31,7 +31,5 @@ public class EndActivity extends AppCompatActivity {
             Intent nextActivity = new Intent(this, ConfigurationActivity.class);
             startActivity(nextActivity);
         });
-
     }
-
 }

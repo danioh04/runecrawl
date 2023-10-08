@@ -20,18 +20,8 @@ import edu.gatech.cs2340.team33.runecrawl.R;
  * This activity allows for user input and options for difficulty and a character.
  */
 public class ConfigurationActivity extends AppCompatActivity {
-    private static Player player;
     private GameDifficulty difficulty;
     private PlayerType archetype;
-
-    /**
-     * Exposes the configured player object to other screens.
-     *
-     * @return The player object.
-     */
-    public static Player getPlayer() {
-        return player;
-    }
 
     /**
      * Initializes the activity's user interface when it's created.
@@ -78,7 +68,10 @@ public class ConfigurationActivity extends AppCompatActivity {
         playButton.setOnClickListener((View view) -> {
             try {
                 String playerName = nameInput.getText().toString();
-                player = new Player(playerName, difficulty, archetype);
+
+                // Initialize the singleton player instance with user's selections
+                Player.initialize(playerName, difficulty, archetype);
+
                 Intent nextActivity = new Intent(this, GameActivity.class);
                 startActivity(nextActivity);
             } catch (IllegalArgumentException exception) {
