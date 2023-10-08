@@ -31,7 +31,7 @@ public enum PlayerType {
      * @return The weapon linked to this player type.
      */
     public Weapon getWeapon() {
-        return weapon;
+        return this.weapon;
     }
 
     /**
@@ -40,6 +40,6 @@ public enum PlayerType {
      * @return The resource ID of the sprite.
      */
     public int getSpriteResId() {
-        return spriteResId;
+        return this.spriteResId;
     }
 }

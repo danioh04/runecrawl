@@ -32,7 +32,7 @@ public enum Weapon {
      * @return The weapon's name.
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -41,7 +41,7 @@ public enum Weapon {
      * @return The weapon's damage rate.
      */
     public int getDamageRate() {
-        return damageRate;
+        return this.damageRate;
     }
 
     /**
@@ -50,6 +50,6 @@ public enum Weapon {
      * @return The damage infliction radius of the weapon.
      */
     public int getDamageRange() {
-        return damageRange;
+        return this.damageRange;
     }
 }

@@ -49,7 +49,7 @@ public class Player {
      * @return Player's username.
      */
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     /**
@@ -58,7 +58,7 @@ public class Player {
      * @return Chosen game difficulty.
      */
     public GameDifficulty getDifficulty() {
-        return difficulty;
+        return this.difficulty;
     }
 
     /**
@@ -67,7 +67,7 @@ public class Player {
      * @return Player's type.
      */
     public PlayerType getType() {
-        return type;
+        return this.type;
     }
 
     /**
@@ -76,7 +76,7 @@ public class Player {
      * @return Current HP of the player.
      */
     public int getCurrentHp() {
-        return currentHp;
+        return this.currentHp;
     }
 
     /**
@@ -86,7 +86,7 @@ public class Player {
      * @return Current score of the player.
      */
     public int getScore() {
-        return score;
+        return this.score;
     }
 
     /**
@@ -96,7 +96,7 @@ public class Player {
      * @return true if player is alive, false otherwise.
      */
     public boolean isAlive() {
-        return currentHp > 0;
+        return this.currentHp > 0;
     }
 
     /**
@@ -108,8 +108,8 @@ public class Player {
     public void receiveDamage(int damage) {
         this.currentHp -= damage;
 
-        if (currentHp < 0) {
-            currentHp = 0;
+        if (this.currentHp < 0) {
+            this.currentHp = 0;
         }
     }
 
@@ -119,10 +119,10 @@ public class Player {
      * @throws IllegalArgumentException If the current score is already at 0
      */
     public void decreaseScore() {
-        if (score <= 0) {
+        if (this.score <= 0) {
             throw new IllegalArgumentException("Score is already 0 and cannot be decreased");
         }
 
-        score -= 1;
+        this.score -= 1;
     }
 }
