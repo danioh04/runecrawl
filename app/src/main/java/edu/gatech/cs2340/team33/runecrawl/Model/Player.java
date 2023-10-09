@@ -53,9 +53,7 @@ public class Player {
      * @param type       Player's chosen type or character.
      */
     public static void initialize(String username, GameDifficulty difficulty, PlayerType type) {
-        if (instance == null) {
-            instance = new Player(username, difficulty, type);
-        }
+        instance = new Player(username, difficulty, type);
     }
 
     /**
@@ -67,7 +65,8 @@ public class Player {
      */
     public static Player getInstance() {
         if (instance == null) {
-            throw new IllegalStateException("Player instance has not been initialized. Call getInstance with parameters first.");
+            throw new IllegalStateException("Player instance has not been initialized."
+                    + " Call getInstance with parameters first.");
         }
 
         return instance;
