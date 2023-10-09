@@ -6,10 +6,12 @@ package edu.gatech.cs2340.team33.runecrawl.Model;
  * and a current health points (HP).
  */
 public class Player {
+    private static Player instance;
     private final String username;
     private final GameDifficulty difficulty;
     private final PlayerType type;
     private int currentHp;
+    private int score;
 
     /**
      * Constructs a new Player with specified username, difficulty, and type.
@@ -21,14 +23,16 @@ public class Player {
      * @throws IllegalArgumentException If the difficulty is null
      * @throws IllegalArgumentException If the player type is null
      */
-    public Player(String username, GameDifficulty difficulty, PlayerType type) {
+    private Player(String username, GameDifficulty difficulty, PlayerType type) {
         if (username == null || username.trim().isEmpty()) {
             throw new IllegalArgumentException("Username cannot be null, "
                     + "empty, or whitespace");
         }
+
         if (difficulty == null) {
             throw new IllegalArgumentException("Difficulty cannot be null");
         }
+
         if (type == null) {
             throw new IllegalArgumentException("Player type cannot be null");
         }
@@ -37,6 +41,35 @@ public class Player {
         this.difficulty = difficulty;
         this.type = type;
         this.currentHp = difficulty.getStartingHp();
+        this.score = 100; // Temporarily start the player's score at 100
+    }
+
+    /**
+     * Provides the singleton instance of the Player. Creates the instance if it does not
+     * already exist.
+     *
+     * @param username   Unique username of the player.
+     * @param difficulty Chosen difficulty level for the game.
+     * @param type       Player's chosen type or character.
+     */
+    public static void initialize(String username, GameDifficulty difficulty, PlayerType type) {
+        instance = new Player(username, difficulty, type);
+    }
+
+    /**
+     * Provides the singleton instance of the Player. Throws an exception if the instance
+     * is not yet created.
+     *
+     * @return The single instance of the Player.
+     * @throws IllegalStateException If the Player instance has not been initialized yet.
+     */
+    public static Player getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("Player instance has not been initialized."
+                    + " Call getInstance with parameters first.");
+        }
+
+        return instance;
     }
 
     /**
@@ -45,7 +78,7 @@ public class Player {
      * @return Player's username.
      */
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     /**
@@ -54,7 +87,7 @@ public class Player {
      * @return Chosen game difficulty.
      */
     public GameDifficulty getDifficulty() {
-        return difficulty;
+        return this.difficulty;
     }
 
     /**
@@ -63,7 +96,7 @@ public class Player {
      * @return Player's type.
      */
     public PlayerType getType() {
-        return type;
+        return this.type;
     }
 
     /**
@@ -72,7 +105,17 @@ public class Player {
      * @return Current HP of the player.
      */
     public int getCurrentHp() {
-        return currentHp;
+        return this.currentHp;
+    }
+
+    /**
+     * Retrieves the current score of the player. Currently, the score is
+     * correlated with the time the player takes to complete the game.
+     *
+     * @return Current score of the player.
+     */
+    public int getScore() {
+        return this.score;
     }
 
     /**
@@ -82,7 +125,7 @@ public class Player {
      * @return true if player is alive, false otherwise.
      */
     public boolean isAlive() {
-        return currentHp > 0;
+        return this.currentHp > 0;
     }
 
     /**
@@ -94,8 +137,21 @@ public class Player {
     public void receiveDamage(int damage) {
         this.currentHp -= damage;
 
-        if (currentHp < 0) {
-            currentHp = 0;
+        if (this.currentHp < 0) {
+            this.currentHp = 0;
         }
+    }
+
+    /**
+     * Decrease the player's score as they take more time to complete the game.
+     *
+     * @throws IllegalArgumentException If the current score is already at 0
+     */
+    public void decreaseScore() {
+        if (this.score <= 0) {
+            throw new IllegalArgumentException("Score is already 0 and cannot be decreased");
+        }
+
+        this.score -= 1;
     }
 }

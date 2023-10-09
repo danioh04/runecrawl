@@ -6,15 +6,67 @@
     android:layout_height="match_parent"
     tools:context=".Views.EndActivity">
 
+    <TextView
+        android:id="@+id/currentAttempt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/leaderboardTable"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <!-- Table rows will be added programmatically -->
+    <TableLayout
+        android:id="@+id/leaderboardTable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FFF"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/restartButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Sample header row -->
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#DDD">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Name"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Score"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Date"
+                android:textStyle="bold" />
+        </TableRow>
+    </TableLayout>
+
     <Button
         android:id="@+id/restartButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Restart"
+        android:layout_marginBottom="16dp"
+        android:text="Restart Game"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

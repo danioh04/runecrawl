@@ -34,7 +34,7 @@ public enum GameDifficulty {
      * @return The starting hit points for the player.
      */
     public int getStartingHp() {
-        return startingHp;
+        return this.startingHp;
     }
 
     /**
@@ -43,6 +43,6 @@ public enum GameDifficulty {
      * @return The rate at which enemies damage the player.
      */
     public int getEnemyDamageRate() {
-        return enemyDamageRate;
+        return this.enemyDamageRate;
     }
 }
