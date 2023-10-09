@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import edu.gatech.cs2340.team33.runecrawl.Model.GameAttempt;
+import edu.gatech.cs2340.team33.runecrawl.Model.Leaderboard;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player;
 import edu.gatech.cs2340.team33.runecrawl.R;
 
@@ -48,6 +50,11 @@ public class GameActivity extends AppCompatActivity {
 
         // Set up a click listener for the end game button to transition to the end activity
         endButton.setOnClickListener((View view) -> {
+            // Add current game attempt to the leaderboard before moving to the end screen
+            GameAttempt currentAttempt = new GameAttempt(player);
+            Leaderboard.getInstance().addAttempt(currentAttempt);
+
+            // Move on to the end screen
             Intent nextActivity = new Intent(this, EndActivity.class);
             startActivity(nextActivity);
         });
