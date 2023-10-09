@@ -54,8 +54,10 @@ public class GameAttempt {
      *
      * @return The date and time of the game attempt.
      */
-    public Date getDateTime() {
-        return this.dateTime;
+    public String getDateTime() {
+        DateFormat df = DateFormat.getDateTimeInstance(
+                DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.US);
+        return df.format(this.dateTime);
     }
 
     /**
@@ -67,10 +69,8 @@ public class GameAttempt {
     @NonNull
     @Override
     public String toString() {
-        DateFormat df = DateFormat.getDateTimeInstance(
-                DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.US); // Example with Locale.US
-        return "Username: " + this.username
-                + ", Score: " + this.score
-                + ", DateTime: " + df.format(this.dateTime);
+        return "Attempt: " + this.username
+                + ", " + this.score
+                + ", " + this.getDateTime();
     }
 }
