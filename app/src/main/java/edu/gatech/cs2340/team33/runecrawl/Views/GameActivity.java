@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import edu.gatech.cs2340.team33.runecrawl.Model.GameAttempt;
 import edu.gatech.cs2340.team33.runecrawl.Model.Leaderboard;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player;
@@ -37,6 +40,7 @@ public class GameActivity extends AppCompatActivity {
         TextView playerName = findViewById(R.id.playerName);
         TextView difficulty = findViewById(R.id.difficulty);
         TextView hp = findViewById(R.id.hitpoints);
+        TextView score = findViewById(R.id.score);
         ImageView spriteImage = findViewById(R.id.playerSprite);
         Button endButton = findViewById(R.id.endGameButton);
 
@@ -48,8 +52,20 @@ public class GameActivity extends AppCompatActivity {
         // Display the sprite image based on the player's type
         spriteImage.setImageResource(player.getType().getSpriteResId());
 
+        // Decrement the player's score by 1 for every half a second
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                player.decreaseScore();
+                runOnUiThread(() -> score.setText(String.format("Score: %s", player.getScore())));
+            }
+        }, 0, 500);
+
         // Set up a click listener for the end game button to transition to the end activity
         endButton.setOnClickListener((View view) -> {
+            // Stop the score timer when the button is pressed
+            timer.cancel();
+
             // Add current game attempt to the leaderboard before moving to the end screen
             GameAttempt currentAttempt = new GameAttempt(player);
             Leaderboard.getInstance().addAttempt(currentAttempt);
