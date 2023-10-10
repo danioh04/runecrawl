@@ -3,25 +3,26 @@ package edu.gatech.cs2340.team33.runecrawl.Model;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.PriorityQueue;
+import java.util.NavigableSet;
+import java.util.TreeSet;
 
 /**
  * Represents a leaderboard that keeps track of players' game attempts.
  * The leaderboard stores a limited number of top scoring attempts.
  */
 public class Leaderboard {
-    private static final int MAX_ATTEMPTS = 7;
+    private static final int MAX_ATTEMPTS = 5;
     private static Leaderboard instance;
-    private final PriorityQueue<GameAttempt> attempts;
+    private final NavigableSet<GameAttempt> attempts;
 
     /**
      * Private constructor to create a Leaderboard instance.
-     * Initializes a priority queue to store game attempts.
+     * Initializes a TreeSet to store game attempts.
      */
     private Leaderboard() {
-        // Using a PriorityQueue to efficiently keep top scores
-        this.attempts = new PriorityQueue<>(
-                MAX_ATTEMPTS, Comparator.comparing(GameAttempt::getScore));
+        // Using a TreeSet to keep top scores sorted
+        this.attempts = new TreeSet<>(Comparator.comparing(GameAttempt::getScore)
+                .reversed().thenComparing(GameAttempt::getUsername));
     }
 
     /**
@@ -60,14 +61,13 @@ public class Leaderboard {
             throw new IllegalArgumentException("Attempt cannot be null");
         }
 
-        if (this.attempts.size() < MAX_ATTEMPTS) {
-            // If less than MAX_ATTEMPTS, add the attempt
-            this.attempts.offer(attempt);
-        } else if (this.attempts.peek() != null && attempt.getScore()
-                > this.attempts.peek().getScore()) {
-            // If the new attempt's score is higher than the lowest in the queue, replace
-            this.attempts.poll();
-            this.attempts.offer(attempt);
+        if (this.attempts.size() < MAX_ATTEMPTS
+                || attempt.getScore() > this.attempts.last().getScore()) {
+            this.attempts.add(attempt);
+        }
+
+        if (this.attempts.size() > MAX_ATTEMPTS) {
+            this.attempts.pollLast();
         }
     }
 }
