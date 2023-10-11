@@ -19,10 +19,12 @@ import edu.gatech.cs2340.team33.runecrawl.R;
 
 /**
  * This is the Game Activity Class that has the main screen that the user will play on.
- * Currently the goal is to display username, HP, difficulty and the sprite picked.
+ * Currently the goal is to display username, HP, difficulty, and the sprite picked.
  */
 public class GameActivity extends AppCompatActivity {
     private final Player player = Player.getInstance();
+    private Timer timer;
+    private TextView score;
 
     /**
      * Initializes the game activity screen.
@@ -36,11 +38,20 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_screen);
 
+        initializeUIComponents();
+
+        startScoreDecrementTimer();
+    }
+
+    /**
+     * Initializes UI components and sets up the initial state of the game screen.
+     */
+    private void initializeUIComponents() {
         // Obtain references to UI components
         TextView playerName = findViewById(R.id.playerName);
         TextView difficulty = findViewById(R.id.difficulty);
         TextView hp = findViewById(R.id.hitpoints);
-        TextView score = findViewById(R.id.score);
+        score = findViewById(R.id.score);
         ImageView spriteImage = findViewById(R.id.playerSprite);
         Button endButton = findViewById(R.id.endGameButton);
 
@@ -52,27 +63,48 @@ public class GameActivity extends AppCompatActivity {
         // Display the sprite image based on the player's type
         spriteImage.setImageResource(player.getType().getSpriteResId());
 
-        // Decrement the player's score by 1 for every half a second
-        Timer timer = new Timer();
+        // Set up a click listener for the end game button
+        endButton.setOnClickListener(this::moveToEndScreen);
+    }
+
+    /**
+     * Starts a timer to decrement the player's score every half a second.
+     */
+    private void startScoreDecrementTimer() {
+        timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                player.decreaseScore();
-                runOnUiThread(() -> score.setText(String.format("Score: %s", player.getScore())));
+                runOnUiThread(() -> {
+                    try {
+                        player.decreaseScore();
+                        score.setText(String.format("Score: %s", player.getScore()));
+                    } catch (IllegalStateException e) {
+                        // If an exception is caught, stop the timer and move to the end screen
+                        timer.cancel();
+                        moveToEndScreen(null);
+                    }
+                });
             }
         }, 0, 500);
+    }
 
-        // Set up a click listener for the end game button to transition to the end activity
-        endButton.setOnClickListener((View view) -> {
-            // Stop the score timer when the button is pressed
+    /**
+     * Transitions to the end game screen, stops the score decrement timer,
+     * and adds the current game attempt to the leaderboard.
+     *
+     * @param view The view that triggered this method (can be null).
+     */
+    private void moveToEndScreen(View view) {
+        if (timer != null) {
             timer.cancel();
+        }
 
-            // Add current game attempt to the leaderboard before moving to the end screen
-            GameAttempt currentAttempt = new GameAttempt(player);
-            Leaderboard.getInstance().addAttempt(currentAttempt);
+        // Add current game attempt to the leaderboard
+        GameAttempt currentAttempt = new GameAttempt(player);
+        Leaderboard.getInstance().addAttempt(currentAttempt);
 
-            // Move on to the end screen
-            Intent nextActivity = new Intent(this, EndActivity.class);
-            startActivity(nextActivity);
-        });
+        // Move on to the end screen
+        Intent nextActivity = new Intent(this, EndActivity.class);
+        startActivity(nextActivity);
     }
 }
