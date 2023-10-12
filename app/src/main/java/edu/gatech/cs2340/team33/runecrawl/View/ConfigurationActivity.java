@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.team33.runecrawl.Views;
+package edu.gatech.cs2340.team33.runecrawl.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,19 +9,16 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
-import edu.gatech.cs2340.team33.runecrawl.Model.GameDifficulty;
-import edu.gatech.cs2340.team33.runecrawl.Model.Player;
-import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
 import edu.gatech.cs2340.team33.runecrawl.R;
+import edu.gatech.cs2340.team33.runecrawl.ViewModel.Configuration;
 
 /**
  * ConfigurationActivity is where the user is able to select customize their experience.
  * This activity allows for user input and options for difficulty and a character.
  */
 public class ConfigurationActivity extends AppCompatActivity {
-    private GameDifficulty difficulty;
-    private PlayerType archetype;
 
     /**
      * Initializes the activity's user interface when it's created.
@@ -35,6 +32,8 @@ public class ConfigurationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.configuration_screen);
 
+        Configuration viewModel = new ViewModelProvider(this).get(Configuration.class);
+
         // Find necessary text and buttons from the XML layout
         EditText nameInput = findViewById(R.id.nameInput);
         TextView errorMessage = findViewById(R.id.errorMessage);
@@ -43,34 +42,16 @@ public class ConfigurationActivity extends AppCompatActivity {
         Button playButton = findViewById(R.id.playButton);
 
         // Adjust the game difficulty based off user input
-        difficultyGroup.setOnCheckedChangeListener((RadioGroup group, int id) -> {
-            if (id == R.id.easyButton) {
-                difficulty = GameDifficulty.EASY;
-            } else if (id == R.id.mediumButton) {
-                difficulty = GameDifficulty.MEDIUM;
-            } else if (id == R.id.hardButton) {
-                difficulty = GameDifficulty.HARD;
-            }
-        });
+        difficultyGroup.setOnCheckedChangeListener((group, id) -> viewModel.setDifficulty(id));
 
         // Adjust the character archetype based off user input
-        characterGroup.setOnCheckedChangeListener((RadioGroup group, int id) -> {
-            if (id == R.id.mageButton) {
-                archetype = PlayerType.MAGE;
-            } else if (id == R.id.warriorButton) {
-                archetype = PlayerType.WARRIOR;
-            } else if (id == R.id.archerButton) {
-                archetype = PlayerType.ARCHER;
-            }
-        });
+        characterGroup.setOnCheckedChangeListener((group, id) -> viewModel.setArchetype(id));
 
         // Set up a click listener for the Start Game button and creates a player object
         playButton.setOnClickListener((View view) -> {
             try {
                 String playerName = nameInput.getText().toString();
-
-                // Initialize the singleton player instance with user's selections
-                Player.initialize(playerName, difficulty, archetype);
+                viewModel.constructPlayer(playerName);
 
                 Intent nextActivity = new Intent(this, GameActivity.class);
                 startActivity(nextActivity);
