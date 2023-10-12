@@ -145,11 +145,11 @@ public class Player {
     /**
      * Decrease the player's score as they take more time to complete the game.
      *
-     * @throws IllegalArgumentException If the current score is already at 0
+     * @throws IllegalStateException If the current score is already at 0
      */
     public void decreaseScore() {
         if (this.score <= 0) {
-            throw new IllegalArgumentException("Score is already 0 and cannot be decreased");
+            throw new IllegalStateException("Score is already 0 and cannot be decreased");
         }
 
         this.score -= 1;

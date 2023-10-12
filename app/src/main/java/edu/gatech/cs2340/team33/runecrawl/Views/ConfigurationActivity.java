@@ -14,6 +14,7 @@ import edu.gatech.cs2340.team33.runecrawl.Model.GameDifficulty;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
 import edu.gatech.cs2340.team33.runecrawl.R;
+import edu.gatech.cs2340.team33.runecrawl.ViewModels.MyViewModel;
 
 /**
  * ConfigurationActivity is where the user is able to select customize their experience.
@@ -70,7 +71,8 @@ public class ConfigurationActivity extends AppCompatActivity {
                 String playerName = nameInput.getText().toString();
 
                 // Initialize the singleton player instance with user's selections
-                Player.initialize(playerName, difficulty, archetype);
+                MyViewModel myViewModel = new MyViewModel();
+                myViewModel.constuctPlayer(playerName, difficulty, archetype);
 
                 Intent nextActivity = new Intent(this, GameActivity.class);
                 startActivity(nextActivity);

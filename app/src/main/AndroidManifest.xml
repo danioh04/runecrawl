@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".Views.ConfigurationActivity" />
         <activity android:name=".Views.GameActivity" />
+        <activity android:name=".Views.Room2Activity"/>
+        <activity android:name=".Views.Room3Activity"/>
         <activity android:name=".Views.EndActivity" />
     </application>
 

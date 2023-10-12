@@ -22,10 +22,10 @@ import edu.gatech.cs2340.team33.runecrawl.ViewModels.MyViewModel;
  * This is the Game Activity Class that has the main screen that the user will play on.
  * Currently the goal is to display username, HP, difficulty, and the sprite picked.
  */
-public class GameActivity extends AppCompatActivity {
+public class Room2Activity extends AppCompatActivity {
+    private MyViewModel myViewModel = new MyViewModel();
     private Timer timer;
     private TextView score;
-    private MyViewModel myViewModel = new MyViewModel();
 
 
     /**
@@ -38,7 +38,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.room1);
+        setContentView(R.layout.room2);
 
         initializeUIComponents();
 
@@ -53,7 +53,7 @@ public class GameActivity extends AppCompatActivity {
         TextView playerName = findViewById(R.id.playerName);
         TextView difficulty = findViewById(R.id.difficulty);
         TextView hp = findViewById(R.id.hitpoints);
-        score = findViewById(R.id.score);
+        score = findViewById(R.id.score2);
         ImageView spriteImage = findViewById(R.id.playerSprite);
         Button endButton = findViewById(R.id.endGameButton);
         Button nextButton = findViewById(R.id.nextButton);
@@ -70,6 +70,7 @@ public class GameActivity extends AppCompatActivity {
         // Set up a click listener for the end game button
         endButton.setOnClickListener(this::moveToEndScreen);
 
+        // Set up a click listener for the next button
         nextButton.setOnClickListener(this:: moveToNextScreen);
     }
 
@@ -78,7 +79,6 @@ public class GameActivity extends AppCompatActivity {
      */
     private void startScoreDecrementTimer() {
         timer = new Timer();
-
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 runOnUiThread(() -> {
@@ -103,9 +103,10 @@ public class GameActivity extends AppCompatActivity {
         if (timer != null) {
             timer.cancel();
         }
-        Intent nextActivity = new Intent(this, Room2Activity.class);
+        Intent nextActivity = new Intent(this, Room3Activity.class);
         startActivity(nextActivity);
     }
+
     /**
      * Transitions to the end game screen, stops the score decrement timer,
      * and adds the current game attempt to the leaderboard.
