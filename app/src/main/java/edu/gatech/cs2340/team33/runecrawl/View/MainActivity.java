@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.team33.runecrawl.Views;
+package edu.gatech.cs2340.team33.runecrawl.View;
 
 import android.content.Intent;
 import android.os.Bundle;
