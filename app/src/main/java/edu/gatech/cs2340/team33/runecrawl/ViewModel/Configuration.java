@@ -9,10 +9,9 @@ import edu.gatech.cs2340.team33.runecrawl.R;
 
 /**
  * Configuration is a ViewModel class responsible for handling the
- * logic related to configuring the game settings,
- * such as setting the game difficulty and player archetype.
- * It interacts with the UI controllers and updates
- * the underlying model based on user inputs.
+ * logic related to configuring the game settings, such as setting
+ * the game difficulty and player archetype. It interacts with the UI
+ * controllers and updates the underlying model based on user inputs.
  */
 public class Configuration extends ViewModel {
     private GameDifficulty difficulty;
@@ -50,9 +49,8 @@ public class Configuration extends ViewModel {
 
     /**
      * Constructs and initializes a player object with the specified name,
-     * game difficulty, and player archetype.
-     * This method should be called after the game difficulty and player
-     * archetype have been set.
+     * game difficulty, and player archetype. This method should be called
+     * after the game difficulty and player archetype have been set.
      *
      * @param playerName The name of the player.
      */
