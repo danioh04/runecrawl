@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.GameActivity">
+    tools:context=".View.Rooms.InitialRoomActivity">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/map3"
+        app:srcCompat="@drawable/map2"
         tools:layout_editor_absoluteX="-56dp"
         tools:layout_editor_absoluteY="104dp" />
 
@@ -21,9 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="#6D5A5A5A"
         android:text="Player Name"
-        android:textColor="#000000"
+        android:textColor="#333333"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,9 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:background="#6D5A5A5A"
         android:text="Difficulty"
-        android:textColor="#000000"
+        android:textColor="#333333"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -49,23 +47,21 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:background="#6D5A5A5A"
         android:text="HP"
-        android:textColor="#000000"
+        android:textColor="#333333"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/difficulty" />
 
     <!-- Score -->
     <TextView
-        android:id="@+id/score3"
+        android:id="@+id/score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:background="#6D5A5A5A"
         android:text="Score"
-        android:textColor="#000000"
+        android:textColor="#333333"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hitpoints" />
@@ -90,6 +86,16 @@
         android:layout_marginBottom="16dp"
         android:text="End Game"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <!-- Next Screen Button -->
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Next"
+        app:layout_constraintBottom_toTopOf="@id/endGameButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

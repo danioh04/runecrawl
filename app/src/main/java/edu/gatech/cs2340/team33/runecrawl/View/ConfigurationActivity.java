@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import edu.gatech.cs2340.team33.runecrawl.R;
+import edu.gatech.cs2340.team33.runecrawl.View.Rooms.InitialRoomActivity;
 import edu.gatech.cs2340.team33.runecrawl.ViewModel.Configuration;
 
 /**
@@ -53,7 +54,7 @@ public class ConfigurationActivity extends AppCompatActivity {
                 String playerName = nameInput.getText().toString();
                 viewModel.constructPlayer(playerName);
 
-                Intent nextActivity = new Intent(this, GameActivity.class);
+                Intent nextActivity = new Intent(this, InitialRoomActivity.class);
                 startActivity(nextActivity);
             } catch (IllegalArgumentException exception) {
                 errorMessage.setVisibility(View.VISIBLE);
