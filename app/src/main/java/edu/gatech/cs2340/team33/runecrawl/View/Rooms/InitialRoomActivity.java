@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import edu.gatech.cs2340.team33.runecrawl.Model.Player;
 import edu.gatech.cs2340.team33.runecrawl.R;
 import edu.gatech.cs2340.team33.runecrawl.ViewModel.Room;
 
@@ -17,7 +16,6 @@ import edu.gatech.cs2340.team33.runecrawl.ViewModel.Room;
  * Currently the goal is to display username, HP, difficulty, and the sprite picked.
  */
 public class InitialRoomActivity extends AppCompatActivity {
-    private final Player player = Player.getInstance();
     private final Room room = new Room();
 
     /**
@@ -42,10 +40,10 @@ public class InitialRoomActivity extends AppCompatActivity {
         Button nextButton = findViewById(R.id.nextButton);
 
         // Populate UI components with player details
-        room.populateUIComponents(playerName, difficulty, hp, spriteImage, player);
+        room.populateUIComponents(playerName, difficulty, hp, spriteImage);
 
         // Start decrementing the timer
-        room.startScoreDecrementTimer(InitialRoomActivity.this, score, player);
+        room.startScoreDecrementTimer(InitialRoomActivity.this, score);
 
         // Set up a click listener for the end game button
         endButton.setOnClickListener((View view) -> room.moveToEndScreen(InitialRoomActivity.this));

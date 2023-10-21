@@ -24,16 +24,15 @@ public class Room extends Activity {
     private final Timer timer = new Timer();
 
     /**
-     * Displays the player's attributes on the screen
+     * Displays the player's attributes on the screen.
      *
-     * @param playerName  The player's name
-     * @param difficulty  The game difficulty
-     * @param hp          The player's HP
-     * @param spriteImage The player's character image
-     * @param player      The player object
+     * @param playerName  The player's name.
+     * @param difficulty  The game difficulty.
+     * @param hp          The player's HP.
+     * @param spriteImage The player's character image.
      */
     public void populateUIComponents(TextView playerName, TextView difficulty,
-                                     TextView hp, ImageView spriteImage, Player player) {
+                                     TextView hp, ImageView spriteImage) {
 
         // Populate UI components with player details
         playerName.setText(String.format("Name: %s", player.getUsername()));
@@ -43,13 +42,12 @@ public class Room extends Activity {
     }
 
     /**
-     * Decrements the score every half a second
+     * Decrements the score every half a second.
      *
-     * @param currentClass The screen the game is currently on
-     * @param score        The current score
-     * @param player       The player object
+     * @param currentClass The screen the game is currently on.
+     * @param score        The current score.
      */
-    public void startScoreDecrementTimer(Context currentClass, TextView score, Player player) {
+    public void startScoreDecrementTimer(Context currentClass, TextView score) {
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 runOnUiThread(() -> {
@@ -70,9 +68,9 @@ public class Room extends Activity {
      * Transitions to the end game screen, stops the score decrement timer,
      * and adds the current game attempt to the leaderboard.
      *
-     * @param currentClass The screen the game is currently on
+     * @param context The current state of the application.
      */
-    public void moveToEndScreen(Context currentClass) {
+    public void moveToEndScreen(Context context) {
         if (timer != null) {
             timer.cancel();
         }
@@ -81,15 +79,15 @@ public class Room extends Activity {
         Leaderboard.getInstance().addAttempt(currentAttempt);
 
         // Move on to the end screen
-        Intent nextActivity = new Intent(currentClass, EndActivity.class);
-        currentClass.startActivity(nextActivity);
+        Intent nextActivity = new Intent(context, EndActivity.class);
+        context.startActivity(nextActivity);
     }
 
     /**
      * Transitions to the next room.
      *
-     * @param currentClass The screen the game is currently on
-     * @param nextClass    The next screen the game will be on
+     * @param currentClass The screen the game is currently on.
+     * @param nextClass    The next screen the game will be on.
      */
     public void moveToNextScreen(Context currentClass, Class nextClass) {
         if (timer != null) {
