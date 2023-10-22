@@ -2,17 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/room3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Rooms.InitialRoomActivity">
+    tools:context=".View.Rooms.ThirdRoomActivity">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/map3"
-        tools:layout_editor_absoluteX="-56dp"
-        tools:layout_editor_absoluteY="104dp" />
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/map3" />
 
     <!-- Player Name -->
     <TextView
@@ -69,28 +69,5 @@
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hitpoints" />
-
-    <!-- Player Sprite -->
-    <ImageView
-        android:id="@+id/playerSprite"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:contentDescription="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/archer" />
-
-    <!-- End Game Button -->
-    <Button
-        android:id="@+id/endGameButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="End Game"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

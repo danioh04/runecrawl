@@ -1,21 +1,24 @@
 package edu.gatech.cs2340.team33.runecrawl.View.Rooms;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.view.KeyEvent;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import edu.gatech.cs2340.team33.runecrawl.Model.PlayerMovementStrategy;
+import edu.gatech.cs2340.team33.runecrawl.Model.PlayerObserver;
+import edu.gatech.cs2340.team33.runecrawl.Model.Strategies.InitialRoomStrategy;
 import edu.gatech.cs2340.team33.runecrawl.R;
 import edu.gatech.cs2340.team33.runecrawl.ViewModel.Room;
 
 /**
- * This is the Game Activity Class that has the main screen that the user will play on.
- * Currently the goal is to display username, HP, difficulty, and the sprite picked.
+ * This is the first room that the player will see.
+ * The room has one door, leading to the second room.
  */
-public class InitialRoomActivity extends AppCompatActivity {
+public class InitialRoomActivity extends AppCompatActivity implements PlayerObserver {
+    private final PlayerMovementStrategy movementStrategy = new InitialRoomStrategy();
     private final Room room = new Room();
 
     /**
@@ -35,21 +38,42 @@ public class InitialRoomActivity extends AppCompatActivity {
         TextView difficulty = findViewById(R.id.difficulty);
         TextView hp = findViewById(R.id.hitpoints);
         TextView score = findViewById(R.id.score);
-        ImageView spriteImage = findViewById(R.id.playerSprite);
-        Button endButton = findViewById(R.id.endGameButton);
-        Button nextButton = findViewById(R.id.nextButton);
+        ConstraintLayout screenLayout = findViewById(R.id.room1);
 
         // Populate UI components with player details
-        room.populateUIComponents(playerName, difficulty, hp, spriteImage);
+        room.populateUIComponents(playerName, difficulty, hp);
 
         // Start decrementing the timer
         room.startScoreDecrementTimer(InitialRoomActivity.this, score);
 
-        // Set up a click listener for the end game button
-        endButton.setOnClickListener((View view) -> room.moveToEndScreen(InitialRoomActivity.this));
+        // Set up the screen's canvas
+        room.addToCanvas(this, screenLayout);
 
-        // Set up a click listener for the next button
-        nextButton.setOnClickListener((View view) ->
-                room.moveToNextScreen(InitialRoomActivity.this, SecondRoomActivity.class));
+        // Make the current class an observer to be notified when a collision occurs
+        room.addObserver(this);
+    }
+
+    /**
+     * Handles what happens when a key is pressed to move the character.
+     *
+     * @param keyCode The code of the key that was pressed.
+     * @param event   The object associated with the pressed key.
+     * @return If the action has been completed successfully.
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        room.onKeyDown(movementStrategy, keyCode);
+        room.isCollision(540, 215);
+        return true;
+    }
+
+    /**
+     * Handles what happens when a collision has occurred
+     * between the character and a door.
+     */
+    @Override
+    public void collisionOccurred() {
+        room.removeObserver(this);
+        room.moveToNextScreen(this, SecondRoomActivity.class);
     }
 }
