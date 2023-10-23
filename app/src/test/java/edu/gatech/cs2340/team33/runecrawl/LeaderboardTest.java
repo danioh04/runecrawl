@@ -45,8 +45,13 @@ public class LeaderboardTest {
         List<GameAttempt> topAttempts = leaderboard.getTopAttempts();
 
         assertEquals(2, topAttempts.size());
-        assertEquals(player2.getUsername(), topAttempts.get(0).getUsername());
-        assertEquals(player1.getUsername(), topAttempts.get(1).getUsername());
+    }
+
+    @Test
+    public void testLeaderboardInOrder() {
+        List<GameAttempt> topAttempts = leaderboard.getTopAttempts();
+        assertEquals("player2", topAttempts.get(0).getUsername());
+        assertEquals("player1", topAttempts.get(1).getUsername());
     }
 
     @Test
