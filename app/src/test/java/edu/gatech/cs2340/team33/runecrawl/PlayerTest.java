@@ -1,6 +1,7 @@
 package edu.gatech.cs2340.team33.runecrawl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 
 import org.junit.Before;
@@ -47,5 +48,39 @@ public class PlayerTest {
                 player.decreaseScore();
             }
         });
+    }
+
+    @Test
+    public void testIllegalUsername() {
+        assertThrows(IllegalArgumentException.class, () ->
+                Player.initialize(" ", GameDifficulty.EASY, PlayerType.MAGE));
+    }
+
+    @Test
+    public void testIllegalDifficulty() {
+        assertThrows(IllegalArgumentException.class, () ->
+                Player.initialize("testPlayer", null, PlayerType.MAGE));
+    }
+
+    @Test
+    public void testIllegalPlayerType() {
+        assertThrows(IllegalArgumentException.class, () ->
+                Player.initialize("testPlayer", GameDifficulty.EASY, null));
+    }
+
+    @Test
+    public void testNullPlayerInstance() {
+        Player instance = Player.getInstance();
+        assertNotNull(instance);
+    }
+
+    @Test
+    public void testReceiveDamageBelowZero() {
+        Player player = Player.getInstance();
+        int damage = 101;
+
+        player.receiveDamage(damage);
+
+        assertEquals(0, player.getCurrentHp());
     }
 }
