@@ -11,7 +11,7 @@ import edu.gatech.cs2340.team33.runecrawl.Model.PlayerMovementStrategy;
 import edu.gatech.cs2340.team33.runecrawl.Model.PlayerObserver;
 import edu.gatech.cs2340.team33.runecrawl.Model.Strategies.InitialRoomStrategy;
 import edu.gatech.cs2340.team33.runecrawl.R;
-import edu.gatech.cs2340.team33.runecrawl.ViewModel.Room;
+import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
 /**
  * This is the first room that the player will see.
@@ -19,7 +19,7 @@ import edu.gatech.cs2340.team33.runecrawl.ViewModel.Room;
  */
 public class InitialRoomActivity extends AppCompatActivity implements PlayerObserver {
     private final PlayerMovementStrategy movementStrategy = new InitialRoomStrategy();
-    private final Room room = new Room();
+    private final RoomViewModel room = new RoomViewModel();
 
     /**
      * Initializes the game activity screen.
@@ -68,8 +68,8 @@ public class InitialRoomActivity extends AppCompatActivity implements PlayerObse
     }
 
     /**
-     * Handles what happens when a collision has occurred
-     * between the character and a door.
+     * Handles what happens when a collision has occurred between the character
+     * and a door.
      */
     @Override
     public void collisionOccurred() {

@@ -15,11 +15,11 @@ import edu.gatech.cs2340.team33.runecrawl.Model.Leaderboard;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player;
 
 /**
- * End is a ViewModel class responsible for handling the
- * logic related to adding to the leaderboard after a
- * game attempt is completed.
+ * End is a ViewModel class responsible for handling the logic
+ * related to adding to the leaderboard after a game attempt is
+ * completed.
  */
-public class End extends ViewModel {
+public class EndViewModel extends ViewModel {
     /**
      * Creates a new game attempt and adds it to the leaderboard.
      *

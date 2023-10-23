@@ -13,7 +13,7 @@ import edu.gatech.cs2340.team33.runecrawl.R;
  * the game difficulty and player archetype. It interacts with the UI
  * controllers and updates the underlying model based on user inputs.
  */
-public class Configuration extends ViewModel {
+public class ConfigurationViewModel extends ViewModel {
     private GameDifficulty difficulty;
     private PlayerType archetype;
 

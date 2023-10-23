@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import edu.gatech.cs2340.team33.runecrawl.R;
 import edu.gatech.cs2340.team33.runecrawl.View.Rooms.InitialRoomActivity;
-import edu.gatech.cs2340.team33.runecrawl.ViewModel.Configuration;
+import edu.gatech.cs2340.team33.runecrawl.ViewModel.ConfigurationViewModel;
 
 /**
  * ConfigurationActivity is where the user is able to select customize their experience.
@@ -33,7 +33,8 @@ public class ConfigurationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.configuration_screen);
 
-        Configuration viewModel = new ViewModelProvider(this).get(Configuration.class);
+        ConfigurationViewModel viewModel = new ViewModelProvider(this)
+                .get(ConfigurationViewModel.class);
 
         // Find necessary text and buttons from the XML layout
         EditText nameInput = findViewById(R.id.nameInput);

@@ -5,14 +5,36 @@
     android:id="@+id/room2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Rooms.SecondRoomActivity">
+    tools:context=".View.Rooms.SecondRoomActivity"
+    tools:ignore="HardcodedText">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="Room map"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/map2" />
+
+    <View
+        android:id="@+id/leftGrayBox"
+        android:layout_width="150dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rounded_box"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/rightGrayBox"
+        android:layout_width="120dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/rounded_box"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Player Name -->
     <TextView
@@ -22,7 +44,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="Player Name"
-        android:textColor="#333333"
+        android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +57,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Difficulty"
-        android:textColor="#333333"
+        android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -48,7 +70,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="HP"
-        android:textColor="#333333"
+        android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/difficulty" />
@@ -61,9 +83,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Score"
-        android:textColor="#333333"
+        android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hitpoints" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,5 +10,5 @@ public interface PlayerMovementStrategy {
      *
      * @return The speed at which the character should move.
      */
-    int movementSpeed();
+    int getMovementSpeed();
 }

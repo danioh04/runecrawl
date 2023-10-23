@@ -5,14 +5,36 @@
     android:id="@+id/room3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Rooms.ThirdRoomActivity">
+    tools:context=".View.Rooms.ThirdRoomActivity"
+    tools:ignore="HardcodedText">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="Room map"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/map3" />
+
+    <View
+        android:id="@+id/leftGrayBox"
+        android:layout_width="150dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rounded_box"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/rightGrayBox"
+        android:layout_width="120dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/rounded_box"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Player Name -->
     <TextView
@@ -21,7 +43,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="#6D5A5A5A"
         android:text="Player Name"
         android:textColor="#000000"
         android:textSize="18sp"
@@ -35,7 +56,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:background="#6D5A5A5A"
         android:text="Difficulty"
         android:textColor="#000000"
         android:textSize="18sp"
@@ -49,7 +69,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:background="#6D5A5A5A"
         android:text="HP"
         android:textColor="#000000"
         android:textSize="18sp"
@@ -63,11 +82,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:background="#6D5A5A5A"
         android:text="Score"
         android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hitpoints" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

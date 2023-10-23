@@ -29,7 +29,7 @@ import edu.gatech.cs2340.team33.runecrawl.View.EndActivity;
  * decrementing the timer, going to the next screen or the end screen,
  * coordinate changes when a key is pressed, and collision logic.
  */
-public class Room extends Activity {
+public class RoomViewModel extends Activity {
     private final Timer timer = new Timer();
     private final Player player = Player.getInstance();
     private final List<PlayerObserver> observers = new ArrayList<>();
@@ -87,19 +87,28 @@ public class Room extends Activity {
      * @param screenLayout the XML layout of the current screen.
      */
     public void addToCanvas(Context currentClass, ConstraintLayout screenLayout) {
+        // Decode the character sprite from the resources based on the player's type
         Bitmap character = BitmapFactory.decodeResource(currentClass.getResources(),
                 Player.getInstance().getType().getSpriteResId());
 
+        // Get the width and height of the character sprite
         characterWidth = character.getWidth();
         characterHeight = character.getHeight();
+
+        // Calculate the starting X and Y position of the player on the screen (centered)
         playerX = (currentClass.getResources().getDisplayMetrics().widthPixels
                 - characterWidth) / 2;
         playerY = (currentClass.getResources().getDisplayMetrics().heightPixels
                 - characterHeight) / 2;
-        playerHitboxX = currentClass.getResources().getDisplayMetrics().widthPixels / 2;
-        playerHitboxY = currentClass.getResources().getDisplayMetrics().heightPixels / 2;
 
+        // Calculate the center position of the screen for player's hitbox
+        playerHitboxX = (float) currentClass.getResources().getDisplayMetrics().widthPixels / 2;
+        playerHitboxY = (float) currentClass.getResources().getDisplayMetrics().heightPixels / 2;
+
+        // Create a new canvas view with the character sprite and starting position
         canvas = new CanvasView(currentClass, character, playerX, playerY);
+
+        // Add the canvas view to the parent layout to render it on the screen
         screenLayout.addView(canvas);
     }
 
@@ -112,36 +121,37 @@ public class Room extends Activity {
      */
     public void onKeyDown(PlayerMovementStrategy movementStrategy, int keyCode) {
         // Retrieve the class-specific movement strategy's speed
-        int movementSpeed = movementStrategy.movementSpeed();
+        int movementSpeed = movementStrategy.getMovementSpeed();
 
         switch (keyCode) {
-            case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
-                if (playerX - movementSpeed >= 0) {
-                    playerX -= movementSpeed;
-                    playerHitboxX -= movementSpeed;
-                }
-                break;
-            case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
-                if (playerX + movementSpeed + characterWidth <= canvas.getWidth()) {
-                    playerX += movementSpeed;
-                    playerHitboxX += movementSpeed;
-                }
-                break;
-            case android.view.KeyEvent.KEYCODE_DPAD_UP:
-                if (playerY - movementSpeed >= 0) {
-                    playerY -= movementSpeed;
-                    playerHitboxY -= movementSpeed;
-                }
-                break;
-            case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
-                if (playerY + movementSpeed + characterHeight <= canvas.getHeight()) {
-                    playerY += movementSpeed;
-                    playerHitboxY += movementSpeed;
-                }
-                break;
-            default:
-                break;
+        case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
+            if (playerX - movementSpeed >= 0) {
+                playerX -= movementSpeed;
+                playerHitboxX -= movementSpeed;
+            }
+            break;
+        case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
+            if (playerX + movementSpeed + characterWidth <= canvas.getWidth()) {
+                playerX += movementSpeed;
+                playerHitboxX += movementSpeed;
+            }
+            break;
+        case android.view.KeyEvent.KEYCODE_DPAD_UP:
+            if (playerY - movementSpeed >= 0) {
+                playerY -= movementSpeed;
+                playerHitboxY -= movementSpeed;
+            }
+            break;
+        case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
+            if (playerY + movementSpeed + characterHeight <= canvas.getHeight()) {
+                playerY += movementSpeed;
+                playerHitboxY += movementSpeed;
+            }
+            break;
+        default:
+            break;
         }
+
         canvas.updatePosition(playerX, playerY);
         playerRectangle = new RectF(playerHitboxX - characterWidth / 2,
                 playerHitboxY - characterHeight / 2, playerHitboxX + characterWidth / 2,
@@ -200,9 +210,8 @@ public class Room extends Activity {
      * @param currentClass The current state of the application.
      */
     public void moveToEndScreen(Context currentClass) {
-        if (timer != null) {
-            timer.cancel();
-        }
+        timer.cancel();
+
         // Add current game attempt to the leaderboard
         GameAttempt currentAttempt = new GameAttempt(player);
         Leaderboard.getInstance().addAttempt(currentAttempt);
@@ -218,10 +227,9 @@ public class Room extends Activity {
      * @param currentClass The current state of the application.
      * @param nextClass    The next screen the game will be on.
      */
-    public void moveToNextScreen(Context currentClass, Class nextClass) {
-        if (timer != null) {
-            timer.cancel();
-        }
+    public void moveToNextScreen(Context currentClass, Class<?> nextClass) {
+        timer.cancel();
+
         // Move on to the next screen
         Intent nextActivity = new Intent(currentClass, nextClass);
         currentClass.startActivity(nextActivity);

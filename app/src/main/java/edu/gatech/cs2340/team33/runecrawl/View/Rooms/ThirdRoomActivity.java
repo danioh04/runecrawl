@@ -11,7 +11,7 @@ import edu.gatech.cs2340.team33.runecrawl.Model.PlayerMovementStrategy;
 import edu.gatech.cs2340.team33.runecrawl.Model.PlayerObserver;
 import edu.gatech.cs2340.team33.runecrawl.Model.Strategies.ThirdRoomStrategy;
 import edu.gatech.cs2340.team33.runecrawl.R;
-import edu.gatech.cs2340.team33.runecrawl.ViewModel.Room;
+import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
 /**
  * This is the third different room that the player will see.
@@ -20,7 +20,7 @@ import edu.gatech.cs2340.team33.runecrawl.ViewModel.Room;
  */
 public class ThirdRoomActivity extends AppCompatActivity implements PlayerObserver {
     private final PlayerMovementStrategy movementStrategy = new ThirdRoomStrategy();
-    private final Room room = new Room();
+    private final RoomViewModel room = new RoomViewModel();
 
     /**
      * Initializes the game activity screen.

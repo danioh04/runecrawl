@@ -45,4 +45,18 @@ public enum GameDifficulty {
     public int getEnemyDamageRate() {
         return this.enemyDamageRate;
     }
+
+    @Override
+    public String toString() {
+        switch (this) {
+        case EASY:
+            return "Easy";
+        case MEDIUM:
+            return "Med";
+        case HARD:
+            return "Hard";
+        default:
+            throw new IllegalArgumentException("Unexpected value: " + this);
+        }
+    }
 }

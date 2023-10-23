@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import edu.gatech.cs2340.team33.runecrawl.R;
-import edu.gatech.cs2340.team33.runecrawl.ViewModel.End;
+import edu.gatech.cs2340.team33.runecrawl.ViewModel.EndViewModel;
 
 /**
  * The ending screen. Displays the leaderboard and whether the players won the game or not.
@@ -27,7 +27,7 @@ public class EndActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.end_screen);
 
-        End viewModel = new ViewModelProvider(this).get(End.class);
+        EndViewModel viewModel = new ViewModelProvider(this).get(EndViewModel.class);
 
         TextView currentAttemptView = findViewById(R.id.currentAttempt);
         TableLayout leaderboardTable = findViewById(R.id.leaderboardTable);
@@ -36,6 +36,8 @@ public class EndActivity extends AppCompatActivity {
 
         // Define a restart button to take the player back to the configuration screen
         Button restartButton = findViewById(R.id.restartButton);
+        restartButton.setEnabled(true);
+
         restartButton.setOnClickListener((View view) -> {
             Intent nextActivity = new Intent(this, ConfigurationActivity.class);
             startActivity(nextActivity);
