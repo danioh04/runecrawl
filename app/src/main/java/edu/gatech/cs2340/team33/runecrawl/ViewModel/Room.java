@@ -89,7 +89,6 @@ public class Room extends Activity {
     public void addToCanvas(Context currentClass, ConstraintLayout screenLayout) {
         Bitmap character = BitmapFactory.decodeResource(currentClass.getResources(),
                 Player.getInstance().getType().getSpriteResId());
-
         characterWidth = character.getWidth();
         characterHeight = character.getHeight();
         playerX = (currentClass.getResources().getDisplayMetrics().widthPixels
@@ -113,7 +112,7 @@ public class Room extends Activity {
     public void onKeyDown(PlayerMovementStrategy movementStrategy, int keyCode) {
         // Retrieve the class-specific movement strategy's speed
         int movementSpeed = movementStrategy.movementSpeed();
-
+        System.out.println(canvas.getHeight());
         switch (keyCode) {
             case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
                 if (playerX - movementSpeed >= 0) {
@@ -225,5 +224,55 @@ public class Room extends Activity {
         // Move on to the next screen
         Intent nextActivity = new Intent(currentClass, nextClass);
         currentClass.startActivity(nextActivity);
+    }
+
+    /**
+     * method to emulate and test functionality of keyPresses.
+     * @param movementStrategy the movement strategy for a given room which dictates movement speed.
+     * @param keyCode The code of the key that was pressed.
+     * @return an array of floats that give the coordinates of the player in [x,y] format.
+     */
+    public float[] testKeyPress(PlayerMovementStrategy movementStrategy, int keyCode) {
+        // Retrieve the class-specific movement strategy's speed
+        int movementSpeed = movementStrategy.movementSpeed();
+        switch (keyCode) {
+            case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
+                if (playerX - movementSpeed >= 0) {
+                    playerX -= movementSpeed;
+
+                }
+                break;
+            case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
+                if (playerX + movementSpeed + 10 <= 100) {
+                    playerX += movementSpeed;
+
+                }
+                break;
+            case android.view.KeyEvent.KEYCODE_DPAD_UP:
+                if (playerY - movementSpeed >= 0) {
+                    playerY -= movementSpeed;
+
+                }
+                break;
+            case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
+                if (playerY + movementSpeed + 10 <= 100) {
+                    playerY += movementSpeed;
+
+                }
+                break;
+            default:
+                break;
+        }
+        return new float[]{playerX, playerY};
+    }
+
+    /**
+     * method to set initial location of player for testing purposes.
+     * @param x the horizontal location of player.
+     * @param y the vertical location of player.
+     */
+    public void setXY(float x, float y) {
+        playerX = x;
+        playerY = y;
     }
 }
