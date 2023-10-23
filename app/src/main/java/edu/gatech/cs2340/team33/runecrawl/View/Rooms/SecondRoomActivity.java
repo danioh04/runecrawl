@@ -20,7 +20,7 @@ import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
  */
 public class SecondRoomActivity extends AppCompatActivity implements PlayerObserver {
     private final PlayerMovementStrategy movementStrategy = new SecondRoomStrategy();
-    private final RoomViewModel room = new RoomViewModel();
+    private final RoomViewModel room = new RoomViewModel(45, 845, 135, 1755);
 
     /**
      * Initializes the game activity screen.

@@ -41,6 +41,27 @@ public class RoomViewModel extends Activity {
     private float playerHitboxX;
     private float playerHitboxY;
     private RectF playerRectangle;
+    private float lowerXCoordinateLimit;
+    private float upperXCoordinateLimit;
+    private float lowerYCoordinateLimit;
+    private float upperYCoordinateLimit;
+
+    /**
+     * Constructs a new RoomViewModel with specified upper and lower limits for
+     * x and y coordinates.
+     *
+     * @param lowerXCoordinateLimit The minimum x-coordinate the player can reach within the room.
+     * @param upperXCoordinateLimit The maximum x-coordinate the player can reach within the room.
+     * @param lowerYCoordinateLimit The minimum y-coordinate the player can reach within the room.
+     * @param upperYCoordinateLimit The maximum y-coordinate the player can reach within the room.
+     */
+    public RoomViewModel(float lowerXCoordinateLimit, float upperXCoordinateLimit,
+                         float lowerYCoordinateLimit, float upperYCoordinateLimit) {
+        this.lowerXCoordinateLimit = lowerXCoordinateLimit;
+        this.upperXCoordinateLimit = upperXCoordinateLimit;
+        this.lowerYCoordinateLimit = lowerYCoordinateLimit;
+        this.upperYCoordinateLimit = upperYCoordinateLimit;
+    }
 
     /**
      * Displays the player's attributes on the screen.
@@ -124,33 +145,54 @@ public class RoomViewModel extends Activity {
         int movementSpeed = movementStrategy.getMovementSpeed();
 
         switch (keyCode) {
+        // When the LEFT arrow key is pressed
         case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
-            if (playerX - movementSpeed >= 0) {
+            // Check if the player is within the left boundary and above the lower X limit
+            if (playerX - movementSpeed >= 0 && playerX - movementSpeed >= lowerXCoordinateLimit) {
+                // Move the player and the hitbox to the left
                 playerX -= movementSpeed;
                 playerHitboxX -= movementSpeed;
             }
             break;
+
+        // When the RIGHT arrow key is pressed
         case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
-            if (playerX + movementSpeed + characterWidth <= canvas.getWidth()) {
+            // Check if the player is within the right boundary and below the upper X limit
+            if (playerX + movementSpeed <= canvas.getWidth() && playerX
+                    + movementSpeed <= upperXCoordinateLimit) {
+                // Move the player and the hitbox to the right
                 playerX += movementSpeed;
                 playerHitboxX += movementSpeed;
             }
             break;
+
+        // When the UP arrow key is pressed
         case android.view.KeyEvent.KEYCODE_DPAD_UP:
-            if (playerY - movementSpeed >= 0) {
+            // Check if the player is within the top boundary and above the lower Y limit
+            if (playerY - movementSpeed >= 0 && playerY - movementSpeed >= lowerYCoordinateLimit) {
+                // Move the player and the hitbox upwards
                 playerY -= movementSpeed;
                 playerHitboxY -= movementSpeed;
             }
             break;
+
+        // When the DOWN arrow key is pressed
         case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
-            if (playerY + movementSpeed + characterHeight <= canvas.getHeight()) {
+            // Check if the player is within the bottom boundary and below the upper Y limit
+            if (playerY + movementSpeed <= canvas.getHeight() && playerY
+                    + movementSpeed <= upperYCoordinateLimit) {
+                // Move the player and the hitbox downwards
                 playerY += movementSpeed;
                 playerHitboxY += movementSpeed;
             }
             break;
+
         default:
             break;
         }
+
+        System.out.println(playerX);
+        System.out.println(playerY);
 
         canvas.updatePosition(playerX, playerY);
         playerRectangle = new RectF(playerHitboxX - characterWidth / 2,
