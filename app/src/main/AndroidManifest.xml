@@ -21,9 +21,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".View.ConfigurationActivity" />
-        <activity android:name=".View.GameActivity" />
-        <activity android:name=".View.Room2Activity" />
-        <activity android:name=".View.Room3Activity" />
+        <activity android:name=".View.Rooms.InitialRoomActivity" />
+        <activity android:name=".View.Rooms.SecondRoomActivity" />
+        <activity android:name=".View.Rooms.ThirdRoomActivity" />
         <activity android:name=".View.EndActivity" />
     </application>
 
