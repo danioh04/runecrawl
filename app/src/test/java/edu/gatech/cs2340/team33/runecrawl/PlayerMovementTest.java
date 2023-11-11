@@ -15,7 +15,8 @@ import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
 import edu.gatech.cs2340.team33.runecrawl.Model.Strategies.InitialRoomStrategy;
 import edu.gatech.cs2340.team33.runecrawl.Model.Strategies.SecondRoomStrategy;
 import edu.gatech.cs2340.team33.runecrawl.Model.Strategies.ThirdRoomStrategy;
-import edu.gatech.cs2340.team33.runecrawl.ViewModel.Room;
+import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
+
 
 public class PlayerMovementTest {
     @Before
@@ -25,7 +26,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testLeft() {
-        Room room = new Room();
+        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
@@ -37,7 +38,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testRight() {
-        Room room = new Room();
+        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
@@ -49,7 +50,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testUp() {
-        Room room = new Room();
+        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
@@ -61,7 +62,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testDown() {
-        Room room = new Room();
+        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
@@ -73,7 +74,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testLeftWall() {
-        Room room = new Room();
+        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float y = 50;
@@ -87,7 +88,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testRightWall() {
-        Room room = new Room();
+        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float y = 50;
@@ -101,7 +102,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testUpperWall() {
-        Room room = new Room();
+        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
@@ -115,7 +116,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testLowerWall() {
-        Room room = new Room();
+        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
@@ -129,7 +130,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testInitialMovementStrategy() {
-        Room room = new Room();
+        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
         PlayerMovementStrategy initialRoomStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
@@ -142,7 +143,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testSecondMovementStrategy() {
-        Room room = new Room();
+        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
         PlayerMovementStrategy secondRoomStrategy = new SecondRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
@@ -155,7 +156,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testThirdMovementStrategy() {
-        Room room = new Room();
+        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
         PlayerMovementStrategy thirdRoomStrategy = new ThirdRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
@@ -168,7 +169,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testMovementStrategies() {
-        Room room = new Room();
+        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
         PlayerMovementStrategy initialRoomStrategy = new InitialRoomStrategy();
         PlayerMovementStrategy secondRoomStrategy = new SecondRoomStrategy();
         PlayerMovementStrategy thirdRoomStrategy = new ThirdRoomStrategy();
