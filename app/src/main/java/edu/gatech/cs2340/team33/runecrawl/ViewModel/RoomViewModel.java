@@ -11,10 +11,14 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemy;
+import edu.gatech.cs2340.team33.runecrawl.Model.EnemyFactory;
+import edu.gatech.cs2340.team33.runecrawl.Model.EnemyType;
 import edu.gatech.cs2340.team33.runecrawl.Model.GameAttempt;
 import edu.gatech.cs2340.team33.runecrawl.Model.Leaderboard;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player;
@@ -32,7 +36,8 @@ import edu.gatech.cs2340.team33.runecrawl.View.EndActivity;
 public class RoomViewModel extends Activity {
     private final Timer timer = new Timer();
     private final Player player = Player.getInstance();
-    private final List<PlayerObserver> observers = new ArrayList<>();
+    private final List<PlayerObserver> observers;
+    private final List<Enemy> enemies;
     private final float lowerXCoordinateLimit;
     private final float upperXCoordinateLimit;
     private final float lowerYCoordinateLimit;
@@ -61,6 +66,44 @@ public class RoomViewModel extends Activity {
         this.upperXCoordinateLimit = upperXCoordinateLimit;
         this.lowerYCoordinateLimit = lowerYCoordinateLimit;
         this.upperYCoordinateLimit = upperYCoordinateLimit;
+        this.observers = new ArrayList<>();
+        this.enemies = new ArrayList<>();
+    }
+
+    /**
+     * Gets the lower x-coordinate limit for the room.
+     *
+     * @return The minimum x-coordinate the player can reach within the room.
+     */
+    public float getLowerXCoordinateLimit() {
+        return this.lowerXCoordinateLimit;
+    }
+
+    /**
+     * Gets the upper x-coordinate limit for the room.
+     *
+     * @return The maximum x-coordinate the player can reach within the room.
+     */
+    public float getUpperXCoordinateLimit() {
+        return this.upperXCoordinateLimit;
+    }
+
+    /**
+     * Gets the lower y-coordinate limit for the room.
+     *
+     * @return The minimum y-coordinate the player can reach within the room.
+     */
+    public float getLowerYCoordinateLimit() {
+        return this.lowerYCoordinateLimit;
+    }
+
+    /**
+     * Gets the upper y-coordinate limit for the room.
+     *
+     * @return The maximum y-coordinate the player can reach within the room.
+     */
+    public float getUpperYCoordinateLimit() {
+        return this.upperYCoordinateLimit;
     }
 
     /**
@@ -101,11 +144,63 @@ public class RoomViewModel extends Activity {
     }
 
     /**
-     * Set up the initial coordinates of the player and its hitbox
-     * and creates a new CanvasView object.
+     * Initiates enemy movement within the room. Enemies move randomly at fixed intervals.
+     */
+    public void startEnemyMovement() {
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                for (int i = 0; i < enemies.size(); ++i) {
+                    Enemy enemy = enemies.get(i);
+                    enemy.moveRandomly(RoomViewModel.this);
+                    canvas.updateEnemyPosition(i, enemy.getX(), enemy.getY());
+                }
+            }
+        }, 0, 100);
+    }
+
+    /**
+     * Generates enemies with random positions within the room and adds them to the canvas.
      *
-     * @param currentClass The current state of the application.
-     * @param screenLayout the XML layout of the current screen.
+     * @param currentClass The context of the current activity for accessing resources.
+     */
+    private void generateEnemies(Context currentClass) {
+        // List of enemy types to generate
+        List<EnemyType> types = Arrays.asList(EnemyType.SLIME,
+                EnemyType.ROBOT, EnemyType.ORC, EnemyType.WEREWOLF);
+
+        for (EnemyType type : types) {
+            // Generate random coordinates within the defined limits
+            float randomX = (this.lowerXCoordinateLimit + (float) (Math.random()
+                    * (this.upperXCoordinateLimit - this.lowerXCoordinateLimit)));
+            float randomY = (this.lowerYCoordinateLimit + (float) (Math.random()
+                    * (this.upperYCoordinateLimit - this.lowerYCoordinateLimit)));
+
+            Enemy randomEnemy = EnemyFactory.createEnemy(type);
+
+            // Load enemy sprite based on type
+            Bitmap enemySprite = BitmapFactory.decodeResource(
+                    currentClass.getResources(), randomEnemy.getType().getSpriteResId());
+
+            // Set the random coordinates for the enemy
+            randomEnemy.setX(randomX);
+            randomEnemy.setY(randomY);
+
+            // Add enemy to the canvas
+            canvas.addEnemy(enemySprite, randomX, randomY);
+
+            // Add the enemy to the list
+            enemies.add(randomEnemy);
+        }
+    }
+
+    /**
+     * Initializes and adds the player's character and enemies to the canvas.
+     * It sets up the initial coordinates of the player and its hitbox, and creates
+     * a new CanvasView object.
+     *
+     * @param currentClass The context of the current activity for resource access.
+     * @param screenLayout The layout into which the canvas is to be added.
      */
     public void addToCanvas(Context currentClass, ConstraintLayout screenLayout) {
         // Decode the character sprite from the resources based on the player's type
@@ -128,6 +223,9 @@ public class RoomViewModel extends Activity {
 
         // Create a new canvas view with the character sprite and starting position
         canvas = new CanvasView(currentClass, character, playerX, playerY);
+
+        // Call the method to generate and add enemies to the canvas
+        generateEnemies(currentClass);
 
         // Add the canvas view to the parent layout to render it on the screen
         screenLayout.addView(canvas);
@@ -192,10 +290,7 @@ public class RoomViewModel extends Activity {
             break;
         }
 
-        System.out.println(playerX);
-        System.out.println(playerY);
-
-        canvas.updatePosition(playerX, playerY);
+        canvas.updatePlayerPosition(playerX, playerY);
         playerRectangle = new RectF(playerHitboxX - characterWidth / 2,
                 playerHitboxY - characterHeight / 2, playerHitboxX + characterWidth / 2,
                 playerHitboxY + characterHeight / 2);
@@ -279,51 +374,51 @@ public class RoomViewModel extends Activity {
     }
 
     /**
-     * method to emulate and test functionality of keyPresses.
+     * Simulates key presses for testing purposes. This method is used to test the functionality of
+     * player movement.
      *
-     * @param movementStrategy the movement strategy for a given room which dictates movement speed.
+     * @param movementStrategy The movement strategy for a given room, determining the player's
+     *                         movement speed.
      * @param keyCode          The code of the key that was pressed.
-     * @return an array of floats that give the coordinates of the player in [x,y] format.
+     * @return An array of floats representing the player's updated coordinates in the format.
      */
     public float[] testKeyPress(PlayerMovementStrategy movementStrategy, int keyCode) {
         // Retrieve the class-specific movement strategy's speed
         int movementSpeed = movementStrategy.getMovementSpeed();
+
         switch (keyCode) {
         case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
-            if (playerX - movementSpeed >= 0) {
+            if (playerX - movementSpeed >= lowerXCoordinateLimit) {
                 playerX -= movementSpeed;
-
             }
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
-            if (playerX + movementSpeed + 10 <= 100) {
+            if (playerX + movementSpeed + 10 <= upperXCoordinateLimit) {
                 playerX += movementSpeed;
-
             }
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_UP:
-            if (playerY - movementSpeed >= 0) {
+            if (playerY - movementSpeed >= lowerYCoordinateLimit) {
                 playerY -= movementSpeed;
-
             }
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
-            if (playerY + movementSpeed + 10 <= 100) {
+            if (playerY + movementSpeed + 10 <= upperYCoordinateLimit) {
                 playerY += movementSpeed;
-
             }
             break;
         default:
             break;
         }
+
         return new float[]{playerX, playerY};
     }
 
     /**
-     * method to set initial location of player for testing purposes.
+     * Sets the initial location of the player for testing purposes.
      *
-     * @param x the horizontal location of player.
-     * @param y the vertical location of player.
+     * @param x The horizontal location of the player.
+     * @param y The vertical location of the player.
      */
     public void setXY(float x, float y) {
         playerX = x;

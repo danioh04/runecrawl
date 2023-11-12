@@ -46,6 +46,9 @@ public class InitialRoomActivity extends AppCompatActivity implements PlayerObse
         // Start decrementing the timer
         room.startScoreDecrementTimer(InitialRoomActivity.this, score);
 
+        // Start enemy movement
+        room.startEnemyMovement();
+
         // Set up the screen's canvas
         room.addToCanvas(this, screenLayout);
 

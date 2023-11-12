@@ -5,7 +5,6 @@ package edu.gatech.cs2340.team33.runecrawl.Model;
  * It provides a method to create enemies of different types with their initial HP.
  */
 public class EnemyFactory {
-
     /**
      * Creates an Enemy instance of the specified type.
      * The initial HP of the enemy is determined based on its type.
@@ -30,7 +29,7 @@ public class EnemyFactory {
         switch (type) {
         case SLIME:
             return 20;
-        case SKELETON:
+        case ROBOT:
             return 30;
         case ORC:
             return 50;
