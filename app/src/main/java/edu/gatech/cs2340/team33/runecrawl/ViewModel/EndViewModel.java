@@ -1,7 +1,9 @@
 package edu.gatech.cs2340.team33.runecrawl.ViewModel;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import java.util.List;
 import edu.gatech.cs2340.team33.runecrawl.Model.GameAttempt;
 import edu.gatech.cs2340.team33.runecrawl.Model.Leaderboard;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player;
+
 
 /**
  * End is a ViewModel class responsible for handling the logic
@@ -47,6 +50,35 @@ public class EndViewModel extends ViewModel {
             addCellToRow(context, row, String.valueOf(attempt.getScore()));
             addCellToRow(context, row, attempt.getDateTime());
             leaderboardTable.addView(row);
+        }
+    }
+
+    /**
+     * helper method to change end screen based on if the player is alive.
+     * @param context The end activity.
+     * @param topMessage the message at the top of the screen.
+     * @param trophy the trophy graphic.
+     * @param tombstone the tombstone graphic.
+     * @param tombstoneName the text on the tombstone.
+     */
+    public void changeEndScreen(Context context, TextView topMessage, ImageView trophy,
+                                ImageView tombstone, TextView tombstoneName) {
+        //Checks if player is alive
+        if (!Player.getInstance().isAlive()) {
+            // if player is dead
+
+            // sets text at top of the screen to GAME OVER and makes color red.
+            topMessage.setText("GAME OVER");
+            topMessage.setTextColor(Color.RED);
+            // Makes trophy invisible so only tombstone is visible.
+            trophy.setVisibility(View.INVISIBLE);
+            // sets the text on top of tombstone to player name.
+            tombstoneName.setText(Player.getInstance().getUsername());
+        } else {
+            // if player is alive
+
+            // makes tombstone invisible so only trophy is visible.
+            tombstone.setVisibility(View.INVISIBLE);
         }
     }
 
