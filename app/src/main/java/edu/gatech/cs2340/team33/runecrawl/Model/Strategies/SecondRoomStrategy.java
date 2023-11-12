@@ -11,6 +11,6 @@ public class SecondRoomStrategy implements PlayerMovementStrategy {
      */
     @Override
     public int getMovementSpeed() {
-        return 20;
+        return 40;
     }
 }
