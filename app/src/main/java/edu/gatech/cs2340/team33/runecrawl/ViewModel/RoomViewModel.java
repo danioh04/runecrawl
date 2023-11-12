@@ -388,22 +388,22 @@ public class RoomViewModel extends Activity {
 
         switch (keyCode) {
         case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
-            if (playerX - movementSpeed >= 0) {
+            if (playerX - movementSpeed >= lowerXCoordinateLimit) {
                 playerX -= movementSpeed;
             }
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
-            if (playerX + movementSpeed + 10 <= 100) {
+            if (playerX + movementSpeed + 10 <= upperXCoordinateLimit) {
                 playerX += movementSpeed;
             }
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_UP:
-            if (playerY - movementSpeed >= 0) {
+            if (playerY - movementSpeed >= lowerYCoordinateLimit) {
                 playerY -= movementSpeed;
             }
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
-            if (playerY + movementSpeed + 10 <= 100) {
+            if (playerY + movementSpeed + 10 <= upperYCoordinateLimit) {
                 playerY += movementSpeed;
             }
             break;
