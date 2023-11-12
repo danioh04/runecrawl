@@ -132,6 +132,9 @@ public class RoomViewModel extends Activity {
                 runOnUiThread(() -> {
                     try {
                         player.decreaseScore();
+                        if (!player.isAlive()) {
+                            throw new IllegalStateException("player is dead");
+                        }
                         score.setText(String.format("Score: %s", player.getScore()));
                     } catch (IllegalStateException e) {
                         // If an exception is caught, stop the timer and move to the end screen
