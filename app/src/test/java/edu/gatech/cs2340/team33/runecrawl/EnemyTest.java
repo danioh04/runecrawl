@@ -24,7 +24,7 @@ public class EnemyTest {
     }
 
     @Test
-    public void testMoveDown() {
+    public void testMoveInBoundry() {
         RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
         enemy.moveRandomly(room);
         boolean result = enemy.getX() >= room.getLowerXCoordinateLimit() && enemy.getX() <= room.getUpperXCoordinateLimit()
