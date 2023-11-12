@@ -31,9 +31,9 @@ public class PlayerMovementTest {
         room.setXY(50, 50);
         float x = 50;
         float y = 50;
-        float[] coords = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_LEFT);
-        assertTrue(coords[0] < x);
-        assertEquals(coords[1], y, 0.0);
+        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_LEFT);
+        assertTrue(coordinates[0] < x);
+        assertEquals(coordinates[1], y, 0.0);
     }
 
     @Test
@@ -43,9 +43,9 @@ public class PlayerMovementTest {
         room.setXY(50, 50);
         float x = 50;
         float y = 50;
-        float[] coords = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
-        assertTrue(coords[0] > x);
-        assertEquals(coords[1], y, 0.0);
+        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
+        assertTrue(coordinates[0] > x);
+        assertEquals(coordinates[1], y, 0.0);
     }
 
     @Test
@@ -55,9 +55,9 @@ public class PlayerMovementTest {
         room.setXY(50, 50);
         float x = 50;
         float y = 50;
-        float[] coords = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_UP);
-        assertEquals(coords[0], x, 0.0);
-        assertTrue(coords[1] < y);
+        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_UP);
+        assertEquals(coordinates[0], x, 0.0);
+        assertTrue(coordinates[1] < y);
     }
 
     @Test
@@ -67,9 +67,9 @@ public class PlayerMovementTest {
         room.setXY(50, 50);
         float x = 50;
         float y = 50;
-        float[] coords = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
-        assertEquals(coords[0], x, 0.0);
-        assertTrue(coords[1] > y);
+        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
+        assertEquals(coordinates[0], x, 0.0);
+        assertTrue(coordinates[1] > y);
     }
 
     @Test
@@ -78,12 +78,12 @@ public class PlayerMovementTest {
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float y = 50;
-        float[] coords = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_LEFT);
+        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_LEFT);
         for (int i = 0; i < 10; i++) {
-            coords = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_LEFT);
+            coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_LEFT);
         }
-        assertTrue(coords[0] >= 0);
-        assertEquals(coords[1], y, 0.0);
+        assertTrue(coordinates[0] >= 0);
+        assertEquals(coordinates[1], y, 0.0);
     }
 
     @Test
@@ -92,12 +92,12 @@ public class PlayerMovementTest {
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float y = 50;
-        float[] coords = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
+        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
         for (int i = 0; i < 10; i++) {
-            coords = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
+            coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
         }
-        assertTrue(coords[0] <= 100);
-        assertEquals(coords[1], y, 0.0);
+        assertTrue(coordinates[0] <= 100);
+        assertEquals(coordinates[1], y, 0.0);
     }
 
     @Test
@@ -106,12 +106,12 @@ public class PlayerMovementTest {
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
-        float[] coords = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_UP);
+        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_UP);
         for (int i = 0; i < 10; i++) {
-            coords = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_UP);
+            coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_UP);
         }
-        assertEquals(coords[0], x, 0.0);
-        assertTrue(coords[1] >= 0);
+        assertEquals(coordinates[0], x, 0.0);
+        assertTrue(coordinates[1] >= 0);
     }
 
     @Test
@@ -120,12 +120,12 @@ public class PlayerMovementTest {
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
-        float[] coords = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
+        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
         for (int i = 0; i < 10; i++) {
-            coords = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
+            coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
         }
-        assertEquals(coords[0], x, 0.0);
-        assertTrue(coords[1] <= 100);
+        assertEquals(coordinates[0], x, 0.0);
+        assertTrue(coordinates[1] <= 100);
     }
 
     @Test
@@ -135,10 +135,10 @@ public class PlayerMovementTest {
         room.setXY(50, 50);
         float x = 50;
         float y = 50;
-        float[] coords = room.testKeyPress(initialRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
-        assertEquals(y + 30, coords[1], 0.0);
-        coords = room.testKeyPress(initialRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
-        assertEquals(x + 30, coords[0], 0.0);
+        float[] coordinates = room.testKeyPress(initialRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
+        assertEquals(y + 30, coordinates[1], 0.0);
+        coordinates = room.testKeyPress(initialRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
+        assertEquals(x + 30, coordinates[0], 0.0);
     }
 
     @Test
@@ -148,10 +148,10 @@ public class PlayerMovementTest {
         room.setXY(50, 50);
         float x = 50;
         float y = 50;
-        float[] coords = room.testKeyPress(secondRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
-        assertEquals(y + 20, coords[1], 0.0);
-        coords = room.testKeyPress(secondRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
-        assertEquals(x + 20, coords[0], 0.0);
+        float[] coordinates = room.testKeyPress(secondRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
+        assertEquals(y + 20, coordinates[1], 0.0);
+        coordinates = room.testKeyPress(secondRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
+        assertEquals(x + 20, coordinates[0], 0.0);
     }
 
     @Test
@@ -161,10 +161,10 @@ public class PlayerMovementTest {
         room.setXY(50, 50);
         float x = 50;
         float y = 50;
-        float[] coords = room.testKeyPress(thirdRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
-        assertEquals(y + 40, coords[1], 0.0);
-        coords = room.testKeyPress(thirdRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
-        assertEquals(x + 40, coords[0], 0.0);
+        float[] coordinates = room.testKeyPress(thirdRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
+        assertEquals(y + 40, coordinates[1], 0.0);
+        coordinates = room.testKeyPress(thirdRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
+        assertEquals(x + 40, coordinates[0], 0.0);
     }
 
     @Test
@@ -176,12 +176,12 @@ public class PlayerMovementTest {
         room.setXY(50, 50);
         float x = 50;
         float y = 50;
-        float[] coords = room.testKeyPress(initialRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
-        assertEquals(y + 30, coords[1], 0.0);
-        coords = room.testKeyPress(secondRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
-        assertEquals(x + 20, coords[0], 0.0);
-        y = coords[1];
-        coords = room.testKeyPress(thirdRoomStrategy, KeyEvent.KEYCODE_DPAD_UP);
-        assertEquals(y - 40, coords[1], 0);
+        float[] coordinates = room.testKeyPress(initialRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
+        assertEquals(y + 30, coordinates[1], 0.0);
+        coordinates = room.testKeyPress(secondRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
+        assertEquals(x + 20, coordinates[0], 0.0);
+        y = coordinates[1];
+        coordinates = room.testKeyPress(thirdRoomStrategy, KeyEvent.KEYCODE_DPAD_UP);
+        assertEquals(y - 40, coordinates[1], 0);
     }
 }

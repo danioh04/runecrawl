@@ -1,15 +1,16 @@
 package edu.gatech.cs2340.team33.runecrawl.View;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.view.View;
 
 /**
- * This class sets up the canvas for a room.
- * The character is initially drawn onto the screen,
- * and its position is continuously updated.
+ * This class sets up the canvas for a room. The character is initially
+ * drawn onto the screen, and its position is continuously updated.
  */
+@SuppressLint("ViewConstructor")
 public class CanvasView extends View {
     private final Bitmap character;
     private float playerX;

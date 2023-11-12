@@ -11,6 +11,6 @@ public class InitialRoomStrategy implements PlayerMovementStrategy {
      */
     @Override
     public int getMovementSpeed() {
-        return 30;
+        return 50;
     }
 }

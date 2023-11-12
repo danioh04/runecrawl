@@ -33,6 +33,10 @@ public class RoomViewModel extends Activity {
     private final Timer timer = new Timer();
     private final Player player = Player.getInstance();
     private final List<PlayerObserver> observers = new ArrayList<>();
+    private final float lowerXCoordinateLimit;
+    private final float upperXCoordinateLimit;
+    private final float lowerYCoordinateLimit;
+    private final float upperYCoordinateLimit;
     private CanvasView canvas;
     private float characterWidth;
     private float characterHeight;
@@ -41,10 +45,6 @@ public class RoomViewModel extends Activity {
     private float playerHitboxX;
     private float playerHitboxY;
     private RectF playerRectangle;
-    private float lowerXCoordinateLimit;
-    private float upperXCoordinateLimit;
-    private float lowerYCoordinateLimit;
-    private float upperYCoordinateLimit;
 
     /**
      * Constructs a new RoomViewModel with specified upper and lower limits for
