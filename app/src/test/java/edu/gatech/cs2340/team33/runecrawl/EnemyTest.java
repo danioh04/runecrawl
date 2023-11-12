@@ -1,7 +1,6 @@
 package edu.gatech.cs2340.team33.runecrawl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -12,7 +11,6 @@ import edu.gatech.cs2340.team33.runecrawl.Model.EnemyType;
 import edu.gatech.cs2340.team33.runecrawl.Model.GameDifficulty;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
-import edu.gatech.cs2340.team33.runecrawl.View.Rooms.InitialRoomActivity;
 import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
 public class EnemyTest {
@@ -22,7 +20,7 @@ public class EnemyTest {
         enemy = new Enemy(EnemyType.SLIME, 100);
         Player.initialize("testPlayer", GameDifficulty.EASY, PlayerType.MAGE);
     }
-
+    // Checks that enemy moves randomly within the coordinates of the passed room
     @Test
     public void testMoveInBoundry() {
         RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
@@ -32,6 +30,7 @@ public class EnemyTest {
         assertTrue(result);
     }
 
+    // Checks that the enemy moves after moveRandomly is called
     @Test
     public void testMove() {
         float x = enemy.getX();
@@ -42,14 +41,18 @@ public class EnemyTest {
         assertTrue(result);
 
     }
+
+    // Checks that the enemy is dead and currentHp = 0, after receiving a damage
     @Test
     public void testEnemyAlive() {
         int damage = 100;
         enemy.receiveDamage(damage);
         assertEquals(false, enemy.isAlive());
     }
+
+    // Checks that enemy's health has decreased after recieving damage
     @Test
-    public void testRecieveDamage() {
+    public void testReceiveDamage() {
         enemy = new Enemy(EnemyType.SLIME, 100);
         int damage = 20;
         enemy.receiveDamage(20);
