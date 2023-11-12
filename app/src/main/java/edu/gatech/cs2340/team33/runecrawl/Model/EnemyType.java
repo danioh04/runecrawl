@@ -8,7 +8,7 @@ import edu.gatech.cs2340.team33.runecrawl.R;
  */
 public enum EnemyType {
     SLIME(R.drawable.slime, 5, 30),
-    SKELETON(R.drawable.skeleton, 10, 40),
+    ROBOT(R.drawable.robot, 10, 40),
     ORC(R.drawable.orc, 15, 20),
     WEREWOLF(R.drawable.werewolf, 20, 45);
 

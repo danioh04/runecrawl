@@ -6,6 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class sets up the canvas for a room. The character is initially
  * drawn onto the screen, and its position is continuously updated.
@@ -13,6 +16,9 @@ import android.view.View;
 @SuppressLint("ViewConstructor")
 public class CanvasView extends View {
     private final Bitmap character;
+    private final List<Bitmap> enemySprites;
+    private final List<Float> enemyX;
+    private final List<Float> enemyY;
     private float playerX;
     private float playerY;
 
@@ -29,6 +35,10 @@ public class CanvasView extends View {
         this.character = character;
         this.playerX = playerX;
         this.playerY = playerY;
+
+        this.enemySprites = new ArrayList<>();
+        this.enemyX = new ArrayList<>();
+        this.enemyY = new ArrayList<>();
     }
 
     /**
@@ -40,6 +50,25 @@ public class CanvasView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawBitmap(character, playerX, playerY, null);
+
+        for (int i = 0; i < enemySprites.size(); i++) {
+            canvas.drawBitmap(enemySprites.get(i), enemyX.get(i), enemyY.get(i), null);
+        }
+    }
+
+    /**
+     * Adds a new enemy to the game with its sprite and position.
+     *
+     * @param sprite The Bitmap representing the enemy's sprite.
+     * @param x      The X coordinate of the enemy's position.
+     * @param y      The Y coordinate of the enemy's position.
+     */
+    public void addEnemy(Bitmap sprite, float x, float y) {
+        enemySprites.add(sprite);
+        enemyX.add(x);
+        enemyY.add(y);
+
+        enemySprites.size();
     }
 
     /**
@@ -48,9 +77,22 @@ public class CanvasView extends View {
      * @param newPlayerX The player's updated X-coordinate.
      * @param newPlayerY The player's updated Y-coordinate.
      */
-    public void updatePosition(float newPlayerX, float newPlayerY) {
+    public void updatePlayerPosition(float newPlayerX, float newPlayerY) {
         playerX = newPlayerX;
         playerY = newPlayerY;
+        invalidate();
+    }
+
+    /**
+     * Updates the position of a specific enemy.
+     *
+     * @param enemyIndex The index of the enemy in the enemySprites list.
+     * @param newX       The new X coordinate for the enemy.
+     * @param newY       The new Y coordinate for the enemy.
+     */
+    public void updateEnemyPosition(int enemyIndex, float newX, float newY) {
+        enemyX.set(enemyIndex, newX);
+        enemyY.set(enemyIndex, newY);
         invalidate();
     }
 }

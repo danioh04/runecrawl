@@ -47,6 +47,9 @@ public class SecondRoomActivity extends AppCompatActivity implements PlayerObser
         // Start decrementing the timer
         room.startScoreDecrementTimer(SecondRoomActivity.this, score);
 
+        // Start enemy movement
+        room.startEnemyMovement();
+
         // Set up the screen's canvas
         room.addToCanvas(this, screenLayout);
 

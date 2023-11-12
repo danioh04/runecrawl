@@ -47,6 +47,9 @@ public class ThirdRoomActivity extends AppCompatActivity implements PlayerObserv
         // Start decrementing the timer
         room.startScoreDecrementTimer(ThirdRoomActivity.this, score);
 
+        // Start enemy movement
+        room.startEnemyMovement();
+
         // Set up the screen's canvas
         room.addToCanvas(this, screenLayout);
 

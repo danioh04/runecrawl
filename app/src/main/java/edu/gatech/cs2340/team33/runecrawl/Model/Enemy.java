@@ -66,7 +66,7 @@ public class Enemy {
      *
      * @param x The new x-coordinate to move to.
      */
-    public void setX(int x) {
+    public void setX(float x) {
         this.x = x;
     }
 
@@ -84,7 +84,7 @@ public class Enemy {
      *
      * @param y The new y-coordinate to move to.
      */
-    public void setY(int y) {
+    public void setY(float y) {
         this.y = y;
     }
 

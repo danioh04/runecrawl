@@ -29,7 +29,7 @@ public class EnemyFactory {
         switch (type) {
         case SLIME:
             return 20;
-        case SKELETON:
+        case ROBOT:
             return 30;
         case ORC:
             return 50;
