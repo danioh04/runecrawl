@@ -26,7 +26,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testLeft() {
-        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
@@ -38,7 +38,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testRight() {
-        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
@@ -50,7 +50,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testUp() {
-        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
@@ -62,7 +62,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testDown() {
-        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
@@ -74,7 +74,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testLeftWall() {
-        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float y = 50;
@@ -88,7 +88,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testRightWall() {
-        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float y = 50;
@@ -96,13 +96,13 @@ public class PlayerMovementTest {
         for (int i = 0; i < 10; i++) {
             coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
         }
-        assertTrue(coordinates[0] <= 100);
+        assertTrue(coordinates[0] <= 200);
         assertEquals(coordinates[1], y, 0.0);
     }
 
     @Test
     public void testUpperWall() {
-        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
@@ -116,7 +116,7 @@ public class PlayerMovementTest {
 
     @Test
     public void testLowerWall() {
-        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
         PlayerMovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
@@ -125,51 +125,51 @@ public class PlayerMovementTest {
             coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
         }
         assertEquals(coordinates[0], x, 0.0);
-        assertTrue(coordinates[1] <= 100);
+        assertTrue(coordinates[1] <= 200);
     }
 
     @Test
     public void testInitialMovementStrategy() {
-        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
         PlayerMovementStrategy initialRoomStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
         float y = 50;
         float[] coordinates = room.testKeyPress(initialRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
-        assertEquals(y + 30, coordinates[1], 0.0);
+        assertEquals(y + 50, coordinates[1], 0.0);
         coordinates = room.testKeyPress(initialRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
-        assertEquals(x + 30, coordinates[0], 0.0);
+        assertEquals(x + 50, coordinates[0], 0.0);
     }
 
     @Test
     public void testSecondMovementStrategy() {
-        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
         PlayerMovementStrategy secondRoomStrategy = new SecondRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
         float y = 50;
         float[] coordinates = room.testKeyPress(secondRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
-        assertEquals(y + 20, coordinates[1], 0.0);
+        assertEquals(y + 40, coordinates[1], 0.0);
         coordinates = room.testKeyPress(secondRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
-        assertEquals(x + 20, coordinates[0], 0.0);
+        assertEquals(x + 40, coordinates[0], 0.0);
     }
 
     @Test
     public void testThirdMovementStrategy() {
-        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
         PlayerMovementStrategy thirdRoomStrategy = new ThirdRoomStrategy();
         room.setXY(50, 50);
         float x = 50;
         float y = 50;
         float[] coordinates = room.testKeyPress(thirdRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
-        assertEquals(y + 40, coordinates[1], 0.0);
+        assertEquals(y + 30, coordinates[1], 0.0);
         coordinates = room.testKeyPress(thirdRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
-        assertEquals(x + 40, coordinates[0], 0.0);
+        assertEquals(x + 30, coordinates[0], 0.0);
     }
 
     @Test
     public void testMovementStrategies() {
-        RoomViewModel room = new RoomViewModel(0, 0, 0, 0);
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
         PlayerMovementStrategy initialRoomStrategy = new InitialRoomStrategy();
         PlayerMovementStrategy secondRoomStrategy = new SecondRoomStrategy();
         PlayerMovementStrategy thirdRoomStrategy = new ThirdRoomStrategy();
@@ -177,11 +177,11 @@ public class PlayerMovementTest {
         float x = 50;
         float y = 50;
         float[] coordinates = room.testKeyPress(initialRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
-        assertEquals(y + 30, coordinates[1], 0.0);
+        assertEquals(y + 50, coordinates[1], 0.0);
         coordinates = room.testKeyPress(secondRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
-        assertEquals(x + 20, coordinates[0], 0.0);
+        assertEquals(x + 40, coordinates[0], 0.0);
         y = coordinates[1];
         coordinates = room.testKeyPress(thirdRoomStrategy, KeyEvent.KEYCODE_DPAD_UP);
-        assertEquals(y - 40, coordinates[1], 0);
+        assertEquals(y - 30, coordinates[1], 0);
     }
 }
