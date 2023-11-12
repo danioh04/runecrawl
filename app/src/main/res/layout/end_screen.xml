@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.EndActivity">
+    tools:context=".View.EndActivity"
+    tools:ignore="HardcodedText">
 
     <TextView
         android:id="@+id/wonMessage"
@@ -90,6 +91,7 @@
         android:id="@+id/EndScreenGraphic"
         android:layout_width="290dp"
         android:layout_height="304dp"
+        android:contentDescription="A trophy image for winners"
         app:layout_constraintBottom_toTopOf="@id/leaderboardTable"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -101,6 +103,7 @@
         android:id="@+id/GameOverGraphic"
         android:layout_width="290dp"
         android:layout_height="304dp"
+        android:contentDescription="A tombstone image for losers"
         app:layout_constraintBottom_toTopOf="@id/leaderboardTable"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
