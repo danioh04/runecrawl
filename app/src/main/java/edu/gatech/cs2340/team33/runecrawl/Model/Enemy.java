@@ -38,6 +38,15 @@ public class Enemy {
     }
 
     /**
+     * Gets the movement speed of the enemy based on its type.
+     *
+     * @return The movement speed of this enemy.
+     */
+    public int getSpeed() {
+        return this.type.getSpeed();
+    }
+
+    /**
      * Applies damage to the enemy, reducing its HP.
      * If the damage reduces the HP below zero, it sets the HP to zero.
      *
