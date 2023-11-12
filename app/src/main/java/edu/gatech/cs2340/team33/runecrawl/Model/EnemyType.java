@@ -14,19 +14,19 @@ public enum EnemyType {
 
     private final int spriteResId;
     private final int damageRate;
-    private final int speed;
+    private final int movementSpeed;
 
     /**
      * Constructor for the enum.
      *
-     * @param spriteResId The resource ID of the enemy's sprite.
-     * @param damageRate  The damage rate of the enemy.
-     * @param speed       The movement speed of the enemy.
+     * @param spriteResId   The resource ID of the enemy's sprite.
+     * @param damageRate    The damage rate of the enemy.
+     * @param movementSpeed The movement speed of the enemy.
      */
-    EnemyType(int spriteResId, int damageRate, int speed) {
+    EnemyType(int spriteResId, int damageRate, int movementSpeed) {
         this.spriteResId = spriteResId;
         this.damageRate = damageRate;
-        this.speed = speed;
+        this.movementSpeed = movementSpeed;
     }
 
     /**
@@ -52,7 +52,7 @@ public enum EnemyType {
      *
      * @return The movement speed of the enemy.
      */
-    public int getSpeed() {
-        return speed;
+    public int getMovementSpeed() {
+        return this.movementSpeed;
     }
 }

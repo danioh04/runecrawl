@@ -64,6 +64,42 @@ public class RoomViewModel extends Activity {
     }
 
     /**
+     * Gets the lower x-coordinate limit for the room.
+     *
+     * @return The minimum x-coordinate the player can reach within the room.
+     */
+    public float getLowerXCoordinateLimit() {
+        return lowerXCoordinateLimit;
+    }
+
+    /**
+     * Gets the upper x-coordinate limit for the room.
+     *
+     * @return The maximum x-coordinate the player can reach within the room.
+     */
+    public float getUpperXCoordinateLimit() {
+        return upperXCoordinateLimit;
+    }
+
+    /**
+     * Gets the lower y-coordinate limit for the room.
+     *
+     * @return The minimum y-coordinate the player can reach within the room.
+     */
+    public float getLowerYCoordinateLimit() {
+        return lowerYCoordinateLimit;
+    }
+
+    /**
+     * Gets the upper y-coordinate limit for the room.
+     *
+     * @return The maximum y-coordinate the player can reach within the room.
+     */
+    public float getUpperYCoordinateLimit() {
+        return upperYCoordinateLimit;
+    }
+
+    /**
      * Displays the player's attributes on the screen.
      *
      * @param playerName The player's name.
@@ -192,9 +228,6 @@ public class RoomViewModel extends Activity {
             break;
         }
 
-        System.out.println(playerX);
-        System.out.println(playerY);
-
         canvas.updatePosition(playerX, playerY);
         playerRectangle = new RectF(playerHitboxX - characterWidth / 2,
                 playerHitboxY - characterHeight / 2, playerHitboxX + characterWidth / 2,
@@ -279,48 +312,46 @@ public class RoomViewModel extends Activity {
     }
 
     /**
-     * method to emulate and test functionality of keyPresses.
+     * Emulate and test functionality of keyPresses (for testing purposes)
      *
      * @param movementStrategy the movement strategy for a given room which dictates movement speed.
      * @param keyCode          The code of the key that was pressed.
-     * @return an array of floats that give the coordinates of the player in [x,y] format.
+     * @return An array of floats that give the coordinates of the player in [x,y] format.
      */
     public float[] testKeyPress(PlayerMovementStrategy movementStrategy, int keyCode) {
         // Retrieve the class-specific movement strategy's speed
         int movementSpeed = movementStrategy.getMovementSpeed();
+
         switch (keyCode) {
         case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
             if (playerX - movementSpeed >= 0) {
                 playerX -= movementSpeed;
-
             }
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
             if (playerX + movementSpeed + 10 <= 100) {
                 playerX += movementSpeed;
-
             }
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_UP:
             if (playerY - movementSpeed >= 0) {
                 playerY -= movementSpeed;
-
             }
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
             if (playerY + movementSpeed + 10 <= 100) {
                 playerY += movementSpeed;
-
             }
             break;
         default:
             break;
         }
+
         return new float[]{playerX, playerY};
     }
 
     /**
-     * method to set initial location of player for testing purposes.
+     * Set initial location of player (for testing purposes).
      *
      * @param x the horizontal location of player.
      * @param y the vertical location of player.
