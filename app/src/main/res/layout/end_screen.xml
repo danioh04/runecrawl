@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.EndActivity">
+    tools:context=".View.EndActivity"
+    tools:ignore="HardcodedText">
 
     <TextView
         android:id="@+id/wonMessage"
@@ -19,6 +20,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
+    <!-- Table rows will be added programmatically -->
+
     <TextView
         android:id="@+id/currentAttempt"
         android:layout_width="wrap_content"
@@ -27,11 +30,11 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/leaderboardTable"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.198" />
 
-
-    <!-- Table rows will be added programmatically -->
     <TableLayout
         android:id="@+id/leaderboardTable"
         android:layout_width="wrap_content"
@@ -40,8 +43,10 @@
         android:padding="16dp"
         app:layout_constraintBottom_toTopOf="@+id/restartButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.743">
 
         <!-- Sample header row -->
         <TableRow
@@ -81,5 +86,41 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/EndScreenGraphic"
+        android:layout_width="290dp"
+        android:layout_height="304dp"
+        android:contentDescription="A trophy image for winners"
+        app:layout_constraintBottom_toTopOf="@id/leaderboardTable"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/currentAttempt"
+        app:srcCompat="@drawable/trophy" />
+
+    <ImageView
+        android:id="@+id/GameOverGraphic"
+        android:layout_width="290dp"
+        android:layout_height="304dp"
+        android:contentDescription="A tombstone image for losers"
+        app:layout_constraintBottom_toTopOf="@id/leaderboardTable"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/currentAttempt"
+        app:srcCompat="@drawable/tombstone" />
+
+    <TextView
+        android:id="@+id/tombStoneName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@id/GameOverGraphic"
+        app:layout_constraintEnd_toEndOf="@+id/GameOverGraphic"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="@+id/GameOverGraphic"
+        app:layout_constraintTop_toTopOf="@id/GameOverGraphic"
+        app:layout_constraintVertical_bias="0.575" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
