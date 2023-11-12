@@ -1,6 +1,7 @@
 package edu.gatech.cs2340.team33.runecrawl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -14,48 +15,47 @@ import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
 import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
 public class EnemyTest {
+    private static final int MAX_HEALTH = 100;
+    private static final int ROOM_BOUNDARY = 200;
+    private static final int DAMAGE = 20;
     private Enemy enemy;
+
     @Before
     public void setUp() {
-        enemy = new Enemy(EnemyType.SLIME, 100);
+        enemy = new Enemy(EnemyType.SLIME, MAX_HEALTH);
         Player.initialize("testPlayer", GameDifficulty.EASY, PlayerType.MAGE);
     }
-    // Checks that enemy moves randomly within the coordinates of the passed room
+
     @Test
-    public void testMoveInBoundry() {
-        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
+    public void enemyShouldMoveWithinRoomBoundaries() {
+        RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY, 0, ROOM_BOUNDARY);
         enemy.moveRandomly(room);
-        boolean result = enemy.getX() >= room.getLowerXCoordinateLimit() && enemy.getX() <= room.getUpperXCoordinateLimit()
-                && enemy.getY() <= room.getUpperYCoordinateLimit() && enemy.getY() >= room.getLowerYCoordinateLimit();
-        assertTrue(result);
+        boolean inBounds = enemy.getX() >= room.getLowerXCoordinateLimit() &&
+                enemy.getX() <= room.getUpperXCoordinateLimit() &&
+                enemy.getY() <= room.getUpperYCoordinateLimit() &&
+                enemy.getY() >= room.getLowerYCoordinateLimit();
+        assertTrue(inBounds);
     }
 
-    // Checks that the enemy moves after moveRandomly is called
     @Test
-    public void testMove() {
-        float x = enemy.getX();
-        float y = enemy.getY();
-        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
+    public void enemyShouldChangePositionAfterMove() {
+        float initialX = enemy.getX();
+        float initialY = enemy.getY();
+        RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY, 0, ROOM_BOUNDARY);
         enemy.moveRandomly(room);
-        boolean result = x != enemy.getX() || y != enemy.getY();
-        assertTrue(result);
-
+        boolean hasMoved = (initialX != enemy.getX()) || (initialY != enemy.getY());
+        assertTrue(hasMoved);
     }
 
-    // Checks that the enemy is dead and currentHp = 0, after receiving a damage
     @Test
-    public void testEnemyAlive() {
-        int damage = 100;
-        enemy.receiveDamage(damage);
-        assertEquals(false, enemy.isAlive());
+    public void enemyShouldBeDeadAfterLethalDamage() {
+        enemy.receiveDamage(MAX_HEALTH);
+        assertFalse(enemy.isAlive());
     }
 
-    // Checks that enemy's health has decreased after recieving damage
     @Test
-    public void testReceiveDamage() {
-        enemy = new Enemy(EnemyType.SLIME, 100);
-        int damage = 20;
-        enemy.receiveDamage(20);
-        assertEquals(80, enemy.getCurrentHp());
+    public void enemyHealthShouldDecreaseAfterDamage() {
+        enemy.receiveDamage(DAMAGE);
+        assertEquals(MAX_HEALTH - DAMAGE, enemy.getCurrentHp());
     }
 }
