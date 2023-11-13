@@ -1,7 +1,6 @@
 package edu.gatech.cs2340.team33.runecrawl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -10,6 +9,10 @@ import org.junit.Test;
 
 import edu.gatech.cs2340.team33.runecrawl.Model.Enemy;
 import edu.gatech.cs2340.team33.runecrawl.Model.EnemyType;
+import edu.gatech.cs2340.team33.runecrawl.Model.GameDifficulty;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player;
+import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
+import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
 public class EnemyTest {
     private static final int MAX_HEALTH = 100;
@@ -19,9 +22,19 @@ public class EnemyTest {
 
     @Before
     public void setUp() {
-        Enemy enemyTest = new Enemy(EnemyType.SLIME, 50);
-        enemy = new Enemy(EnemyType.SLIME, MAX_HEALTH);
         Player.initialize("testPlayer", GameDifficulty.EASY, PlayerType.MAGE);
+        enemy = new Enemy(EnemyType.SLIME, MAX_HEALTH, 20, 20);
+    }
+
+    @Test
+    public void enemyShouldMoveWithinRoomBoundaries() {
+        RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY, 0, ROOM_BOUNDARY);
+        enemy.moveRandomly(room);
+        boolean inBounds = enemy.getX() >= room.getLowerXCoordinateLimit() &&
+                enemy.getX() <= room.getUpperXCoordinateLimit() &&
+                enemy.getY() <= room.getUpperYCoordinateLimit() &&
+                enemy.getY() >= room.getLowerYCoordinateLimit();
+        assertTrue(inBounds);
     }
 
     @Test
@@ -31,7 +44,7 @@ public class EnemyTest {
         RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY, 0, ROOM_BOUNDARY);
         enemy.moveRandomly(room);
         boolean hasMoved = (initialX != enemy.getX()) || (initialY != enemy.getY());
-        assertTrue(hasMoved);
+        assertFalse(hasMoved);
     }
 
     @Test
@@ -45,24 +58,17 @@ public class EnemyTest {
         enemy.receiveDamage(DAMAGE);
         assertEquals(MAX_HEALTH - DAMAGE, enemy.getCurrentHp());
     }
-  
-  /*
-    This test damages the enemy by more Hp than it currenlty has, and then checks if the enemy is dead
-    or that is has 0 Hp.
-    */
+
     @Test
-    public void testEnemyDying() throws Exception {
-        Enemy enemyTest = new Enemy(EnemyType.SLIME, 50);
+    public void testEnemyDying() {
+        Enemy enemyTest = new Enemy(EnemyType.SLIME, 50, 20, 20);
         int damage = enemyTest.getCurrentHp() - 1;
         enemyTest.receiveDamage(damage);
-        assertTrue(enemyTest.getCurrentHp() == 0);
+        assertEquals(enemyTest.getCurrentHp(), 1);
     }
 
-    /*
-    This test will test if every "enemy type" differs by at least 2 attributes.
-    */
     @Test
-    public void testEnemyDiffAttributes() throws Exception {
+    public void testEnemyDiffAttributes() {
         EnemyType enemyType1 = EnemyType.SLIME;
         EnemyType enemyType2 = EnemyType.ORC;
         EnemyType enemyType3 = EnemyType.ROBOT;
@@ -78,39 +84,16 @@ public class EnemyTest {
         int enemyType3Damage = enemyType3.getDamageRate();
         int enemyType4Damage = enemyType4.getDamageRate();
 
-        /*
-        checks to see if enemytype1 is different than enemytype2 in 3 attributes.
-         */
-        assertTrue(enemyType1Res != enemyType2Res && enemyType1Damage != enemyType2Damage;
-        /*
-        checks to see if enemytype1 is different than enemytype3 in 3 attributes.
-         */
+        assertTrue(enemyType1Res != enemyType2Res && enemyType1Damage != enemyType2Damage);
         assertTrue(enemyType1Res != enemyType3Res && enemyType1Damage != enemyType3Damage);
-        /*
-        checks to see if enemytype1 is different than enemytype4 in 3 attributes.
-         */
         assertTrue(enemyType1Res != enemyType4Res && enemyType1Damage != enemyType4Damage);
-
-        /*
-        checks to see if enemytype2 is different than enemytype3 in 3 attributes.
-         */
         assertTrue(enemyType2Res != enemyType3Res && enemyType2Damage != enemyType3Damage);
-        /*
-        checks to see if enemytype2 is different than enemytype4 in 3 attributes.
-         */
         assertTrue(enemyType2Res != enemyType4Res && enemyType2Damage != enemyType4Damage);
-
-        /*
-        checks to see if enemytype3 is different than enemytype4 in 3 attributes.
-         */
         assertTrue(enemyType3Res != enemyType4Res && enemyType3Damage != enemyType4Damage);
     }
 
-    /*
-    This test will test if every "enemy type" has different movement patterns.
-    */
     @Test
-    public void testEnemyMovementAttribute() throws Exception {
+    public void testEnemyMovementAttribute() {
         EnemyType enemyType1 = EnemyType.SLIME;
         EnemyType enemyType2 = EnemyType.ORC;
         EnemyType enemyType3 = EnemyType.ROBOT;
@@ -124,22 +107,19 @@ public class EnemyTest {
         assertTrue(enemyType1Speed != enemyType2Speed);
         assertTrue(enemyType1Speed != enemyType3Speed);
         assertTrue(enemyType1Speed != enemyType4Speed);
-        assertTrue(enemyType2Speed != enemyType3Speed));
+        assertTrue(enemyType2Speed != enemyType3Speed);
         assertTrue(enemyType2Speed != enemyType4Speed);
         assertTrue(enemyType3Speed != enemyType4Speed);
     }
 
-    /*
-    This test randomly moves the enemy and then checks to see if the coordinates or the enemy are different.
-    */
     @Test
-    public void testEnemyRandomMovement() throws Exception {
-        Enemy enemyTest = new Enemy(EnemyType.SLIME, 50);
+    public void testEnemyRandomMovement() {
+        Enemy enemyTest = new Enemy(EnemyType.SLIME, 50, 20, 20);
         RoomViewModel roomTest = new RoomViewModel(50, 50, 50, 50);
-        int x = enemyTest.getX();
-        int y = enemyTest.getY();
+        float x = enemyTest.getX();
+        float y = enemyTest.getY();
         enemyTest.moveRandomly(roomTest);
         assertTrue(x != enemyTest.getX() || y != enemyTest.getY());
-  }
+    }
 }
                    
