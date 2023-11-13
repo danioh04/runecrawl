@@ -7,6 +7,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemy;
+import edu.gatech.cs2340.team33.runecrawl.Model.EnemyObserver;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.PlayerMovementStrategy;
 import edu.gatech.cs2340.team33.runecrawl.Model.PlayerObserver;
 import edu.gatech.cs2340.team33.runecrawl.Model.Strategies.ThirdRoomStrategy;
@@ -18,9 +21,10 @@ import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
  * The room has two doors, one leading to the previous room
  * and the other leading to the end.
  */
-public class ThirdRoomActivity extends AppCompatActivity implements PlayerObserver {
+public class ThirdRoomActivity extends AppCompatActivity implements PlayerObserver, EnemyObserver {
     private final PlayerMovementStrategy movementStrategy = new ThirdRoomStrategy();
     private final RoomViewModel room = new RoomViewModel(24, 905, 16, 1855);
+    private TextView hp;
 
     /**
      * Initializes the game activity screen.
@@ -37,7 +41,7 @@ public class ThirdRoomActivity extends AppCompatActivity implements PlayerObserv
         // Obtain references to UI components
         TextView playerName = findViewById(R.id.playerName);
         TextView difficulty = findViewById(R.id.difficulty);
-        TextView hp = findViewById(R.id.hitpoints);
+        hp = findViewById(R.id.hitpoints);
         TextView score = findViewById(R.id.score);
         ConstraintLayout screenLayout = findViewById(R.id.room3);
 
@@ -54,7 +58,8 @@ public class ThirdRoomActivity extends AppCompatActivity implements PlayerObserv
         room.addToCanvas(this, screenLayout);
 
         // Make the current class an observer to be notified when a collision occurs
-        room.addObserver(this);
+        room.addPlayerObserver(this);
+        room.addEnemyObserver(this);
     }
 
     /**
@@ -67,8 +72,9 @@ public class ThirdRoomActivity extends AppCompatActivity implements PlayerObserv
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         room.onKeyDown(movementStrategy, keyCode);
-        room.isCollision(410, 75);
-        room.isCollision(670, 75);
+        room.isDoorCollision(410, 75);
+        room.isDoorCollision(670, 75);
+        room.isEnemyCollision();
         return true;
     }
 
@@ -77,13 +83,27 @@ public class ThirdRoomActivity extends AppCompatActivity implements PlayerObserv
      * between the character and a door.
      */
     @Override
-    public void collisionOccurred() {
-        room.removeObserver(this);
-        if (room.isCollision(410, 75)) {
+    public void doorCollisionOccurred() {
+        room.removePlayerObserver(this);
+        room.removeEnemyObserver(this);
+        if (room.isDoorCollision(410, 75)) {
             room.moveToNextScreen(this, SecondRoomActivity.class);
         }
-        if (room.isCollision(670, 75)) {
+        if (room.isDoorCollision(670, 75)) {
             room.moveToEndScreen(this);
         }
+    }
+
+    /**
+     * Handles what happens when a collision has occurred between the character
+     * and an enemy.
+     *
+     * @param enemy The enemy the player has collided with.
+     */
+    @Override
+    public void playerCollisionOccurred(Enemy enemy) {
+        Player player = Player.getInstance();
+        player.receiveDamage(enemy.getType().getDamageRate());
+        hp.setText(String.format("HP: %s", player.getCurrentHp()));
     }
 }

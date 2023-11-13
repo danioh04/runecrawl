@@ -7,6 +7,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemy;
+import edu.gatech.cs2340.team33.runecrawl.Model.EnemyObserver;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.PlayerMovementStrategy;
 import edu.gatech.cs2340.team33.runecrawl.Model.PlayerObserver;
 import edu.gatech.cs2340.team33.runecrawl.Model.Strategies.InitialRoomStrategy;
@@ -17,9 +20,11 @@ import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
  * This is the first room that the player will see.
  * The room has one door, leading to the second room.
  */
-public class InitialRoomActivity extends AppCompatActivity implements PlayerObserver {
+public class InitialRoomActivity extends AppCompatActivity
+        implements PlayerObserver, EnemyObserver {
     private final PlayerMovementStrategy movementStrategy = new InitialRoomStrategy();
     private final RoomViewModel room = new RoomViewModel(45, 850, 135, 1755);
+    private TextView hp;
 
     /**
      * Initializes the game activity screen.
@@ -36,7 +41,7 @@ public class InitialRoomActivity extends AppCompatActivity implements PlayerObse
         // Obtain references to UI components
         TextView playerName = findViewById(R.id.playerName);
         TextView difficulty = findViewById(R.id.difficulty);
-        TextView hp = findViewById(R.id.hitpoints);
+        hp = findViewById(R.id.hitpoints);
         TextView score = findViewById(R.id.score);
         ConstraintLayout screenLayout = findViewById(R.id.room1);
 
@@ -53,7 +58,8 @@ public class InitialRoomActivity extends AppCompatActivity implements PlayerObse
         room.addToCanvas(this, screenLayout);
 
         // Make the current class an observer to be notified when a collision occurs
-        room.addObserver(this);
+        room.addPlayerObserver(this);
+        room.addEnemyObserver(this);
     }
 
     /**
@@ -66,7 +72,8 @@ public class InitialRoomActivity extends AppCompatActivity implements PlayerObse
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         room.onKeyDown(movementStrategy, keyCode);
-        room.isCollision(540, 215);
+        room.isDoorCollision(540, 215);
+        room.isEnemyCollision();
         return true;
     }
 
@@ -75,8 +82,22 @@ public class InitialRoomActivity extends AppCompatActivity implements PlayerObse
      * and a door.
      */
     @Override
-    public void collisionOccurred() {
-        room.removeObserver(this);
+    public void doorCollisionOccurred() {
+        room.removePlayerObserver(this);
+        room.removeEnemyObserver(this);
         room.moveToNextScreen(this, SecondRoomActivity.class);
+    }
+
+    /**
+     * Handles what happens when a collision has occurred between the character
+     * and an enemy.
+     *
+     * @param enemy The enemy the player has collided with.
+     */
+    @Override
+    public void playerCollisionOccurred(Enemy enemy) {
+        Player player = Player.getInstance();
+        player.receiveDamage(enemy.getType().getDamageRate());
+        hp.setText(String.format("HP: %s", player.getCurrentHp()));
     }
 }
