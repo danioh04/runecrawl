@@ -24,7 +24,7 @@ import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 public class ThirdRoomActivity extends AppCompatActivity implements PlayerObserver, EnemyObserver {
     private final PlayerMovementStrategy movementStrategy = new ThirdRoomStrategy();
     private final RoomViewModel room = new RoomViewModel(24, 905, 16, 1855);
-    TextView hp;
+    private TextView hp;
 
     /**
      * Initializes the game activity screen.
