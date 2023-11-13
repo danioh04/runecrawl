@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemy;
 import edu.gatech.cs2340.team33.runecrawl.Model.EnemyObserver;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.PlayerMovementStrategy;
@@ -23,7 +24,7 @@ public class InitialRoomActivity extends AppCompatActivity
         implements PlayerObserver, EnemyObserver {
     private final PlayerMovementStrategy movementStrategy = new InitialRoomStrategy();
     private final RoomViewModel room = new RoomViewModel(45, 850, 135, 1755);
-    TextView hp;
+    private TextView hp;
 
     /**
      * Initializes the game activity screen.
@@ -87,10 +88,16 @@ public class InitialRoomActivity extends AppCompatActivity
         room.moveToNextScreen(this, SecondRoomActivity.class);
     }
 
+    /**
+     * Handles what happens when a collision has occurred between the character
+     * and an enemy.
+     *
+     * @param enemy The enemy the player has collided with.
+     */
     @Override
-    public void playerCollisionOccurred() {
+    public void playerCollisionOccurred(Enemy enemy) {
         Player player = Player.getInstance();
-        player.receiveDamage(10);
+        player.receiveDamage(enemy.getType().getDamageRate());
         hp.setText(String.format("HP: %s", player.getCurrentHp()));
     }
 }

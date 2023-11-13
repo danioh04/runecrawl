@@ -7,6 +7,8 @@ public interface EnemyObserver {
     /**
      * Currently, every observer should have
      * an implementation of what follows a collision with an enemy.
+     *
+     * @param enemy The enemy that the player has collided with.
      */
-    void playerCollisionOccurred();
+    void playerCollisionOccurred(Enemy enemy);
 }

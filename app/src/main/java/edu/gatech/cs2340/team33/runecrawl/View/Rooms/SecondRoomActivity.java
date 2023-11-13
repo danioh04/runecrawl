@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemy;
 import edu.gatech.cs2340.team33.runecrawl.Model.EnemyObserver;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.PlayerMovementStrategy;
@@ -23,6 +24,7 @@ import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 public class SecondRoomActivity extends AppCompatActivity implements PlayerObserver, EnemyObserver {
     private final PlayerMovementStrategy movementStrategy = new SecondRoomStrategy();
     private final RoomViewModel room = new RoomViewModel(45, 845, 135, 1755);
+    private TextView hp;
 
     /**
      * Initializes the game activity screen.
@@ -39,7 +41,7 @@ public class SecondRoomActivity extends AppCompatActivity implements PlayerObser
         // Obtain references to UI components
         TextView playerName = findViewById(R.id.playerName);
         TextView difficulty = findViewById(R.id.difficulty);
-        TextView hp = findViewById(R.id.hitpoints);
+        hp = findViewById(R.id.hitpoints);
         TextView score = findViewById(R.id.score);
         ConstraintLayout screenLayout = findViewById(R.id.room2);
 
@@ -92,8 +94,16 @@ public class SecondRoomActivity extends AppCompatActivity implements PlayerObser
         }
     }
 
+    /**
+     * Handles what happens when a collision has occurred between the character
+     * and an enemy.
+     *
+     * @param enemy The enemy the player has collided with.
+     */
     @Override
-    public void playerCollisionOccurred() {
-        Player.getInstance().receiveDamage(20);
+    public void playerCollisionOccurred(Enemy enemy) {
+        Player player = Player.getInstance();
+        player.receiveDamage(enemy.getType().getDamageRate());
+        hp.setText(String.format("HP: %s", player.getCurrentHp()));
     }
 }

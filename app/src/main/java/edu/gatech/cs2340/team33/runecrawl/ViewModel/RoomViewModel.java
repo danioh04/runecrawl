@@ -12,7 +12,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -45,6 +47,7 @@ public class RoomViewModel extends Activity {
     private final float upperXCoordinateLimit;
     private final float lowerYCoordinateLimit;
     private final float upperYCoordinateLimit;
+    private final Map<Enemy, RectF> enemyMap = new HashMap<>();
     private CanvasView canvas;
     private float characterWidth;
     private float characterHeight;
@@ -53,6 +56,7 @@ public class RoomViewModel extends Activity {
     private float playerHitboxX;
     private float playerHitboxY;
     private RectF playerRectangle;
+    private Enemy collidedEnemy;
 
     /**
      * Constructs a new RoomViewModel with specified upper and lower limits for
@@ -159,11 +163,15 @@ public class RoomViewModel extends Activity {
                     Enemy enemy = enemies.get(i);
                     enemy.moveRandomly(RoomViewModel.this);
                     canvas.updateEnemyPosition(i, enemy.getX(), enemy.getY());
+
+                    // Create a new rectangle based off where the enemy has moved
                     RectF newRectangle = new RectF(enemy.getX() - enemy.getWidth() / 2,
                             enemy.getY() - enemy.getHeight() / 2,
                             enemy.getX() + enemy.getWidth() / 2,
                             enemy.getY() + enemy.getHeight() / 2);
+
                     enemyRectangles.set(i, newRectangle);
+                    enemyMap.put(enemy, newRectangle);
                 }
             }
         }, 0, 100);
@@ -199,6 +207,7 @@ public class RoomViewModel extends Activity {
             randomEnemy.setX(randomX);
             randomEnemy.setY(randomY);
 
+            // Create the enemy's initial rectangle hitbox
             RectF enemyRectangle = new RectF(randomX - enemyWidth / 2,
                     randomY - enemyHeight / 2, randomX + enemyWidth / 2,
                     randomY + enemyHeight / 2);
@@ -209,6 +218,9 @@ public class RoomViewModel extends Activity {
             // Add the enemy to the list
             enemies.add(randomEnemy);
             enemyRectangles.add(enemyRectangle);
+
+            // Add the pairing of the enemy and the rectangle to a hashmap for future use
+            enemyMap.put(randomEnemy, enemyRectangle);
         }
     }
 
@@ -332,17 +344,30 @@ public class RoomViewModel extends Activity {
         return false;
     }
 
+    /**
+     * Handles what happens when a collision has occurred
+     * between the character and an enemy.
+     * If a collision has occurred, the observers are notified.
+     */
     public void isEnemyCollision() {
         for (RectF enemyRectangle : enemyRectangles) {
             if (playerRectangle.intersect(enemyRectangle)) {
+                for (Map.Entry<Enemy, RectF> entry : enemyMap.entrySet()) {
+                    Enemy enemy = entry.getKey();
+                    RectF enemyRect = entry.getValue();
+
+                    // Find the corresponding enemy (to the rectangle that was collided with)
+                    if (enemyRect == enemyRectangle) {
+                        collidedEnemy = enemy;
+                    }
+                }
                 notifyEnemyObservers();
-                return;
             }
         }
     }
 
     /**
-     * Adds a class to a list of observers.
+     * Adds a class to a list of observers for a door collision.
      *
      * @param observer The class to be added to the list.
      */
@@ -350,6 +375,11 @@ public class RoomViewModel extends Activity {
         playerObservers.add(observer);
     }
 
+    /**
+     * Adds a class to a list of observers for an enemy collision.
+     *
+     * @param observer The class to be added to the list.
+     */
     public void addEnemyObserver(EnemyObserver observer) {
         enemyObservers.add(observer);
     }
@@ -368,7 +398,7 @@ public class RoomViewModel extends Activity {
     }
 
     /**
-     * Notifies every observer in the list if a collision has occurred.
+     * Notifies every observer in the list if a door collision has occurred.
      */
     public void notifyPlayerObservers() {
         for (PlayerObserver observer : playerObservers) {
@@ -376,9 +406,12 @@ public class RoomViewModel extends Activity {
         }
     }
 
+    /**
+     * Notifies every observer in the list if an enemy collision has occurred.
+     */
     public void notifyEnemyObservers() {
         for (EnemyObserver observer : enemyObservers) {
-            observer.playerCollisionOccurred();
+            observer.playerCollisionOccurred(collidedEnemy);
         }
     }
 
