@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -186,9 +185,8 @@ public class RoomViewModel extends Activity {
      * @param currentClass The context of the current activity for accessing resources.
      */
     private void generateEnemies(Context currentClass) {
-        // List of enemy types to generate
-        List<EnemyType> types = Arrays.asList(EnemyType.SLIME,
-                EnemyType.ROBOT, EnemyType.ORC, EnemyType.WEREWOLF);
+        // Array of enemy types to generate
+        EnemyType[] types = {EnemyType.SLIME, EnemyType.ROBOT, EnemyType.ORC, EnemyType.WEREWOLF};
 
         for (EnemyType type : types) {
             // Generate random coordinates within the defined limits
