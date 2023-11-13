@@ -1,8 +1,8 @@
 package edu.gatech.cs2340.team33.runecrawl;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -10,14 +10,43 @@ import org.junit.Test;
 
 import edu.gatech.cs2340.team33.runecrawl.Model.Enemy;
 import edu.gatech.cs2340.team33.runecrawl.Model.EnemyType;
-import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
+
 public class EnemyTest {
+    private static final int MAX_HEALTH = 100;
+    private static final int ROOM_BOUNDARY = 200;
+    private static final int DAMAGE = 20;
+    private Enemy enemy;
+
     @Before
     public void setUp() {
         Enemy enemyTest = new Enemy(EnemyType.SLIME, 50);
+        enemy = new Enemy(EnemyType.SLIME, MAX_HEALTH);
+        Player.initialize("testPlayer", GameDifficulty.EASY, PlayerType.MAGE);
     }
 
-    /*
+    @Test
+    public void enemyShouldChangePositionAfterMove() {
+        float initialX = enemy.getX();
+        float initialY = enemy.getY();
+        RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY, 0, ROOM_BOUNDARY);
+        enemy.moveRandomly(room);
+        boolean hasMoved = (initialX != enemy.getX()) || (initialY != enemy.getY());
+        assertTrue(hasMoved);
+    }
+
+    @Test
+    public void enemyShouldBeDeadAfterLethalDamage() {
+        enemy.receiveDamage(MAX_HEALTH);
+        assertFalse(enemy.isAlive());
+    }
+
+    @Test
+    public void enemyHealthShouldDecreaseAfterDamage() {
+        enemy.receiveDamage(DAMAGE);
+        assertEquals(MAX_HEALTH - DAMAGE, enemy.getCurrentHp());
+    }
+  
+  /*
     This test damages the enemy by more Hp than it currenlty has, and then checks if the enemy is dead
     or that is has 0 Hp.
     */
@@ -101,7 +130,7 @@ public class EnemyTest {
     }
 
     /*
-    This test  randomly moves the enemy and then checks to see if the coordinates or the enemy are different.
+    This test randomly moves the enemy and then checks to see if the coordinates or the enemy are different.
     */
     @Test
     public void testEnemyRandomMovement() throws Exception {
@@ -111,5 +140,6 @@ public class EnemyTest {
         int y = enemyTest.getY();
         enemyTest.moveRandomly(roomTest);
         assertTrue(x != enemyTest.getX() || y != enemyTest.getY());
-    }
+  }
 }
+                   
