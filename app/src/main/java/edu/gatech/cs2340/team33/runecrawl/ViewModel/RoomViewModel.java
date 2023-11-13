@@ -273,51 +273,51 @@ public class RoomViewModel extends Activity {
         int movementSpeed = movementStrategy.getMovementSpeed();
 
         switch (keyCode) {
-            // When the LEFT arrow key is pressed
-            case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
-                // Check if the player is within the left boundary and above the lower X limit
-                if (playerX - movementSpeed >= 0
-                        && playerX - movementSpeed >= lowerXCoordinateLimit) {
-                    // Move the player and the hitbox to the left
-                    playerX -= movementSpeed;
-                    playerHitboxX -= movementSpeed;
-                }
-                break;
+        // When the LEFT arrow key is pressed
+        case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
+            // Check if the player is within the left boundary and above the lower X limit
+            if (playerX - movementSpeed >= 0
+                    && playerX - movementSpeed >= lowerXCoordinateLimit) {
+                // Move the player and the hitbox to the left
+                playerX -= movementSpeed;
+                playerHitboxX -= movementSpeed;
+            }
+            break;
 
-            // When the RIGHT arrow key is pressed
-            case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
-                // Check if the player is within the right boundary and below the upper X limit
-                if (playerX + movementSpeed <= canvas.getWidth() && playerX
-                        + movementSpeed <= upperXCoordinateLimit) {
-                    // Move the player and the hitbox to the right
-                    playerX += movementSpeed;
-                    playerHitboxX += movementSpeed;
-                }
-                break;
+        // When the RIGHT arrow key is pressed
+        case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
+            // Check if the player is within the right boundary and below the upper X limit
+            if (playerX + movementSpeed <= canvas.getWidth() && playerX
+                    + movementSpeed <= upperXCoordinateLimit) {
+                // Move the player and the hitbox to the right
+                playerX += movementSpeed;
+                playerHitboxX += movementSpeed;
+            }
+            break;
 
-            // When the UP arrow key is pressed
-            case android.view.KeyEvent.KEYCODE_DPAD_UP:
-                // Check if the player is within the top boundary and above the lower Y limit
-                if (playerY - movementSpeed >= 0 && playerY - movementSpeed >= lowerYCoordinateLimit) {
-                    // Move the player and the hitbox upwards
-                    playerY -= movementSpeed;
-                    playerHitboxY -= movementSpeed;
-                }
-                break;
+        // When the UP arrow key is pressed
+        case android.view.KeyEvent.KEYCODE_DPAD_UP:
+            // Check if the player is within the top boundary and above the lower Y limit
+            if (playerY - movementSpeed >= 0 && playerY - movementSpeed >= lowerYCoordinateLimit) {
+                // Move the player and the hitbox upwards
+                playerY -= movementSpeed;
+                playerHitboxY -= movementSpeed;
+            }
+            break;
 
-            // When the DOWN arrow key is pressed
-            case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
-                // Check if the player is within the bottom boundary and below the upper Y limit
-                if (playerY + movementSpeed <= canvas.getHeight() && playerY
-                        + movementSpeed <= upperYCoordinateLimit) {
-                    // Move the player and the hitbox downwards
-                    playerY += movementSpeed;
-                    playerHitboxY += movementSpeed;
-                }
-                break;
+        // When the DOWN arrow key is pressed
+        case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
+            // Check if the player is within the bottom boundary and below the upper Y limit
+            if (playerY + movementSpeed <= canvas.getHeight() && playerY
+                    + movementSpeed <= upperYCoordinateLimit) {
+                // Move the player and the hitbox downwards
+                playerY += movementSpeed;
+                playerHitboxY += movementSpeed;
+            }
+            break;
 
-            default:
-                break;
+        default:
+            break;
         }
 
         canvas.updatePlayerPosition(playerX, playerY);
@@ -461,28 +461,28 @@ public class RoomViewModel extends Activity {
         int movementSpeed = movementStrategy.getMovementSpeed();
 
         switch (keyCode) {
-            case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
-                if (playerX - movementSpeed >= lowerXCoordinateLimit) {
-                    playerX -= movementSpeed;
-                }
-                break;
-            case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
-                if (playerX + movementSpeed + 10 <= upperXCoordinateLimit) {
-                    playerX += movementSpeed;
-                }
-                break;
-            case android.view.KeyEvent.KEYCODE_DPAD_UP:
-                if (playerY - movementSpeed >= lowerYCoordinateLimit) {
-                    playerY -= movementSpeed;
-                }
-                break;
-            case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
-                if (playerY + movementSpeed + 10 <= upperYCoordinateLimit) {
-                    playerY += movementSpeed;
-                }
-                break;
-            default:
-                break;
+        case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
+            if (playerX - movementSpeed >= lowerXCoordinateLimit) {
+                playerX -= movementSpeed;
+            }
+            break;
+        case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
+            if (playerX + movementSpeed + 10 <= upperXCoordinateLimit) {
+                playerX += movementSpeed;
+            }
+            break;
+        case android.view.KeyEvent.KEYCODE_DPAD_UP:
+            if (playerY - movementSpeed >= lowerYCoordinateLimit) {
+                playerY -= movementSpeed;
+            }
+            break;
+        case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
+            if (playerY + movementSpeed + 10 <= upperYCoordinateLimit) {
+                playerY += movementSpeed;
+            }
+            break;
+        default:
+            break;
         }
 
         return new float[]{playerX, playerY};

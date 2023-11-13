@@ -42,47 +42,47 @@ public enum EnemyType {
      */
     public static int calculateDamage(String enemyType, GameDifficulty gameDifficulty) {
         switch (gameDifficulty) {
-            case EASY:
-                switch (enemyType) {
-                    case "SLIME":
-                        return 1;
-                    case "ROBOT":
-                        return 5;
-                    case "ORC":
-                        return 10;
-                    case "WEREWOLF":
-                        return 15;
-                    default:
-                        throw new IllegalArgumentException("Unknown enemy type: " + enemyType);
-                }
-            case MEDIUM:
-                switch (enemyType) {
-                    case "SLIME":
-                        return 5;
-                    case "ROBOT":
-                        return 10;
-                    case "ORC":
-                        return 15;
-                    case "WEREWOLF":
-                        return 20;
-                    default:
-                        throw new IllegalArgumentException("Unknown enemy type: " + enemyType);
-                }
-            case HARD:
-                switch (enemyType) {
-                    case "SLIME":
-                        return 10;
-                    case "ROBOT":
-                        return 15;
-                    case "ORC":
-                        return 20;
-                    case "WEREWOLF":
-                        return 25;
-                    default:
-                        throw new IllegalArgumentException("Unknown enemy type: " + enemyType);
-                }
+        case EASY:
+            switch (enemyType) {
+            case "SLIME":
+                return 1;
+            case "ROBOT":
+                return 5;
+            case "ORC":
+                return 10;
+            case "WEREWOLF":
+                return 15;
             default:
-                throw new IllegalArgumentException("Unknown difficulty type: " + gameDifficulty);
+                throw new IllegalArgumentException("Unknown enemy type: " + enemyType);
+            }
+        case MEDIUM:
+            switch (enemyType) {
+            case "SLIME":
+                return 5;
+            case "ROBOT":
+                return 10;
+            case "ORC":
+                return 15;
+            case "WEREWOLF":
+                return 20;
+            default:
+                throw new IllegalArgumentException("Unknown enemy type: " + enemyType);
+            }
+        case HARD:
+            switch (enemyType) {
+            case "SLIME":
+                return 10;
+            case "ROBOT":
+                return 15;
+            case "ORC":
+                return 20;
+            case "WEREWOLF":
+                return 25;
+            default:
+                throw new IllegalArgumentException("Unknown enemy type: " + enemyType);
+            }
+        default:
+            throw new IllegalArgumentException("Unknown difficulty type: " + gameDifficulty);
         }
     }
 

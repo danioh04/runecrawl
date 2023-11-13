@@ -29,16 +29,16 @@ public class EnemyFactory {
      */
     private static int calculateWidth(EnemyType type) {
         switch (type) {
-            case SLIME:
-                return 129;
-            case ROBOT:
-                return 94;
-            case ORC:
-                return 162;
-            case WEREWOLF:
-                return 204;
-            default:
-                throw new IllegalArgumentException("Unknown enemy type: " + type);
+        case SLIME:
+            return 129;
+        case ROBOT:
+            return 94;
+        case ORC:
+            return 162;
+        case WEREWOLF:
+            return 204;
+        default:
+            throw new IllegalArgumentException("Unknown enemy type: " + type);
         }
     }
 
@@ -52,16 +52,16 @@ public class EnemyFactory {
      */
     private static int calculateHeight(EnemyType type) {
         switch (type) {
-            case SLIME:
-                return 88;
-            case ROBOT:
-                return 204;
-            case ORC:
-                return 160;
-            case WEREWOLF:
-                return 228;
-            default:
-                throw new IllegalArgumentException("Unknown enemy type: " + type);
+        case SLIME:
+            return 88;
+        case ROBOT:
+            return 204;
+        case ORC:
+            return 160;
+        case WEREWOLF:
+            return 228;
+        default:
+            throw new IllegalArgumentException("Unknown enemy type: " + type);
         }
     }
 
@@ -75,16 +75,16 @@ public class EnemyFactory {
      */
     private static int calculateInitialHp(EnemyType type) {
         switch (type) {
-            case SLIME:
-                return 20;
-            case ROBOT:
-                return 30;
-            case ORC:
-                return 50;
-            case WEREWOLF:
-                return 70;
-            default:
-                throw new IllegalArgumentException("Unknown enemy type: " + type);
+        case SLIME:
+            return 20;
+        case ROBOT:
+            return 30;
+        case ORC:
+            return 50;
+        case WEREWOLF:
+            return 70;
+        default:
+            throw new IllegalArgumentException("Unknown enemy type: " + type);
         }
     }
 }

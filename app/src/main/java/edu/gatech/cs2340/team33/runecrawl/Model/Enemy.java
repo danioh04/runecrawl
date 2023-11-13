@@ -149,20 +149,20 @@ public class Enemy {
 
         // Adjust the x or y coordinate depending on the generated direction code
         switch (direction) {
-            case KeyEvent.KEYCODE_DPAD_UP:
-                this.y -= this.getMovementSpeed();
-                break;
-            case KeyEvent.KEYCODE_DPAD_DOWN:
-                this.y += this.getMovementSpeed();
-                break;
-            case KeyEvent.KEYCODE_DPAD_LEFT:
-                this.x -= this.getMovementSpeed();
-                break;
-            case KeyEvent.KEYCODE_DPAD_RIGHT:
-                this.x += this.getMovementSpeed();
-                break;
-            default:
-                throw new IllegalStateException("Invalid direction: " + direction);
+        case KeyEvent.KEYCODE_DPAD_UP:
+            this.y -= this.getMovementSpeed();
+            break;
+        case KeyEvent.KEYCODE_DPAD_DOWN:
+            this.y += this.getMovementSpeed();
+            break;
+        case KeyEvent.KEYCODE_DPAD_LEFT:
+            this.x -= this.getMovementSpeed();
+            break;
+        case KeyEvent.KEYCODE_DPAD_RIGHT:
+            this.x += this.getMovementSpeed();
+            break;
+        default:
+            throw new IllegalStateException("Invalid direction: " + direction);
         }
 
         // Clamp the x and y coordinates within the range
