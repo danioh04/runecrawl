@@ -7,14 +7,18 @@ import static org.junit.Assert.assertThrows;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemy;
+import edu.gatech.cs2340.team33.runecrawl.Model.EnemyType;
 import edu.gatech.cs2340.team33.runecrawl.Model.GameDifficulty;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
 
 public class PlayerTest {
+    private EnemyType enemyTest;
     @Before
     public void setUp() {
         Player.initialize("testPlayer", GameDifficulty.EASY, PlayerType.MAGE);
+        enemyTest = EnemyType.SLIME;
     }
 
     @Test
@@ -82,5 +86,16 @@ public class PlayerTest {
         player.receiveDamage(damage);
 
         assertEquals(0, player.getCurrentHp());
+    }
+
+    @Test
+    public void testReceiveDamageFromEnemy() {
+        Player player = Player.getInstance();
+        int initialHp = player.getCurrentHp();
+        int damage = enemyTest.getDamageRate();
+        player.receiveDamage(damage);
+
+        assertEquals(player.getCurrentHp(), initialHp - damage);
+
     }
 }
