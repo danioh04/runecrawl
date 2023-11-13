@@ -6,7 +6,7 @@ package edu.gatech.cs2340.team33.runecrawl.Model;
 public interface PlayerObserver {
     /**
      * Currently, every observer should have
-     * an implementation of what follows a collision.
+     * an implementation of what follows a collision with a door.
      */
-    void collisionOccurred();
+    void doorCollisionOccurred();
 }

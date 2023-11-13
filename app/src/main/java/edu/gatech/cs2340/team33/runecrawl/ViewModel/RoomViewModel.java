@@ -18,6 +18,7 @@ import java.util.TimerTask;
 
 import edu.gatech.cs2340.team33.runecrawl.Model.Enemy;
 import edu.gatech.cs2340.team33.runecrawl.Model.EnemyFactory;
+import edu.gatech.cs2340.team33.runecrawl.Model.EnemyObserver;
 import edu.gatech.cs2340.team33.runecrawl.Model.EnemyType;
 import edu.gatech.cs2340.team33.runecrawl.Model.GameAttempt;
 import edu.gatech.cs2340.team33.runecrawl.Model.Leaderboard;
@@ -36,7 +37,9 @@ import edu.gatech.cs2340.team33.runecrawl.View.EndActivity;
 public class RoomViewModel extends Activity {
     private final Timer timer = new Timer();
     private final Player player = Player.getInstance();
-    private final List<PlayerObserver> observers;
+    private final List<PlayerObserver> playerObservers;
+    private final List<EnemyObserver> enemyObservers;
+    private final List<RectF> enemyRectangles;
     private final List<Enemy> enemies;
     private final float lowerXCoordinateLimit;
     private final float upperXCoordinateLimit;
@@ -66,7 +69,9 @@ public class RoomViewModel extends Activity {
         this.upperXCoordinateLimit = upperXCoordinateLimit;
         this.lowerYCoordinateLimit = lowerYCoordinateLimit;
         this.upperYCoordinateLimit = upperYCoordinateLimit;
-        this.observers = new ArrayList<>();
+        this.playerObservers = new ArrayList<>();
+        this.enemyObservers = new ArrayList<>();
+        this.enemyRectangles = new ArrayList<>();
         this.enemies = new ArrayList<>();
     }
 
@@ -154,6 +159,11 @@ public class RoomViewModel extends Activity {
                     Enemy enemy = enemies.get(i);
                     enemy.moveRandomly(RoomViewModel.this);
                     canvas.updateEnemyPosition(i, enemy.getX(), enemy.getY());
+                    RectF newRectangle = new RectF(enemy.getX() - enemy.getWidth() / 2,
+                            enemy.getY() - enemy.getHeight() / 2,
+                            enemy.getX() + enemy.getWidth() / 2,
+                            enemy.getY() + enemy.getHeight() / 2);
+                    enemyRectangles.set(i, newRectangle);
                 }
             }
         }, 0, 100);
@@ -182,15 +192,23 @@ public class RoomViewModel extends Activity {
             Bitmap enemySprite = BitmapFactory.decodeResource(
                     currentClass.getResources(), randomEnemy.getType().getSpriteResId());
 
+            float enemyWidth = enemySprite.getWidth();
+            float enemyHeight = enemySprite.getHeight();
+
             // Set the random coordinates for the enemy
             randomEnemy.setX(randomX);
             randomEnemy.setY(randomY);
+
+            RectF enemyRectangle = new RectF(randomX - enemyWidth / 2,
+                    randomY - enemyHeight / 2, randomX + enemyWidth / 2,
+                    randomY + enemyHeight / 2);
 
             // Add enemy to the canvas
             canvas.addEnemy(enemySprite, randomX, randomY);
 
             // Add the enemy to the list
             enemies.add(randomEnemy);
+            enemyRectangles.add(enemyRectangle);
         }
     }
 
@@ -243,51 +261,51 @@ public class RoomViewModel extends Activity {
         int movementSpeed = movementStrategy.getMovementSpeed();
 
         switch (keyCode) {
-        // When the LEFT arrow key is pressed
-        case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
-            // Check if the player is within the left boundary and above the lower X limit
-            if (playerX - movementSpeed >= 0
-                    && playerX - movementSpeed >= lowerXCoordinateLimit) {
-                // Move the player and the hitbox to the left
-                playerX -= movementSpeed;
-                playerHitboxX -= movementSpeed;
-            }
-            break;
+            // When the LEFT arrow key is pressed
+            case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
+                // Check if the player is within the left boundary and above the lower X limit
+                if (playerX - movementSpeed >= 0
+                        && playerX - movementSpeed >= lowerXCoordinateLimit) {
+                    // Move the player and the hitbox to the left
+                    playerX -= movementSpeed;
+                    playerHitboxX -= movementSpeed;
+                }
+                break;
 
-        // When the RIGHT arrow key is pressed
-        case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
-            // Check if the player is within the right boundary and below the upper X limit
-            if (playerX + movementSpeed <= canvas.getWidth() && playerX
-                    + movementSpeed <= upperXCoordinateLimit) {
-                // Move the player and the hitbox to the right
-                playerX += movementSpeed;
-                playerHitboxX += movementSpeed;
-            }
-            break;
+            // When the RIGHT arrow key is pressed
+            case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
+                // Check if the player is within the right boundary and below the upper X limit
+                if (playerX + movementSpeed <= canvas.getWidth() && playerX
+                        + movementSpeed <= upperXCoordinateLimit) {
+                    // Move the player and the hitbox to the right
+                    playerX += movementSpeed;
+                    playerHitboxX += movementSpeed;
+                }
+                break;
 
-        // When the UP arrow key is pressed
-        case android.view.KeyEvent.KEYCODE_DPAD_UP:
-            // Check if the player is within the top boundary and above the lower Y limit
-            if (playerY - movementSpeed >= 0 && playerY - movementSpeed >= lowerYCoordinateLimit) {
-                // Move the player and the hitbox upwards
-                playerY -= movementSpeed;
-                playerHitboxY -= movementSpeed;
-            }
-            break;
+            // When the UP arrow key is pressed
+            case android.view.KeyEvent.KEYCODE_DPAD_UP:
+                // Check if the player is within the top boundary and above the lower Y limit
+                if (playerY - movementSpeed >= 0 && playerY - movementSpeed >= lowerYCoordinateLimit) {
+                    // Move the player and the hitbox upwards
+                    playerY -= movementSpeed;
+                    playerHitboxY -= movementSpeed;
+                }
+                break;
 
-        // When the DOWN arrow key is pressed
-        case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
-            // Check if the player is within the bottom boundary and below the upper Y limit
-            if (playerY + movementSpeed <= canvas.getHeight() && playerY
-                    + movementSpeed <= upperYCoordinateLimit) {
-                // Move the player and the hitbox downwards
-                playerY += movementSpeed;
-                playerHitboxY += movementSpeed;
-            }
-            break;
+            // When the DOWN arrow key is pressed
+            case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
+                // Check if the player is within the bottom boundary and below the upper Y limit
+                if (playerY + movementSpeed <= canvas.getHeight() && playerY
+                        + movementSpeed <= upperYCoordinateLimit) {
+                    // Move the player and the hitbox downwards
+                    playerY += movementSpeed;
+                    playerHitboxY += movementSpeed;
+                }
+                break;
 
-        default:
-            break;
+            default:
+                break;
         }
 
         canvas.updatePlayerPosition(playerX, playerY);
@@ -305,13 +323,22 @@ public class RoomViewModel extends Activity {
      * @param doorY The door's Y-coordinate.
      * @return If a collision has occurred.
      */
-    public boolean isCollision(float doorX, float doorY) {
+    public boolean isDoorCollision(float doorX, float doorY) {
         RectF doorRectangle = new RectF(doorX - 50, doorY - 50, doorX + 50, doorY + 50);
         if (playerRectangle.intersect(doorRectangle)) {
-            notifyObservers();
+            notifyPlayerObservers();
             return true;
         }
         return false;
+    }
+
+    public void isEnemyCollision() {
+        for (RectF enemyRectangle : enemyRectangles) {
+            if (playerRectangle.intersect(enemyRectangle)) {
+                notifyEnemyObservers();
+                return;
+            }
+        }
     }
 
     /**
@@ -319,8 +346,12 @@ public class RoomViewModel extends Activity {
      *
      * @param observer The class to be added to the list.
      */
-    public void addObserver(PlayerObserver observer) {
-        observers.add(observer);
+    public void addPlayerObserver(PlayerObserver observer) {
+        playerObservers.add(observer);
+    }
+
+    public void addEnemyObserver(EnemyObserver observer) {
+        enemyObservers.add(observer);
     }
 
     /**
@@ -328,16 +359,26 @@ public class RoomViewModel extends Activity {
      *
      * @param observer The class to be removed from the list.
      */
-    public void removeObserver(PlayerObserver observer) {
-        observers.remove(observer);
+    public void removePlayerObserver(PlayerObserver observer) {
+        playerObservers.remove(observer);
+    }
+
+    public void removeEnemyObserver(EnemyObserver observer) {
+        enemyObservers.remove(observer);
     }
 
     /**
      * Notifies every observer in the list if a collision has occurred.
      */
-    public void notifyObservers() {
-        for (PlayerObserver observer : observers) {
-            observer.collisionOccurred();
+    public void notifyPlayerObservers() {
+        for (PlayerObserver observer : playerObservers) {
+            observer.doorCollisionOccurred();
+        }
+    }
+
+    public void notifyEnemyObservers() {
+        for (EnemyObserver observer : enemyObservers) {
+            observer.playerCollisionOccurred();
         }
     }
 
@@ -387,28 +428,28 @@ public class RoomViewModel extends Activity {
         int movementSpeed = movementStrategy.getMovementSpeed();
 
         switch (keyCode) {
-        case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
-            if (playerX - movementSpeed >= lowerXCoordinateLimit) {
-                playerX -= movementSpeed;
-            }
-            break;
-        case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
-            if (playerX + movementSpeed + 10 <= upperXCoordinateLimit) {
-                playerX += movementSpeed;
-            }
-            break;
-        case android.view.KeyEvent.KEYCODE_DPAD_UP:
-            if (playerY - movementSpeed >= lowerYCoordinateLimit) {
-                playerY -= movementSpeed;
-            }
-            break;
-        case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
-            if (playerY + movementSpeed + 10 <= upperYCoordinateLimit) {
-                playerY += movementSpeed;
-            }
-            break;
-        default:
-            break;
+            case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
+                if (playerX - movementSpeed >= lowerXCoordinateLimit) {
+                    playerX -= movementSpeed;
+                }
+                break;
+            case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
+                if (playerX + movementSpeed + 10 <= upperXCoordinateLimit) {
+                    playerX += movementSpeed;
+                }
+                break;
+            case android.view.KeyEvent.KEYCODE_DPAD_UP:
+                if (playerY - movementSpeed >= lowerYCoordinateLimit) {
+                    playerY -= movementSpeed;
+                }
+                break;
+            case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
+                if (playerY + movementSpeed + 10 <= upperYCoordinateLimit) {
+                    playerY += movementSpeed;
+                }
+                break;
+            default:
+                break;
         }
 
         return new float[]{playerX, playerY};

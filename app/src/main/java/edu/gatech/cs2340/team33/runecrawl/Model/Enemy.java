@@ -10,6 +10,8 @@ import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
  */
 public class Enemy {
     private final EnemyType type;
+    private final float width;
+    private final float height;
     private float x;
     private float y;
     private int currentHp;
@@ -19,10 +21,32 @@ public class Enemy {
      *
      * @param type      The type of the enemy, as defined in the EnemyType enum.
      * @param currentHp The initial HP of the enemy.
+     * @param width     The width of the enemy.
+     * @param height    The height of the enemy.
      */
-    public Enemy(EnemyType type, int currentHp) {
+    public Enemy(EnemyType type, int currentHp, int width, int height) {
         this.type = type;
         this.currentHp = currentHp;
+        this.width = width;
+        this.height = height;
+    }
+
+    /**
+     * Gets the width of the enemy.
+     *
+     * @return The width of the enemy.
+     */
+    public float getWidth() {
+        return this.width;
+    }
+
+    /**
+     * Gets the height of the enemy.
+     *
+     * @return The height of the enemy.
+     */
+    public float getHeight() {
+        return this.height;
     }
 
     /**
@@ -125,20 +149,20 @@ public class Enemy {
 
         // Adjust the x or y coordinate depending on the generated direction code
         switch (direction) {
-        case KeyEvent.KEYCODE_DPAD_UP:
-            this.y -= this.getMovementSpeed();
-            break;
-        case KeyEvent.KEYCODE_DPAD_DOWN:
-            this.y += this.getMovementSpeed();
-            break;
-        case KeyEvent.KEYCODE_DPAD_LEFT:
-            this.x -= this.getMovementSpeed();
-            break;
-        case KeyEvent.KEYCODE_DPAD_RIGHT:
-            this.x += this.getMovementSpeed();
-            break;
-        default:
-            throw new IllegalStateException("Invalid direction: " + direction);
+            case KeyEvent.KEYCODE_DPAD_UP:
+                this.y -= this.getMovementSpeed();
+                break;
+            case KeyEvent.KEYCODE_DPAD_DOWN:
+                this.y += this.getMovementSpeed();
+                break;
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+                this.x -= this.getMovementSpeed();
+                break;
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+                this.x += this.getMovementSpeed();
+                break;
+            default:
+                throw new IllegalStateException("Invalid direction: " + direction);
         }
 
         // Clamp the x and y coordinates within the range
