@@ -23,11 +23,17 @@ public class LeaderboardTest {
         leaderboard = Leaderboard.getInstance();
     }
 
+    /**
+     * A test to see if a null attempt can be added to the leaderboard.
+     */
     @Test
     public void testAddNullAttempt() {
         assertThrows(IllegalArgumentException.class, () -> leaderboard.addAttempt(null));
     }
 
+    /**
+     * This is a test to see if leaderboard has attempts added correctly.
+     */
     @Test
     public void testAddAttempts() {
         Player.initialize("player1", GameDifficulty.EASY, PlayerType.MAGE);
@@ -47,6 +53,9 @@ public class LeaderboardTest {
         assertEquals(2, topAttempts.size());
     }
 
+    /**
+     * This is a test to see if the leaderboard is correct.
+     */
     @Test
     public void testLeaderboardInOrder() {
         List<GameAttempt> topAttempts = leaderboard.getTopAttempts();
@@ -54,6 +63,9 @@ public class LeaderboardTest {
         assertEquals("player1", topAttempts.get(1).getUsername());
     }
 
+    /**
+     * This test is to see if we can add a game attempt to the leaderboard.
+     */
     @Test
     public void testAddAttemptToFullLeaderboard() {
         for (int i = 0; i < 5; i++) {
