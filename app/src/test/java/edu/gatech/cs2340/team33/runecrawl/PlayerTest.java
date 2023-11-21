@@ -14,13 +14,23 @@ import edu.gatech.cs2340.team33.runecrawl.Model.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
 
 public class PlayerTest {
-    private EnemyType enemyTest;
+    private EnemyType enemySlime;
+    private EnemyType enemyOrc;
+    private EnemyType enemyRobot;
+    private EnemyType enemyWerewolf;
     @Before
     public void setUp() {
         Player.initialize("testPlayer", GameDifficulty.EASY, PlayerType.MAGE);
-        enemyTest = EnemyType.SLIME;
+        enemySlime = EnemyType.SLIME;
+        enemyOrc = EnemyType.ORC;
+        enemyRobot = EnemyType.ROBOT;
+        enemyWerewolf = EnemyType.WEREWOLF;
+
     }
 
+    /**
+     * This is the first test to see if the damage is taken and subtracted properly.
+     */
     @Test
     public void testReceiveDamage() {
         Player player = Player.getInstance();
@@ -31,7 +41,24 @@ public class PlayerTest {
 
         assertEquals(initialHp - damage, player.getCurrentHp());
     }
+    /**
+     * This is the second test to see if the damage is taken and subtracted properly.
+     */
+    @Test
+    public void testReceiveDamage2() {
+        Player player = Player.getInstance();
+        int initialHp = player.getCurrentHp();
+        int damage = 15;
 
+        player.receiveDamage(damage);
+
+        assertEquals(initialHp - damage, player.getCurrentHp());
+    }
+
+    /**
+     * This is a test to see when the damage taken is greater than currentHP which means the
+     * character dies so hp should be zero rather than a negative number.
+     */
     @Test
     public void testReceiveDamageExceedsCurrentHp() {
         Player player = Player.getInstance();
@@ -42,6 +69,10 @@ public class PlayerTest {
         assertEquals(0, player.getCurrentHp());
     }
 
+    /**
+     * This checks to see that if when the player gets a negative score, it is an illegal state
+     * as it should never happen.
+     */
     @Test
     public void testDecreaseScoreBelowZero() {
         Player player = Player.getInstance();
@@ -54,30 +85,44 @@ public class PlayerTest {
         });
     }
 
+    /**
+     * This is a test to make sure that an invalid username gives an error and doesn't work.
+     */
     @Test
     public void testIllegalUsername() {
         assertThrows(IllegalArgumentException.class, () ->
                 Player.initialize(" ", GameDifficulty.EASY, PlayerType.MAGE));
     }
-
+    /**
+     * This is a test to make sure that an invalid difficulty gives an error and doesn't work.
+     */
     @Test
     public void testIllegalDifficulty() {
         assertThrows(IllegalArgumentException.class, () ->
                 Player.initialize("testPlayer", null, PlayerType.MAGE));
     }
-
+    /**
+     * This is a test to make sure that an invalid player type gives an error and doesn't work.
+     */
     @Test
     public void testIllegalPlayerType() {
         assertThrows(IllegalArgumentException.class, () ->
                 Player.initialize("testPlayer", GameDifficulty.EASY, null));
     }
 
+    /**
+     * This tests to see whether the player instance is not null.
+     */
     @Test
     public void testNullPlayerInstance() {
         Player instance = Player.getInstance();
         assertNotNull(instance);
     }
 
+    /**
+     * This is another test to see whether the damage received will take the player below zero
+     * meaning that the player's health should then be zero.
+     */
     @Test
     public void testReceiveDamageBelowZero() {
         Player player = Player.getInstance();
@@ -88,11 +133,53 @@ public class PlayerTest {
         assertEquals(0, player.getCurrentHp());
     }
 
+    /**
+     * This is a test to see how the damage from the slime enemy works.
+     */
     @Test
-    public void testReceiveDamageFromEnemy() {
+    public void testReceiveDamageFromSlime() {
         Player player = Player.getInstance();
         int initialHp = player.getCurrentHp();
-        int damage = enemyTest.getDamageRate();
+        int damage = enemySlime.getDamageRate();
+        player.receiveDamage(damage);
+
+        assertEquals(player.getCurrentHp(), initialHp - damage);
+
+    }
+    /**
+     * This is a test to see how the damage from the orc enemy works.
+     */
+    @Test
+    public void testReceiveDamageFromOrc() {
+        Player player = Player.getInstance();
+        int initialHp = player.getCurrentHp();
+        int damage = enemyOrc.getDamageRate();
+        player.receiveDamage(damage);
+
+        assertEquals(player.getCurrentHp(), initialHp - damage);
+
+    }
+    /**
+     * This is a test to see how the damage from the robot enemy works.
+     */
+    @Test
+    public void testReceiveDamageFromRobot() {
+        Player player = Player.getInstance();
+        int initialHp = player.getCurrentHp();
+        int damage = enemyRobot.getDamageRate();
+        player.receiveDamage(damage);
+
+        assertEquals(player.getCurrentHp(), initialHp - damage);
+
+    }
+    /**
+     * This is a test to see how the damage from the werewolf enemy works.
+     */
+    @Test
+    public void testReceiveDamageFromWerewolf() {
+        Player player = Player.getInstance();
+        int initialHp = player.getCurrentHp();
+        int damage = enemyWerewolf.getDamageRate();
         player.receiveDamage(damage);
 
         assertEquals(player.getCurrentHp(), initialHp - damage);
