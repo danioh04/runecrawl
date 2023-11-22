@@ -12,7 +12,9 @@ import edu.gatech.cs2340.team33.runecrawl.Model.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
 import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
-
+/**
+ * This class is deisgned to test the functionality of the enemy's movement test.
+ */
 public class EnemyMovementTest {
     private static final int ROOM_BOUNDARY = 200;
     private Enemy enemyTest;
@@ -23,6 +25,9 @@ public class EnemyMovementTest {
         enemyTest = new Enemy(EnemyType.ORC, 100, 20, 20);
     }
 
+    /**
+     * This tests to make sure that the enemy stays within the left boundary.
+     */
     @Test
     public void testLeftBoundary() {
         RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY,
@@ -32,6 +37,9 @@ public class EnemyMovementTest {
         assertTrue(inbounds);
     }
 
+    /**
+     * This tests to make sure that the enemy stays within the right boundary.
+     */
     @Test
     public void testRightBoundary() {
         RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY,
@@ -41,6 +49,9 @@ public class EnemyMovementTest {
         assertTrue(inbounds);
     }
 
+    /**
+     * This tests to make sure that the enemy stays within the upper boundary.
+     */
     @Test
     public void testUpperBoundary() {
         RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY,
@@ -50,6 +61,9 @@ public class EnemyMovementTest {
         assertTrue(inbounds);
     }
 
+    /**
+     * This tests to make sure that the enemy stays within the lower boundary.
+     */
     @Test
     public void testLowerBoundary() {
         RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY,
