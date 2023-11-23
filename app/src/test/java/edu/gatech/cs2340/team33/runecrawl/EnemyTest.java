@@ -26,6 +26,9 @@ public class EnemyTest {
         enemy = new Enemy(EnemyType.SLIME, MAX_HEALTH, 20, 20);
     }
 
+    /**
+     * A test to make sure that the enemy stays within the boundaries of the room.
+     */
     @Test
     public void enemyShouldMoveWithinRoomBoundaries() {
         RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY, 0, ROOM_BOUNDARY);
@@ -37,6 +40,9 @@ public class EnemyTest {
         assertTrue(inBounds);
     }
 
+    /**
+     * A test that makes sure that the enemy position should change after they move.
+     */
     @Test
     public void enemyShouldChangePositionAfterMove() {
         float initialX = enemy.getX();
@@ -47,18 +53,28 @@ public class EnemyTest {
         assertFalse(hasMoved);
     }
 
+    /**
+     * A test to make sure an enemy dies if they take damage equivalent to their max health.
+     */
     @Test
     public void enemyShouldBeDeadAfterLethalDamage() {
         enemy.receiveDamage(MAX_HEALTH);
         assertFalse(enemy.isAlive());
     }
 
+    /**
+     * A test that looks at the health of the enemy after taking non-lethal damage.
+     */
     @Test
     public void enemyHealthShouldDecreaseAfterDamage() {
         enemy.receiveDamage(DAMAGE);
         assertEquals(MAX_HEALTH - DAMAGE, enemy.getCurrentHp());
     }
 
+    /**
+     * This tests to see if the slime enemy will have 1 health after taking as much damage as
+     * possible minus one.
+     */
     @Test
     public void testEnemyDying() {
         Enemy enemyTest = new Enemy(EnemyType.SLIME, 50, 20, 20);
@@ -67,6 +83,9 @@ public class EnemyTest {
         assertEquals(enemyTest.getCurrentHp(), 1);
     }
 
+    /**
+     * A test to make sure the attributes of the different enemies are different.
+     */
     @Test
     public void testEnemyDiffAttributes() {
         EnemyType enemyType1 = EnemyType.SLIME;
@@ -92,6 +111,9 @@ public class EnemyTest {
         assertTrue(enemyType3Res != enemyType4Res && enemyType3Damage != enemyType4Damage);
     }
 
+    /**
+     * This tests all four types of enemies and makes sure no speed is equal.
+     */
     @Test
     public void testEnemyMovementAttribute() {
         EnemyType enemyType1 = EnemyType.SLIME;
@@ -112,6 +134,9 @@ public class EnemyTest {
         assertTrue(enemyType3Speed != enemyType4Speed);
     }
 
+    /**
+     * A test to see whether the enemy does move randomly.
+     */
     @Test
     public void testEnemyRandomMovement() {
         Enemy enemyTest = new Enemy(EnemyType.SLIME, 50, 20, 20);
