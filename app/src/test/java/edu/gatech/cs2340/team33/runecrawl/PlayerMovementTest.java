@@ -145,6 +145,9 @@ public class PlayerMovementTest {
         assertTrue(coordinates[1] <= 200);
     }
 
+    /**
+     * This tests the player movement for the initial room.
+     */
     @Test
     public void testInitialMovementStrategy() {
         RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
@@ -157,7 +160,9 @@ public class PlayerMovementTest {
         coordinates = room.testKeyPress(initialRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
         assertEquals(x + 50, coordinates[0], 0.0);
     }
-
+    /**
+     * This tests the player movement for the second room.
+     */
     @Test
     public void testSecondMovementStrategy() {
         RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
@@ -170,7 +175,9 @@ public class PlayerMovementTest {
         coordinates = room.testKeyPress(secondRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
         assertEquals(x + 40, coordinates[0], 0.0);
     }
-
+    /**
+     * This tests the player movement for the third room.
+     */
     @Test
     public void testThirdMovementStrategy() {
         RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
@@ -183,7 +190,9 @@ public class PlayerMovementTest {
         coordinates = room.testKeyPress(thirdRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
         assertEquals(x + 30, coordinates[0], 0.0);
     }
-
+    /**
+     * This test is for all the different movement strategies across all the rooms.
+     */
     @Test
     public void testMovementStrategies() {
         RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
