@@ -24,6 +24,9 @@ public class PlayerMovementTest {
         Player.initialize("testPlayer", GameDifficulty.EASY, PlayerType.MAGE);
     }
 
+    /**
+     * This tests the left movement command of the player.
+     */
     @Test
     public void testLeft() {
         RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
@@ -35,7 +38,9 @@ public class PlayerMovementTest {
         assertTrue(coordinates[0] < x);
         assertEquals(coordinates[1], y, 0.0);
     }
-
+    /**
+     * This tests the right movement command of the player.
+     */
     @Test
     public void testRight() {
         RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
@@ -47,7 +52,9 @@ public class PlayerMovementTest {
         assertTrue(coordinates[0] > x);
         assertEquals(coordinates[1], y, 0.0);
     }
-
+    /**
+     * This tests the up movement command of the player
+     */
     @Test
     public void testUp() {
         RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
@@ -59,7 +66,9 @@ public class PlayerMovementTest {
         assertEquals(coordinates[0], x, 0.0);
         assertTrue(coordinates[1] < y);
     }
-
+    /**
+     * This tests the down movement command of the player
+     */
     @Test
     public void testDown() {
         RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
@@ -71,7 +80,9 @@ public class PlayerMovementTest {
         assertEquals(coordinates[0], x, 0.0);
         assertTrue(coordinates[1] > y);
     }
-
+    /**
+     * This tests the left wall to make sure the player cannot pass that point.
+     */
     @Test
     public void testLeftWall() {
         RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
@@ -85,7 +96,9 @@ public class PlayerMovementTest {
         assertTrue(coordinates[0] >= 0);
         assertEquals(coordinates[1], y, 0.0);
     }
-
+    /**
+     * This tests the right wall to make sure the player cannot pass that point.
+     */
     @Test
     public void testRightWall() {
         RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
@@ -99,7 +112,9 @@ public class PlayerMovementTest {
         assertTrue(coordinates[0] <= 200);
         assertEquals(coordinates[1], y, 0.0);
     }
-
+    /**
+     * This tests the upper wall to make sure the player cannot pass that point.
+     */
     @Test
     public void testUpperWall() {
         RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
@@ -113,7 +128,9 @@ public class PlayerMovementTest {
         assertEquals(coordinates[0], x, 0.0);
         assertTrue(coordinates[1] >= 0);
     }
-
+    /**
+     * This tests the lower wall to make sure the player cannot pass that point.
+     */
     @Test
     public void testLowerWall() {
         RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
