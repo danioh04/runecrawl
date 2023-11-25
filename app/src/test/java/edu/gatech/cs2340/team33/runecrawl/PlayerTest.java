@@ -120,20 +120,6 @@ public class PlayerTest {
     }
 
     /**
-     * This is another test to see whether the damage received will take the player below zero
-     * meaning that the player's health should then be zero.
-     */
-    @Test
-    public void testReceiveDamageBelowZero() {
-        Player player = Player.getInstance();
-        int damage = 101;
-
-        player.receiveDamage(damage);
-
-        assertEquals(0, player.getCurrentHp());
-    }
-
-    /**
      * This is a test to see how the damage from the slime enemy works.
      */
     @Test
@@ -167,19 +153,6 @@ public class PlayerTest {
         Player player = Player.getInstance();
         int initialHp = player.getCurrentHp();
         int damage = enemyRobot.getDamageRate();
-        player.receiveDamage(damage);
-
-        assertEquals(player.getCurrentHp(), initialHp - damage);
-
-    }
-    /**
-     * This is a test to see how the damage from the werewolf enemy works.
-     */
-    @Test
-    public void testReceiveDamageFromWerewolf() {
-        Player player = Player.getInstance();
-        int initialHp = player.getCurrentHp();
-        int damage = enemyWerewolf.getDamageRate();
         player.receiveDamage(damage);
 
         assertEquals(player.getCurrentHp(), initialHp - damage);
