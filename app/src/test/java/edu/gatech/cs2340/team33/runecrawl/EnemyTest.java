@@ -76,11 +76,52 @@ public class EnemyTest {
      * possible minus one.
      */
     @Test
-    public void testEnemyDying() {
+    public void testEnemyTakingDamage() {
         Enemy enemyTest = new Enemy(EnemyType.SLIME, 50, 20, 20);
         int damage = enemyTest.getCurrentHp() - 1;
         enemyTest.receiveDamage(damage);
         assertEquals(enemyTest.getCurrentHp(), 1);
+    }
+
+    /**
+     * Tests if the slime enemy actually dies.
+     */
+    @Test
+    public void testEnemyDyingSlime() {
+        Enemy enemyTest = new Enemy(EnemyType.SLIME, 50, 20, 20);
+        int damage = enemyTest.getCurrentHp() + 1;
+        enemyTest.receiveDamage(damage);
+        assertFalse(enemyTest.isAlive());
+    }
+    /**
+     * Tests if the orc enemy actually dies.
+     */
+    @Test
+    public void testEnemyDyingOrc() {
+        Enemy enemyTest = new Enemy(EnemyType.ORC, 50, 20, 20);
+        int damage = enemyTest.getCurrentHp() + 1;
+        enemyTest.receiveDamage(damage);
+        assertFalse(enemyTest.isAlive());
+    }
+    /**
+     * Tests if the werewolf enemy actually dies.
+     */
+    @Test
+    public void testEnemyDyingWerewolf() {
+        Enemy enemyTest = new Enemy(EnemyType.WEREWOLF, 50, 20, 20);
+        int damage = enemyTest.getCurrentHp() + 1;
+        enemyTest.receiveDamage(damage);
+        assertFalse(enemyTest.isAlive());
+    }
+    /**
+     * Tests if the robot enemy actually dies.
+     */
+    @Test
+    public void testEnemyDyingRobot() {
+        Enemy enemyTest = new Enemy(EnemyType.ROBOT, 50, 20, 20);
+        int damage = enemyTest.getCurrentHp() + 1;
+        enemyTest.receiveDamage(damage);
+        assertFalse(enemyTest.isAlive());
     }
 
     /**
