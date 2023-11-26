@@ -14,7 +14,9 @@ import edu.gatech.cs2340.team33.runecrawl.Model.GameDifficulty;
 import edu.gatech.cs2340.team33.runecrawl.Model.Leaderboard;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
-
+/**
+ * This class is designed to test the functionality of the leaderboard with test cases.
+ */
 public class LeaderboardTest {
     private Leaderboard leaderboard;
 
