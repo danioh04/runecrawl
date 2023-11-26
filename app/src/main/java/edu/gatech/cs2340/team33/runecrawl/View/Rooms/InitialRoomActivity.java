@@ -97,7 +97,9 @@ public class InitialRoomActivity extends AppCompatActivity
     @Override
     public void playerCollisionOccurred(Enemy enemy) {
         Player player = Player.getInstance();
-        player.receiveDamage(enemy.getType().getDamageRate());
+        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
+                * enemy.getBaseDamageRate());
+        player.receiveDamage(damage);
         hp.setText(String.format("HP: %s", player.getCurrentHp()));
     }
 }
