@@ -15,6 +15,9 @@ import edu.gatech.cs2340.team33.runecrawl.Model.Leaderboard;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
 
+/**
+ * This class is designed to test the functionality of the leaderboard with test cases.
+ */
 public class LeaderboardTest {
     private Leaderboard leaderboard;
 
@@ -24,7 +27,7 @@ public class LeaderboardTest {
     }
 
     /**
-     * A test to see if a null attempt can be added to the leaderboard.
+     * This test makes sure that an exception will be created when a null attempts to be added.
      */
     @Test
     public void testAddNullAttempt() {
@@ -32,7 +35,8 @@ public class LeaderboardTest {
     }
 
     /**
-     * This is a test to see if leaderboard has attempts added correctly.
+     * This test adds attempts to leaderboard and determines if the leaderboard contains the
+     * attempts that were added.
      */
     @Test
     public void testAddAttempts() {
@@ -54,7 +58,7 @@ public class LeaderboardTest {
     }
 
     /**
-     * This is a test to see if the leaderboard is correct.
+     * This test is to make sure that the leaderboard is in the correct oder based on the score.
      */
     @Test
     public void testLeaderboardInOrder() {
@@ -64,7 +68,9 @@ public class LeaderboardTest {
     }
 
     /**
-     * This test is to see if we can add a game attempt to the leaderboard.
+     * This test is to test when we have a full leaderboard and a new player tries to be added and
+     * unless it has a higher score than anything on the leaderboard it should not be on the
+     * leaderboard.
      */
     @Test
     public void testAddAttemptToFullLeaderboard() {
