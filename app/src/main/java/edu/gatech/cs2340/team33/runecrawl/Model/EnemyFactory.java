@@ -14,20 +14,20 @@ public class EnemyFactory {
      */
     public static Enemy createEnemy(EnemyType type) {
         int initialHp = calculateInitialHp(type);
-        int width = calculateWidth(type);
-        int height = calculateHeight(type);
+        int width = getWidth(type);
+        int height = getHeight(type);
         return new Enemy(type, initialHp, width, height);
     }
 
     /**
-     * Calculates the width of an enemy based on its type.
+     * Gets the width of an enemy based on its type.
      * This method uses a switch case to determine the width corresponding to each enemy type.
      *
      * @param type The type of the enemy for which the initial HP is to be calculated.
-     * @return The calculated width of the enemy.
+     * @return The pre-calculated width of the enemy.
      * @throws IllegalArgumentException If the enemy type is unknown.
      */
-    private static int calculateWidth(EnemyType type) {
+    private static int getWidth(EnemyType type) {
         switch (type) {
         case SLIME:
             return 129;
@@ -43,14 +43,14 @@ public class EnemyFactory {
     }
 
     /**
-     * Calculates the height of an enemy based on its type.
+     * Gets the height of an enemy based on its type.
      * This method uses a switch case to determine the width corresponding to each enemy type.
      *
      * @param type The type of the enemy for which the initial HP is to be calculated.
-     * @return The calculated height of the enemy.
+     * @return The pre-calculated height of the enemy.
      * @throws IllegalArgumentException If the enemy type is unknown.
      */
-    private static int calculateHeight(EnemyType type) {
+    private static int getHeight(EnemyType type) {
         switch (type) {
         case SLIME:
             return 88;

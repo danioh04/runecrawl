@@ -263,70 +263,84 @@ public class RoomViewModel extends Activity {
     }
 
     /**
-     * Handles what happens when a key is pressed to move the character.
-     * Implements bounds checking and updates coordinates of the player and its hitbox.
+     * Handles key presses to move the character. Checks boundaries and updates player and
+     * hitbox coordinates. This method reacts to key presses and determines the direction of
+     * movement based on the key code. It uses the provided movement strategy to calculate the speed
+     * and updates the player's position accordingly.
      *
-     * @param movementStrategy The movement strategy specific to a screen's implementation.
-     * @param keyCode          The code of the key that was pressed.
+     * @param movementStrategy The movement strategy for the screen.
+     * @param keyCode          The key code of the pressed key.
      */
     public void onKeyDown(PlayerMovementStrategy movementStrategy, int keyCode) {
-        // Retrieve the class-specific movement strategy's speed
         int movementSpeed = movementStrategy.getMovementSpeed();
 
         switch (keyCode) {
-        // When the LEFT arrow key is pressed
         case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
-            // Check if the player is within the left boundary and above the lower X limit
-            if (playerX - movementSpeed >= 0
-                    && playerX - movementSpeed >= lowerXCoordinateLimit) {
-                // Move the player and the hitbox to the left
-                playerX -= movementSpeed;
-                playerHitboxX -= movementSpeed;
-            }
+            updatePosition(-movementSpeed, 0);
             break;
-
-        // When the RIGHT arrow key is pressed
         case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
-            // Check if the player is within the right boundary and below the upper X limit
-            if (playerX + movementSpeed <= canvas.getWidth() && playerX
-                    + movementSpeed <= upperXCoordinateLimit) {
-                // Move the player and the hitbox to the right
-                playerX += movementSpeed;
-                playerHitboxX += movementSpeed;
-            }
+            updatePosition(movementSpeed, 0);
             break;
-
-        // When the UP arrow key is pressed
         case android.view.KeyEvent.KEYCODE_DPAD_UP:
-            // Check if the player is within the top boundary and above the lower Y limit
-            if (playerY - movementSpeed >= 0 && playerY - movementSpeed >= lowerYCoordinateLimit) {
-                // Move the player and the hitbox upwards
-                playerY -= movementSpeed;
-                playerHitboxY -= movementSpeed;
-            }
+            updatePosition(0, -movementSpeed);
             break;
-
-        // When the DOWN arrow key is pressed
         case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
-            // Check if the player is within the bottom boundary and below the upper Y limit
-            if (playerY + movementSpeed <= canvas.getHeight() && playerY
-                    + movementSpeed <= upperYCoordinateLimit) {
-                // Move the player and the hitbox downwards
-                playerY += movementSpeed;
-                playerHitboxY += movementSpeed;
-            }
+            updatePosition(0, movementSpeed);
             break;
-
         default:
             break;
         }
 
-        canvas.updatePlayerPosition(playerX, playerY);
-        playerRectangle = new RectF(playerHitboxX - characterWidth / 2,
-                playerHitboxY - characterHeight / 2, playerHitboxX + characterWidth / 2,
-                playerHitboxY + characterHeight / 2);
+        updatePlayerAndHitbox();
     }
 
+    /**
+     * Updates the player's position based on the delta values.
+     * This method calculates the new position of the player by adding delta values to the current
+     * coordinates. It checks for boundary conditions before updating to ensure the player remains
+     * within allowed limits.
+     *
+     * @param deltaX The change in the X coordinate.
+     * @param deltaY The change in the Y coordinate.
+     */
+    private void updatePosition(int deltaX, int deltaY) {
+        if (canMove(deltaX, deltaY)) {
+            playerX += deltaX;
+            playerY += deltaY;
+        }
+    }
+
+    /**
+     * Checks if the player can move to a new position.
+     * This method determines if the new position calculated from delta values is within the game's
+     * boundary limits.
+     *
+     * @param deltaX The proposed change in the X coordinate.
+     * @param deltaY The proposed change in the Y coordinate.
+     * @return boolean indicating whether the movement is within boundaries.
+     */
+    private boolean canMove(int deltaX, int deltaY) {
+        return (playerX + deltaX >= lowerXCoordinateLimit && playerX
+                + deltaX <= upperXCoordinateLimit)
+                && (playerY + deltaY >= lowerYCoordinateLimit
+                && playerY + deltaY <= upperYCoordinateLimit);
+    }
+
+    /**
+     * Updates the player's position and hitbox on the canvas.This method updates the canvas with
+     * the new position of the player and recalculates the hitbox based on the new position. It
+     * ensures that the graphical representation of the player and its hitbox are synchronized.
+     */
+    private void updatePlayerAndHitbox() {
+        canvas.updatePlayerPosition(playerX, playerY);
+        playerHitboxX = playerX;
+        playerHitboxY = playerY;
+        playerRectangle = new RectF(playerHitboxX - characterWidth / 2,
+                playerHitboxY - characterHeight / 2,
+                playerHitboxX + characterWidth / 2,
+                playerHitboxY + characterHeight / 2);
+    }
+    
     /**
      * Handles what happens when a collision has occurred
      * between the character and a door.
