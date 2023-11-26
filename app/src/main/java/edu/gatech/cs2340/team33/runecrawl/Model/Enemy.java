@@ -68,6 +68,15 @@ public class Enemy {
     }
 
     /**
+     * Gets the damage rate of the enemy based on its type.
+     *
+     * @return The damage rate of this enemy.
+     */
+    public int getBaseDamageRate() {
+        return this.type.getBaseDamageRate();
+    }
+
+    /**
      * Gets the movement speed of the enemy based on its type.
      *
      * @return The movement speed of this enemy.

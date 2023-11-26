@@ -103,7 +103,8 @@ public class ThirdRoomActivity extends AppCompatActivity implements PlayerObserv
     @Override
     public void playerCollisionOccurred(Enemy enemy) {
         Player player = Player.getInstance();
-        player.receiveDamage(enemy.getType().getDamageRate());
+        player.receiveDamage((int) player.getDifficulty().getEnemyDamageMultiplier()
+                * enemy.getBaseDamageRate());
         hp.setText(String.format("HP: %s", player.getCurrentHp()));
     }
 }
