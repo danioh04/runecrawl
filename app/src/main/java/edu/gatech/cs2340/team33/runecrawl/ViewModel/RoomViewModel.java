@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PointF;
 import android.graphics.RectF;
 import android.widget.TextView;
 
@@ -181,48 +182,73 @@ public class RoomViewModel extends Activity {
 
     /**
      * Generates enemies with random positions within the room and adds them to the canvas.
+     * This method iterates through different enemy types, generates each enemy with a random
+     * position, and adds them to the game environment.
      *
      * @param currentClass The context of the current activity for accessing resources.
      */
     private void generateEnemies(Context currentClass) {
-        // Array of enemy types to generate
         EnemyType[] types = {EnemyType.SLIME, EnemyType.ROBOT, EnemyType.ORC, EnemyType.WEREWOLF};
 
         for (EnemyType type : types) {
-            // Generate random coordinates within the defined limits
-            float randomX = (this.lowerXCoordinateLimit + (float) (Math.random()
-                    * (this.upperXCoordinateLimit - this.lowerXCoordinateLimit)));
-            float randomY = (this.lowerYCoordinateLimit + (float) (Math.random()
-                    * (this.upperYCoordinateLimit - this.lowerYCoordinateLimit)));
-
+            PointF randomPosition = generateRandomPosition();
             Enemy randomEnemy = EnemyFactory.createEnemy(type);
+            Bitmap enemySprite = loadEnemySprite(currentClass, randomEnemy);
 
-            // Load enemy sprite based on type
-            Bitmap enemySprite = BitmapFactory.decodeResource(
-                    currentClass.getResources(), randomEnemy.getType().getSpriteResId());
-
-            float enemyWidth = enemySprite.getWidth();
-            float enemyHeight = enemySprite.getHeight();
-
-            // Set the random coordinates for the enemy
-            randomEnemy.setX(randomX);
-            randomEnemy.setY(randomY);
-
-            // Create the enemy's initial rectangle hitbox
-            RectF enemyRectangle = new RectF(randomX - enemyWidth / 2,
-                    randomY - enemyHeight / 2, randomX + enemyWidth / 2,
-                    randomY + enemyHeight / 2);
-
-            // Add enemy to the canvas
-            canvas.addEnemy(enemySprite, randomX, randomY);
-
-            // Add the enemy to the list
-            enemies.add(randomEnemy);
-            enemyRectangles.add(enemyRectangle);
-
-            // Add the pairing of the enemy and the rectangle to a hashmap for future use
-            enemyMap.put(randomEnemy, enemyRectangle);
+            addEnemyToGame(randomEnemy, randomPosition, enemySprite);
         }
+    }
+
+    /**
+     * Generates a random position within defined coordinate limits.
+     *
+     * @return PointF object containing X and Y coordinates.
+     */
+    private PointF generateRandomPosition() {
+        float randomX = this.lowerXCoordinateLimit + (float) (Math.random()
+                * (this.upperXCoordinateLimit - this.lowerXCoordinateLimit));
+        float randomY = this.lowerYCoordinateLimit + (float) (Math.random()
+                * (this.upperYCoordinateLimit - this.lowerYCoordinateLimit));
+
+        return new PointF(randomX, randomY);
+    }
+
+    /**
+     * Loads the sprite for a given enemy.
+     *
+     * @param currentClass The context used to access resources.
+     * @param enemy        The enemy for which the sprite needs to be loaded.
+     * @return Bitmap of the loaded sprite.
+     */
+    private Bitmap loadEnemySprite(Context currentClass, Enemy enemy) {
+        return BitmapFactory.decodeResource(
+                currentClass.getResources(), enemy.getType().getSpriteResId());
+    }
+
+    /**
+     * Adds an enemy to the game environment.
+     * This method sets the enemy's position, creates its hitbox, and adds the enemy and its sprite
+     * to the canvas and game lists.
+     *
+     * @param enemy    The enemy to add.
+     * @param position The position of the enemy.
+     * @param sprite   The sprite of the enemy.
+     */
+    private void addEnemyToGame(Enemy enemy, PointF position, Bitmap sprite) {
+        float enemyWidth = sprite.getWidth();
+        float enemyHeight = sprite.getHeight();
+
+        enemy.setX(position.x);
+        enemy.setY(position.y);
+
+        RectF enemyRectangle = new RectF(position.x - enemyWidth / 2,
+                position.y - enemyHeight / 2, position.x + enemyWidth / 2,
+                position.y + enemyHeight / 2);
+
+        canvas.addEnemy(sprite, position.x, position.y);
+        enemies.add(enemy);
+        enemyRectangles.add(enemyRectangle);
+        enemyMap.put(enemy, enemyRectangle);
     }
 
     /**
@@ -340,7 +366,7 @@ public class RoomViewModel extends Activity {
                 playerHitboxX + characterWidth / 2,
                 playerHitboxY + characterHeight / 2);
     }
-    
+
     /**
      * Handles what happens when a collision has occurred
      * between the character and a door.
@@ -439,10 +465,12 @@ public class RoomViewModel extends Activity {
     public void moveToEndScreen(Context currentClass) {
         timer.cancel();
 
-        // Add current game attempt to the leaderboard
-        GameAttempt currentAttempt = new GameAttempt(player);
-        Leaderboard.getInstance().addAttempt(currentAttempt);
-
+        // Add current game attempt to the leaderboard if they finished
+        if (player.getCurrentHp() > 0) {
+            GameAttempt currentAttempt = new GameAttempt(player);
+            Leaderboard.getInstance().addAttempt(currentAttempt);
+        }
+        
         // Move on to the end screen
         Intent nextActivity = new Intent(currentClass, EndActivity.class);
         currentClass.startActivity(nextActivity);
