@@ -26,7 +26,8 @@ public class EnemyMovementTest {
     }
 
     /**
-     * This tests to make sure that the enemy stays within the left boundary.
+     * This tests is to determine whether the enemies' random movement will not make it go out of
+     * the left boundary determined by its x position.
      */
     @Test
     public void testLeftBoundary() {
@@ -38,7 +39,8 @@ public class EnemyMovementTest {
     }
 
     /**
-     * This tests to make sure that the enemy stays within the right boundary.
+     * This tests is to determine whether the enemies' random movement will not make it go out of
+     * the right boundary determined by its x position.
      */
     @Test
     public void testRightBoundary() {
@@ -50,7 +52,8 @@ public class EnemyMovementTest {
     }
 
     /**
-     * This tests to make sure that the enemy stays within the upper boundary.
+     * This tests is to determine whether the enemies' random movement will not make it go out of
+     * the upper boundary determined by its y position.
      */
     @Test
     public void testUpperBoundary() {
@@ -62,7 +65,8 @@ public class EnemyMovementTest {
     }
 
     /**
-     * This tests to make sure that the enemy stays within the lower boundary.
+     * This tests is to determine whether the enemies' random movement will not make it go out of
+     * the lower boundary determined by its y position.
      */
     @Test
     public void testLowerBoundary() {
