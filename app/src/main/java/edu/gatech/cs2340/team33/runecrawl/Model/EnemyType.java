@@ -7,9 +7,12 @@ import edu.gatech.cs2340.team33.runecrawl.R;
  * Each enemy type has a unique sprite resource ID and a damage rate.
  */
 public enum EnemyType {
-    SLIME(R.drawable.slime, calculateDamage("SLIME", Player.getInstance().getDifficulty()), 30),
-    ROBOT(R.drawable.robot, calculateDamage("ROBOT", Player.getInstance().getDifficulty()), 40),
-    ORC(R.drawable.orc, calculateDamage("ORC", Player.getInstance().getDifficulty()), 20),
+    SLIME(R.drawable.slime, calculateDamage("SLIME",
+            Player.getInstance().getDifficulty()), 30),
+    ROBOT(R.drawable.robot, calculateDamage("ROBOT",
+            Player.getInstance().getDifficulty()), 40),
+    ORC(R.drawable.orc, calculateDamage("ORC",
+            Player.getInstance().getDifficulty()), 20),
     WEREWOLF(R.drawable.werewolf, calculateDamage("WEREWOLF",
             Player.getInstance().getDifficulty()), 45);
 
