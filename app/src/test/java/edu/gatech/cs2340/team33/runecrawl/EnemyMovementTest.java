@@ -13,7 +13,7 @@ import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
 import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
 /**
- * This class is deisgned to test the functionality of the enemy's movement test.
+ * This class is designed to test the functionality of the enemy's movement test.
  */
 public class EnemyMovementTest {
     private static final int ROOM_BOUNDARY = 200;
