@@ -12,6 +12,8 @@ public class Player {
     private final PlayerType type;
     private int currentHp;
     private int score;
+    private float x;
+    private float y;
 
     /**
      * Constructs a new Player with specified username, difficulty, and type.
@@ -119,13 +121,49 @@ public class Player {
     }
 
     /**
-     * Checks if the player is alive.
-     * A player is considered alive if their HP is greater than 0.
+     * Retrieves the player's X-coordinate.
      *
-     * @return true if player is alive, false otherwise.
+     * @return Player's X-coordinate.
      */
-    public boolean isAlive() {
-        return this.currentHp > 0;
+    public float getX() {
+        return this.x;
+    }
+
+    /**
+     * Sets the player's X-coordinate.
+     *
+     * @param x Player's new X-coordinate.
+     */
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    /**
+     * Retrieves the player's Y-coordinate.
+     *
+     * @return Player's Y-coordinate.
+     */
+    public float getY() {
+        return this.y;
+    }
+
+    /**
+     * Sets the player's Y-coordinate.
+     *
+     * @param y Player's new Y-coordinate.
+     */
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    /**
+     * Checks if the player is dead.
+     * A player is considered dead if their HP is less than 0.
+     *
+     * @return true if player is dead, false otherwise.
+     */
+    public boolean isDead() {
+        return this.currentHp <= 0;
     }
 
     /**

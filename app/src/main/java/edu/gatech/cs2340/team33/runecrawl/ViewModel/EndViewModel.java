@@ -62,7 +62,7 @@ public class EndViewModel extends ViewModel {
     public void updateEndScreen(TextView topMessage, ImageView trophy,
                                 ImageView tombstone, TextView tombstoneName) {
         Player player = Player.getInstance();
-        if (!player.isAlive() || player.getScore() == 0) {
+        if (player.isDead() || player.getScore() == 0) {
             topMessage.setText(GAME_OVER_TEXT);
             topMessage.setTextColor(GAME_OVER_TEXT_COLOR);
             trophy.setVisibility(View.INVISIBLE);
