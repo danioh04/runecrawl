@@ -132,10 +132,10 @@ public class Player {
     /**
      * Sets the player's X-coordinate.
      *
-     * @param playerX Player's new X-coordinate.
+     * @param x Player's new X-coordinate.
      */
-    public void setX(float playerX) {
-        this.x = playerX;
+    public void setX(float x) {
+        this.x = x;
     }
 
     /**
@@ -150,10 +150,10 @@ public class Player {
     /**
      * Sets the player's Y-coordinate.
      *
-     * @param playerY Player's new Y-coordinate.
+     * @param y Player's new Y-coordinate.
      */
-    public void setY(float playerY) {
-        this.y = playerY;
+    public void setY(float y) {
+        this.y = y;
     }
 
     /**
