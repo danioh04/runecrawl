@@ -51,10 +51,6 @@ public class RoomViewModel extends Activity {
     private CanvasView canvas;
     private float characterWidth;
     private float characterHeight;
-    private float playerX;
-    private float playerY;
-    private float playerHitboxX;
-    private float playerHitboxY;
     private RectF playerRectangle;
     private Enemy collidedEnemy;
 
@@ -141,7 +137,7 @@ public class RoomViewModel extends Activity {
                 runOnUiThread(() -> {
                     try {
                         player.decreaseScore();
-                        if (!player.isAlive()) {
+                        if (player.isDead()) {
                             throw new IllegalStateException("player is dead");
                         }
                         score.setText(String.format("Score: %s", player.getScore()));
@@ -262,24 +258,20 @@ public class RoomViewModel extends Activity {
     public void addToCanvas(Context currentClass, ConstraintLayout screenLayout) {
         // Decode the character sprite from the resources based on the player's type
         Bitmap character = BitmapFactory.decodeResource(currentClass.getResources(),
-                Player.getInstance().getType().getSpriteResId());
+                player.getType().getSpriteResId());
 
         // Get the width and height of the character sprite
         characterWidth = character.getWidth();
         characterHeight = character.getHeight();
 
         // Calculate the starting X and Y position of the player on the screen (centered)
-        playerX = (currentClass.getResources().getDisplayMetrics().widthPixels
-                - characterWidth) / 2;
-        playerY = (currentClass.getResources().getDisplayMetrics().heightPixels
-                - characterHeight) / 2;
-
-        // Calculate the center position of the screen for player's hitbox
-        playerHitboxX = (float) currentClass.getResources().getDisplayMetrics().widthPixels / 2;
-        playerHitboxY = (float) currentClass.getResources().getDisplayMetrics().heightPixels / 2;
+        player.setX((currentClass.getResources().getDisplayMetrics().widthPixels
+                - characterWidth) / 2);
+        player.setY((currentClass.getResources().getDisplayMetrics().
+                heightPixels - characterHeight) / 2);
 
         // Create a new canvas view with the character sprite and starting position
-        canvas = new CanvasView(currentClass, character, playerX, playerY);
+        canvas = new CanvasView(currentClass, character, player.getX(), player.getY());
 
         // Call the method to generate and add enemies to the canvas
         generateEnemies(currentClass);
@@ -331,8 +323,8 @@ public class RoomViewModel extends Activity {
      */
     private void updatePosition(int deltaX, int deltaY) {
         if (canMove(deltaX, deltaY)) {
-            playerX += deltaX;
-            playerY += deltaY;
+            player.setX(player.getX() + deltaX);
+            player.setY(player.getY() + deltaY);
         }
     }
 
@@ -346,10 +338,10 @@ public class RoomViewModel extends Activity {
      * @return boolean indicating whether the movement is within boundaries.
      */
     private boolean canMove(int deltaX, int deltaY) {
-        return (playerX + deltaX >= lowerXCoordinateLimit && playerX
+        return (player.getX() + deltaX >= lowerXCoordinateLimit && player.getX()
                 + deltaX <= upperXCoordinateLimit)
-                && (playerY + deltaY >= lowerYCoordinateLimit
-                && playerY + deltaY <= upperYCoordinateLimit);
+                && (player.getY() + deltaY >= lowerYCoordinateLimit
+                && player.getY() + deltaY <= upperYCoordinateLimit);
     }
 
     /**
@@ -358,13 +350,11 @@ public class RoomViewModel extends Activity {
      * ensures that the graphical representation of the player and its hitbox are synchronized.
      */
     private void updatePlayerAndHitbox() {
-        canvas.updatePlayerPosition(playerX, playerY);
-        playerHitboxX = playerX;
-        playerHitboxY = playerY;
-        playerRectangle = new RectF(playerHitboxX - characterWidth / 2,
-                playerHitboxY - characterHeight / 2,
-                playerHitboxX + characterWidth / 2,
-                playerHitboxY + characterHeight / 2);
+        canvas.updatePlayerPosition(player.getX(), player.getY());
+        playerRectangle = new RectF(player.getX() - characterWidth / 2,
+                player.getY() - characterHeight / 2,
+                player.getX() + characterWidth / 2,
+                player.getY() + characterHeight / 2);
     }
 
     /**
@@ -470,7 +460,7 @@ public class RoomViewModel extends Activity {
             GameAttempt currentAttempt = new GameAttempt(player);
             Leaderboard.getInstance().addAttempt(currentAttempt);
         }
-        
+
         // Move on to the end screen
         Intent nextActivity = new Intent(currentClass, EndActivity.class);
         currentClass.startActivity(nextActivity);
@@ -505,30 +495,30 @@ public class RoomViewModel extends Activity {
 
         switch (keyCode) {
         case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
-            if (playerX - movementSpeed >= lowerXCoordinateLimit) {
-                playerX -= movementSpeed;
+            if (player.getX() - movementSpeed >= lowerXCoordinateLimit) {
+                player.setX(player.getX() - movementSpeed);
             }
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
-            if (playerX + movementSpeed + 10 <= upperXCoordinateLimit) {
-                playerX += movementSpeed;
+            if (player.getX() + movementSpeed + 10 <= upperXCoordinateLimit) {
+                player.setX(player.getX() + movementSpeed);
             }
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_UP:
-            if (playerY - movementSpeed >= lowerYCoordinateLimit) {
-                playerY -= movementSpeed;
+            if (player.getY() - movementSpeed >= lowerYCoordinateLimit) {
+                player.setY(player.getY() - movementSpeed);
             }
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
-            if (playerY + movementSpeed + 10 <= upperYCoordinateLimit) {
-                playerY += movementSpeed;
+            if (player.getY() + movementSpeed + 10 <= upperYCoordinateLimit) {
+                player.setY(player.getY() + movementSpeed);
             }
             break;
         default:
             break;
         }
 
-        return new float[]{playerX, playerY};
+        return new float[]{player.getX(), player.getY()};
     }
 
     /**
@@ -538,7 +528,7 @@ public class RoomViewModel extends Activity {
      * @param y The vertical location of the player.
      */
     public void setXY(float x, float y) {
-        playerX = x;
-        playerY = y;
+        player.setX(x);
+        player.setY(y);
     }
 }
