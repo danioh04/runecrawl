@@ -138,6 +138,7 @@ public class EnemyTest {
      */
     @Test
     public void testEnemyDiffAttributes() {
+        Player player = Player.getInstance();
         EnemyType enemyType1 = EnemyType.SLIME;
         EnemyType enemyType2 = EnemyType.ORC;
         EnemyType enemyType3 = EnemyType.ROBOT;
@@ -148,10 +149,10 @@ public class EnemyTest {
         int enemyType3Res = enemyType3.getSpriteResId();
         int enemyType4Res = enemyType4.getSpriteResId();
 
-        int enemyType1Damage = enemyType1.getBaseDamageRate();
-        int enemyType2Damage = enemyType2.getBaseDamageRate();
-        int enemyType3Damage = enemyType3.getBaseDamageRate();
-        int enemyType4Damage = enemyType4.getBaseDamageRate();
+        int enemyType1Damage = (int) (player.getDifficulty().getEnemyDamageMultiplier() * enemy.getBaseDamageRate());
+        int enemyType2Damage = (int) (player.getDifficulty().getEnemyDamageMultiplier() * enemy.getBaseDamageRate());
+        int enemyType3Damage = (int) (player.getDifficulty().getEnemyDamageMultiplier() * enemy.getBaseDamageRate());
+        int enemyType4Damage = (int) (player.getDifficulty().getEnemyDamageMultiplier() * enemy.getBaseDamageRate());
 
         assertTrue(enemyType1Res != enemyType2Res && enemyType1Damage != enemyType2Damage);
         assertTrue(enemyType1Res != enemyType3Res && enemyType1Damage != enemyType3Damage);
