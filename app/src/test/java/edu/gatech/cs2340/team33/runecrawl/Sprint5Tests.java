@@ -215,5 +215,15 @@ public class Sprint5Tests {
         assertEquals(1, enemyTest.getCurrentHp());
     }
 
+    @Test
+    public void testPlayerDrinkPotion() {
+        Player.initialize("testPlayer", Difficulty.HARD, PlayerType.MAGE);
+        Player player = Player.getInstance();
+        BasicPotion potion = new BasicPotion();
+        JumboPotion potion1 = new JumboPotion(potion);
+        int health = player.getCurrentHp() + potion1.getHealthBoost();
+        player.drinkPotion(potion1);
+        assertEquals(health, player.getCurrentHp());
+    }
 
 }
