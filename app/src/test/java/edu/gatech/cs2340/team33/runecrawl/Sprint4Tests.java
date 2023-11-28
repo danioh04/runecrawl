@@ -1,213 +1,223 @@
 package edu.gatech.cs2340.team33.runecrawl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+
+import android.view.KeyEvent;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.Enemy;
-import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.EnemyType;
 import edu.gatech.cs2340.team33.runecrawl.Model.Game.Difficulty;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.MovementStrategy;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerType;
+import edu.gatech.cs2340.team33.runecrawl.Model.RoomStrategies.InitialRoomStrategy;
+import edu.gatech.cs2340.team33.runecrawl.Model.RoomStrategies.SecondRoomStrategy;
+import edu.gatech.cs2340.team33.runecrawl.Model.RoomStrategies.ThirdRoomStrategy;
 import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
-/**
- * This class is designed to test the functionality of the enemy.
- */
 
 public class Sprint4Tests {
-    private static final int MAX_HEALTH = 100;
-    private static final int ROOM_BOUNDARY = 200;
-    private static final int DAMAGE = 20;
-    private Enemy enemy;
-
     @Before
     public void setUp() {
         Player.initialize("testPlayer", Difficulty.EASY, PlayerType.MAGE);
-        enemy = new Enemy(EnemyType.SLIME, MAX_HEALTH, 20, 20);
     }
 
     /**
-     * A test to make sure that the enemy stays within the boundaries of the room.
+     * This tests the left movement command of the player.
      */
     @Test
-    public void enemyShouldMoveWithinRoomBoundaries() {
-        RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY, 0, ROOM_BOUNDARY);
-        enemy.moveRandomly(room);
-        boolean inBounds = enemy.getX() >= room.getLowerXCoordinateLimit() &&
-                enemy.getX() <= room.getUpperXCoordinateLimit() &&
-                enemy.getY() <= room.getUpperYCoordinateLimit() &&
-                enemy.getY() >= room.getLowerYCoordinateLimit();
-        String failureString = String.format("Enemy is out of bounds \nUpper Bound: (%d, %d) " +
-                        "\nLower Bound (0,0)\n Enemy Coordinate: (%f,%f)",
-                ROOM_BOUNDARY, ROOM_BOUNDARY, enemy.getX(), enemy.getY());
-        assertTrue(failureString, inBounds);
+    public void testLeft() {
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
+        MovementStrategy playerMovementStrategy = new InitialRoomStrategy();
+        room.setXY(50, 50);
+        float x = 50;
+        float y = 50;
+        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_LEFT);
+        assertTrue("Player did not Move Left.",coordinates[0] < x);
+        assertEquals(coordinates[1], y, 0.0);
     }
 
     /**
-     * A test that makes sure that the enemy position should change after they move.
+     * This tests the right movement command of the player.
      */
     @Test
-    public void enemyShouldChangePositionAfterMove() {
-        enemy.setY(100);
-        enemy.setX(100);
-        float initialX = enemy.getX();
-        float initialY = enemy.getY();
-        RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY, 0, ROOM_BOUNDARY);
-        enemy.moveRandomly(room);
-        boolean hasMoved = (initialX != enemy.getX()) || (initialY != enemy.getY());
-        assertTrue("Enemy has not Moved.", hasMoved);
+    public void testRight() {
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
+        MovementStrategy playerMovementStrategy = new InitialRoomStrategy();
+        room.setXY(50, 50);
+        float x = 50;
+        float y = 50;
+        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
+        assertTrue("Player did not move Right.",coordinates[0] > x);
+        assertEquals(coordinates[1], y, 0.0);
     }
 
     /**
-     * A test to make sure an enemy dies if they take damage equivalent to their max health.
+     * This tests the up movement command of the player
      */
     @Test
-    public void enemyShouldBeDeadAfterLethalDamage() {
-        enemy.receiveDamage(MAX_HEALTH);
-        assertFalse("Enemy is still alive.", enemy.isAlive());
+    public void testUp() {
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
+        MovementStrategy playerMovementStrategy = new InitialRoomStrategy();
+        room.setXY(50, 50);
+        float x = 50;
+        float y = 50;
+        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_UP);
+        assertEquals(coordinates[0], x, 0.0);
+        assertTrue("Player did not move Up.", coordinates[1] < y);
     }
 
     /**
-     * A test that looks at the health of the enemy after taking non-lethal damage.
+     * This tests the down movement command of the player
      */
     @Test
-    public void enemyHealthShouldDecreaseAfterDamage() {
-        enemy.receiveDamage(DAMAGE);
-        assertEquals(MAX_HEALTH - DAMAGE, enemy.getCurrentHp());
+    public void testDown() {
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
+        MovementStrategy playerMovementStrategy = new InitialRoomStrategy();
+        room.setXY(50, 50);
+        float x = 50;
+        float y = 50;
+        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
+        assertEquals(coordinates[0], x, 0.0);
+        assertTrue("Player did not move down.", coordinates[1] > y);
     }
 
     /**
-     * This tests to see if the slime enemy will have 1 health after taking as much damage as
-     * possible minus one.
+     * This tests the left wall to make sure the player cannot pass that point.
      */
     @Test
-    public void testEnemyTakingDamage() {
-        Enemy enemyTest = new Enemy(EnemyType.SLIME, 50, 20, 20);
-        int damage = enemyTest.getCurrentHp() - 1;
-        enemyTest.receiveDamage(damage);
-        assertEquals(enemyTest.getCurrentHp(), 1);
+    public void testLeftWall() {
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
+        MovementStrategy playerMovementStrategy = new InitialRoomStrategy();
+        room.setXY(50, 50);
+        float y = 50;
+        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_LEFT);
+        for (int i = 0; i < 10; i++) {
+            coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_LEFT);
+        }
+        assertTrue("Player is out of bounds",coordinates[0] >= 0);
+        assertEquals(coordinates[1], y, 0.0);
     }
 
     /**
-     * Tests if the slime enemy actually dies.
+     * This tests the right wall to make sure the player cannot pass that point.
      */
     @Test
-    public void testEnemyDyingSlime() {
-        Enemy enemyTest = new Enemy(EnemyType.SLIME, 50, 20, 20);
-        int damage = enemyTest.getCurrentHp() + 1;
-        enemyTest.receiveDamage(damage);
-        assertFalse("Slime is still Alive.", enemyTest.isAlive());
+    public void testRightWall() {
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
+        MovementStrategy playerMovementStrategy = new InitialRoomStrategy();
+        room.setXY(50, 50);
+        float y = 50;
+        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
+        for (int i = 0; i < 10; i++) {
+            coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
+        }
+        assertTrue("Player is out of bounds",coordinates[0] <= 200);
+        assertEquals(coordinates[1], y, 0.0);
     }
 
     /**
-     * Tests if the orc enemy actually dies.
+     * This tests the upper wall to make sure the player cannot pass that point.
      */
     @Test
-    public void testEnemyDyingOrc() {
-        Enemy enemyTest = new Enemy(EnemyType.ORC, 50, 20, 20);
-        int damage = enemyTest.getCurrentHp() + 1;
-        enemyTest.receiveDamage(damage);
-        assertFalse("Orc is Still Alive.", enemyTest.isAlive());
+    public void testUpperWall() {
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
+        MovementStrategy playerMovementStrategy = new InitialRoomStrategy();
+        room.setXY(50, 50);
+        float x = 50;
+        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_UP);
+        for (int i = 0; i < 10; i++) {
+            coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_UP);
+        }
+        assertEquals(coordinates[0], x, 0.0);
+        assertTrue("Player is out of bounds",coordinates[1] >= 0);
     }
 
     /**
-     * Tests if the werewolf enemy actually dies.
+     * This tests the lower wall to make sure the player cannot pass that point.
      */
     @Test
-    public void testEnemyDyingWerewolf() {
-        Enemy enemyTest = new Enemy(EnemyType.WEREWOLF, 50, 20, 20);
-        int damage = enemyTest.getCurrentHp() + 1;
-        enemyTest.receiveDamage(damage);
-        assertFalse("Werewolf is still alive.", enemyTest.isAlive());
+    public void testLowerWall() {
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
+        MovementStrategy playerMovementStrategy = new InitialRoomStrategy();
+        room.setXY(50, 50);
+        float x = 50;
+        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
+        for (int i = 0; i < 10; i++) {
+            coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
+        }
+        assertEquals(coordinates[0], x, 0.0);
+        assertTrue("Player is out of bounds",coordinates[1] <= 200);
     }
 
     /**
-     * Tests if the robot enemy actually dies.
+     * This tests the player movement for the initial room.
      */
     @Test
-    public void testEnemyDyingRobot() {
-        Enemy enemyTest = new Enemy(EnemyType.ROBOT, 50, 20, 20);
-        int damage = enemyTest.getCurrentHp() + 1;
-        enemyTest.receiveDamage(damage);
-        assertFalse("Robot is still alive.", enemyTest.isAlive());
+    public void testInitialMovementStrategy() {
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
+        MovementStrategy initialRoomStrategy = new InitialRoomStrategy();
+        room.setXY(50, 50);
+        float x = 50;
+        float y = 50;
+        float[] coordinates = room.testKeyPress(initialRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
+        assertEquals(y + 50, coordinates[1], 0.0);
+        coordinates = room.testKeyPress(initialRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
+        assertEquals(x + 50, coordinates[0], 0.0);
     }
 
     /**
-     * A test to make sure the attributes of the different enemies are different.
+     * This tests the player movement for the second room.
      */
     @Test
-    public void testEnemyDiffAttributes() {
-        // Initializing enemy types
-        EnemyType enemyType1 = EnemyType.SLIME;
-        EnemyType enemyType2 = EnemyType.ORC;
-        EnemyType enemyType3 = EnemyType.ROBOT;
-        EnemyType enemyType4 = EnemyType.WEREWOLF;
-
-        // Testing for unique sprite resource IDs
-        assertNotEquals(enemyType1.getSpriteResId(), enemyType2.getSpriteResId());
-        assertNotEquals(enemyType1.getSpriteResId(), enemyType3.getSpriteResId());
-        assertNotEquals(enemyType1.getSpriteResId(), enemyType4.getSpriteResId());
-        assertNotEquals(enemyType2.getSpriteResId(), enemyType3.getSpriteResId());
-        assertNotEquals(enemyType2.getSpriteResId(), enemyType4.getSpriteResId());
-        assertNotEquals(enemyType3.getSpriteResId(), enemyType4.getSpriteResId());
-
-        // Testing for unique base damage rates
-        assertNotEquals(enemyType1.getBaseDamageRate(), enemyType2.getBaseDamageRate());
-        assertNotEquals(enemyType1.getBaseDamageRate(), enemyType3.getBaseDamageRate());
-        assertNotEquals(enemyType1.getBaseDamageRate(), enemyType4.getBaseDamageRate());
-        assertNotEquals(enemyType2.getBaseDamageRate(), enemyType3.getBaseDamageRate());
-        assertNotEquals(enemyType2.getBaseDamageRate(), enemyType4.getBaseDamageRate());
-        assertNotEquals(enemyType3.getBaseDamageRate(), enemyType4.getBaseDamageRate());
-
-        // Testing for unique movement speeds
-        assertNotEquals(enemyType1.getMovementSpeed(), enemyType2.getMovementSpeed());
-        assertNotEquals(enemyType1.getMovementSpeed(), enemyType3.getMovementSpeed());
-        assertNotEquals(enemyType1.getMovementSpeed(), enemyType4.getMovementSpeed());
-        assertNotEquals(enemyType2.getMovementSpeed(), enemyType3.getMovementSpeed());
-        assertNotEquals(enemyType2.getMovementSpeed(), enemyType4.getMovementSpeed());
-        assertNotEquals(enemyType3.getMovementSpeed(), enemyType4.getMovementSpeed());
+    public void testSecondMovementStrategy() {
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
+        MovementStrategy secondRoomStrategy = new SecondRoomStrategy();
+        room.setXY(50, 50);
+        float x = 50;
+        float y = 50;
+        float[] coordinates = room.testKeyPress(secondRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
+        assertEquals(y + 40, coordinates[1], 0.0);
+        coordinates = room.testKeyPress(secondRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
+        assertEquals(x + 40, coordinates[0], 0.0);
     }
 
     /**
-     * This tests all four types of enemies and makes sure no speed is equal.
+     * This tests the player movement for the third room.
      */
     @Test
-    public void testEnemyMovementAttribute() {
-        EnemyType enemyType1 = EnemyType.SLIME;
-        EnemyType enemyType2 = EnemyType.ORC;
-        EnemyType enemyType3 = EnemyType.ROBOT;
-        EnemyType enemyType4 = EnemyType.WEREWOLF;
-
-        int enemyType1Speed = enemyType1.getMovementSpeed();
-        int enemyType2Speed = enemyType2.getMovementSpeed();
-        int enemyType3Speed = enemyType3.getMovementSpeed();
-        int enemyType4Speed = enemyType4.getMovementSpeed();
-
-        assertTrue(enemyType1Speed != enemyType2Speed);
-        assertTrue(enemyType1Speed != enemyType3Speed);
-        assertTrue(enemyType1Speed != enemyType4Speed);
-        assertTrue(enemyType2Speed != enemyType3Speed);
-        assertTrue(enemyType2Speed != enemyType4Speed);
-        assertTrue(enemyType3Speed != enemyType4Speed);
+    public void testThirdMovementStrategy() {
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
+        MovementStrategy thirdRoomStrategy = new ThirdRoomStrategy();
+        room.setXY(50, 50);
+        float x = 50;
+        float y = 50;
+        float[] coordinates = room.testKeyPress(thirdRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
+        assertEquals(y + 30, coordinates[1], 0.0);
+        coordinates = room.testKeyPress(thirdRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
+        assertEquals(x + 30, coordinates[0], 0.0);
     }
 
     /**
-     * A test to see whether the enemy does move randomly.
+     * This test is for all the different movement strategies across all the rooms.
      */
     @Test
-    public void testEnemyRandomMovement() {
-        Enemy enemyTest = new Enemy(EnemyType.SLIME, 50, 20, 20);
-        RoomViewModel roomTest = new RoomViewModel(50, 50, 50, 50);
-        float x = enemyTest.getX();
-        float y = enemyTest.getY();
-        enemyTest.moveRandomly(roomTest);
-        assertTrue("Enemy has not moved.", x != enemyTest.getX() || y != enemyTest.getY());
+    public void testMovementStrategies() {
+        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
+        MovementStrategy initialRoomStrategy = new InitialRoomStrategy();
+        MovementStrategy secondRoomStrategy = new SecondRoomStrategy();
+        MovementStrategy thirdRoomStrategy = new ThirdRoomStrategy();
+        room.setXY(50, 50);
+        float x = 50;
+        float y = 50;
+        float[] coordinates = room.testKeyPress(initialRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
+        assertEquals(y + 50, coordinates[1], 0.0);
+        coordinates = room.testKeyPress(secondRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
+        assertEquals(x + 40, coordinates[0], 0.0);
+        y = coordinates[1];
+        coordinates = room.testKeyPress(thirdRoomStrategy, KeyEvent.KEYCODE_DPAD_UP);
+        assertEquals(y - 30, coordinates[1], 0);
     }
-
 }
-                   

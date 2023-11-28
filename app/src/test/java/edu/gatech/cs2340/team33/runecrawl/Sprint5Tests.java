@@ -1,223 +1,219 @@
 package edu.gatech.cs2340.team33.runecrawl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
-
-import android.view.KeyEvent;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.Enemy;
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.EnemyType;
+import edu.gatech.cs2340.team33.runecrawl.Model.Game.Attempt;
 import edu.gatech.cs2340.team33.runecrawl.Model.Game.Difficulty;
-import edu.gatech.cs2340.team33.runecrawl.Model.Player.MovementStrategy;
+import edu.gatech.cs2340.team33.runecrawl.Model.Game.Leaderboard;
+import edu.gatech.cs2340.team33.runecrawl.Model.Items.BasicPotion;
+import edu.gatech.cs2340.team33.runecrawl.Model.Items.JumboPotion;
+import edu.gatech.cs2340.team33.runecrawl.Model.Items.MediumPotion;
+import edu.gatech.cs2340.team33.runecrawl.Model.Items.PotionDecorator;
+import edu.gatech.cs2340.team33.runecrawl.Model.Items.SmallPotion;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerType;
-import edu.gatech.cs2340.team33.runecrawl.Model.RoomStrategies.InitialRoomStrategy;
-import edu.gatech.cs2340.team33.runecrawl.Model.RoomStrategies.SecondRoomStrategy;
-import edu.gatech.cs2340.team33.runecrawl.Model.RoomStrategies.ThirdRoomStrategy;
 import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
-
+/**
+ * This class is designed to test the functionality of the enemy's movement test.
+ */
 public class Sprint5Tests {
+    private static final int ROOM_BOUNDARY = 200;
+    private Enemy enemyTest;
+    private Leaderboard leaderboard;
+    private BasicPotion basicPotion;
+    private Enemy enemy;
+    private static final int MAX_HEALTH = 100;
+
     @Before
     public void setUp() {
         Player.initialize("testPlayer", Difficulty.EASY, PlayerType.MAGE);
+        enemyTest = new Enemy(EnemyType.ORC, 100, 20, 20);
+        leaderboard = Leaderboard.getInstance();
+        basicPotion = new BasicPotion();
+        enemy = new Enemy(EnemyType.SLIME, MAX_HEALTH, 20, 20);
     }
 
     /**
-     * This tests the left movement command of the player.
+     * This tests is to determine whether the enemies' random movement will not make it go out of
+     * the left boundary determined by its x position.
      */
     @Test
-    public void testLeft() {
-        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
-        MovementStrategy playerMovementStrategy = new InitialRoomStrategy();
-        room.setXY(50, 50);
-        float x = 50;
-        float y = 50;
-        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_LEFT);
-        assertTrue("Player did not Move Left.",coordinates[0] < x);
-        assertEquals(coordinates[1], y, 0.0);
+    public void testLeftBoundary() {
+        RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY,
+                0, ROOM_BOUNDARY);
+        enemyTest.moveRandomly(room);
+        boolean inbounds = enemyTest.getX() >= room.getLowerXCoordinateLimit();
+        assertTrue("Left Boundary: " + room.getLowerXCoordinateLimit() + " Enemy X: "
+                + enemyTest.getX() + "\n", inbounds);
     }
 
     /**
-     * This tests the right movement command of the player.
+     * This tests is to determine whether the enemies' random movement will not make it go out of
+     * the right boundary determined by its x position.
      */
     @Test
-    public void testRight() {
-        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
-        MovementStrategy playerMovementStrategy = new InitialRoomStrategy();
-        room.setXY(50, 50);
-        float x = 50;
-        float y = 50;
-        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
-        assertTrue("Player did not move Right.",coordinates[0] > x);
-        assertEquals(coordinates[1], y, 0.0);
+    public void testRightBoundary() {
+        RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY,
+                0, ROOM_BOUNDARY);
+        enemyTest.moveRandomly(room);
+        boolean inbounds = enemyTest.getX() <= room.getUpperXCoordinateLimit();
+        assertTrue("Right Boundary: " + room.getUpperXCoordinateLimit() + " Enemy X: "
+                + enemyTest.getX() + "\n", inbounds);
     }
 
     /**
-     * This tests the up movement command of the player
+     * This tests is to determine whether the enemies' random movement will not make it go out of
+     * the upper boundary determined by its y position.
      */
     @Test
-    public void testUp() {
-        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
-        MovementStrategy playerMovementStrategy = new InitialRoomStrategy();
-        room.setXY(50, 50);
-        float x = 50;
-        float y = 50;
-        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_UP);
-        assertEquals(coordinates[0], x, 0.0);
-        assertTrue("Player did not move Up.", coordinates[1] < y);
+    public void testUpperBoundary() {
+        RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY,
+                0, ROOM_BOUNDARY);
+        enemyTest.moveRandomly(room);
+        boolean inbounds = enemyTest.getY() <= room.getUpperYCoordinateLimit();
+        assertTrue("Upper Boundary: " + room.getUpperYCoordinateLimit() + " Enemy Y: "
+                + enemyTest.getY() + "\n", inbounds);
     }
 
     /**
-     * This tests the down movement command of the player
+     * This tests is to determine whether the enemies' random movement will not make it go out of
+     * the lower boundary determined by its y position.
      */
     @Test
-    public void testDown() {
-        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
-        MovementStrategy playerMovementStrategy = new InitialRoomStrategy();
-        room.setXY(50, 50);
-        float x = 50;
-        float y = 50;
-        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
-        assertEquals(coordinates[0], x, 0.0);
-        assertTrue("Player did not move down.", coordinates[1] > y);
+    public void testLowerBoundary() {
+        RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY,
+                0, ROOM_BOUNDARY);
+        enemyTest.moveRandomly(room);
+        boolean inbounds = enemyTest.getY() >= room.getLowerYCoordinateLimit();
+        assertTrue("Lower Boundary: " + room.getLowerYCoordinateLimit() + " Enemy Y: "
+                + enemyTest.getY() + "\n", inbounds);
     }
 
     /**
-     * This tests the left wall to make sure the player cannot pass that point.
+     * This test makes sure that an exception will be created when a null attempts to be added.
      */
     @Test
-    public void testLeftWall() {
-        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
-        MovementStrategy playerMovementStrategy = new InitialRoomStrategy();
-        room.setXY(50, 50);
-        float y = 50;
-        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_LEFT);
-        for (int i = 0; i < 10; i++) {
-            coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_LEFT);
+    public void testAddNullAttempt() {
+        assertThrows("Did not throw Exception.", IllegalArgumentException.class, () -> leaderboard.addAttempt(null));
+    }
+
+    /**
+     * This test adds attempts to leaderboard and determines if the leaderboard contains the
+     * attempts that were added.
+     */
+    @Test
+    public void testAddAttempts() {
+        Player.initialize("player1", Difficulty.EASY, PlayerType.MAGE);
+        Player player1 = Player.getInstance();
+        player1.decreaseScore(1);
+        Attempt attempt1 = new Attempt(player1);
+
+        Player.initialize("player2", Difficulty.EASY, PlayerType.MAGE);
+        Player player2 = Player.getInstance();
+        Attempt attempt2 = new Attempt(player2);
+
+        leaderboard.addAttempt(attempt1);
+        leaderboard.addAttempt(attempt2);
+
+        List<Attempt> topAttempts = leaderboard.getTopAttempts();
+
+        assertEquals(2, topAttempts.size());
+    }
+
+    /**
+     * This test is to make sure that the leaderboard is in the correct oder based on the score.
+     */
+    @Test
+    public void testLeaderboardInOrder() {
+        List<Attempt> topAttempts = leaderboard.getTopAttempts();
+        assertEquals("player2", topAttempts.get(0).getUsername());
+        assertEquals("player1", topAttempts.get(1).getUsername());
+    }
+
+    /**
+     * This test is to test when we have a full leaderboard and a new player tries to be added and
+     * unless it has a higher score than anything on the leaderboard it should not be on the
+     * leaderboard.
+     */
+    @Test
+    public void testAddAttemptToFullLeaderboard() {
+        for (int i = 0; i < 5; i++) {
+            Player.initialize("player" + i, Difficulty.EASY, PlayerType.MAGE);
+            Player player = Player.getInstance();
+            Attempt attempt = new Attempt(player);
+            leaderboard.addAttempt(attempt);
         }
-        assertTrue("Player is out of bounds",coordinates[0] >= 0);
-        assertEquals(coordinates[1], y, 0.0);
+
+        Player.initialize("newPlayer", Difficulty.EASY, PlayerType.MAGE);
+        Player newPlayer = Player.getInstance();
+        newPlayer.decreaseScore(1);
+        Attempt newAttempt = new Attempt(newPlayer);
+        leaderboard.addAttempt(newAttempt);
+
+        List<Attempt> topAttempts = leaderboard.getTopAttempts();
+
+        assertEquals(5, topAttempts.size());
+        assertEquals("player0", topAttempts.get(0).getUsername());
+        assertTrue(topAttempts.stream().noneMatch(attempt -> "newPlayer".equals(attempt.getUsername())));
     }
 
     /**
-     * This tests the right wall to make sure the player cannot pass that point.
+     * This is a test to see if applying the jumbo potion effect boosts the
+     * healing effect by 20 points.
      */
     @Test
-    public void testRightWall() {
-        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
-        MovementStrategy playerMovementStrategy = new InitialRoomStrategy();
-        room.setXY(50, 50);
-        float y = 50;
-        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
-        for (int i = 0; i < 10; i++) {
-            coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
-        }
-        assertTrue("Player is out of bounds",coordinates[0] <= 200);
-        assertEquals(coordinates[1], y, 0.0);
+    public void testJumboPotionEffect() {
+        basicPotion = new BasicPotion();
+        JumboPotion jP = new JumboPotion(basicPotion);
+        PotionDecorator decoratorJP = jP;
+
+        assertEquals(basicPotion.getHealthBoost() + 20, decoratorJP.getHealthBoost());
     }
 
     /**
-     * This tests the upper wall to make sure the player cannot pass that point.
+     * This is a test to see if applying the Medium potion effect boosts the
+     * healing effect by 10 points.
      */
     @Test
-    public void testUpperWall() {
-        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
-        MovementStrategy playerMovementStrategy = new InitialRoomStrategy();
-        room.setXY(50, 50);
-        float x = 50;
-        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_UP);
-        for (int i = 0; i < 10; i++) {
-            coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_UP);
-        }
-        assertEquals(coordinates[0], x, 0.0);
-        assertTrue("Player is out of bounds",coordinates[1] >= 0);
+    public void testMediumPotionEffect() {
+        basicPotion = new BasicPotion();
+        MediumPotion mP = new MediumPotion(basicPotion);
+        PotionDecorator decoratorMP = mP;
+
+        assertEquals(basicPotion.getHealthBoost() + 10, decoratorMP.getHealthBoost());
     }
 
     /**
-     * This tests the lower wall to make sure the player cannot pass that point.
+     * This is a test to see if applying the Small potion effect boosts the
+     * healing effect by 5 points.
      */
     @Test
-    public void testLowerWall() {
-        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
-        MovementStrategy playerMovementStrategy = new InitialRoomStrategy();
-        room.setXY(50, 50);
-        float x = 50;
-        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
-        for (int i = 0; i < 10; i++) {
-            coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
-        }
-        assertEquals(coordinates[0], x, 0.0);
-        assertTrue("Player is out of bounds",coordinates[1] <= 200);
+    public void testSmallPotionEffect() {
+        basicPotion = new BasicPotion();
+        SmallPotion sP = new SmallPotion(basicPotion);
+        PotionDecorator decoratorSP = sP;
+
+        assertEquals(basicPotion.getHealthBoost() + 5, decoratorSP.getHealthBoost());
     }
 
-    /**
-     * This tests the player movement for the initial room.
-     */
     @Test
-    public void testInitialMovementStrategy() {
-        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
-        MovementStrategy initialRoomStrategy = new InitialRoomStrategy();
-        room.setXY(50, 50);
-        float x = 50;
-        float y = 50;
-        float[] coordinates = room.testKeyPress(initialRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
-        assertEquals(y + 50, coordinates[1], 0.0);
-        coordinates = room.testKeyPress(initialRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
-        assertEquals(x + 50, coordinates[0], 0.0);
+    public void testSlimeTakingDamage() {
+        Enemy enemyTest = new Enemy(EnemyType.SLIME, 50, 20, 20);
+        int damage = enemyTest.getCurrentHp() -1;
+        enemyTest.receiveDamage(damage);
+        assertEquals(1, enemyTest.getCurrentHp());
     }
 
-    /**
-     * This tests the player movement for the second room.
-     */
-    @Test
-    public void testSecondMovementStrategy() {
-        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
-        MovementStrategy secondRoomStrategy = new SecondRoomStrategy();
-        room.setXY(50, 50);
-        float x = 50;
-        float y = 50;
-        float[] coordinates = room.testKeyPress(secondRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
-        assertEquals(y + 40, coordinates[1], 0.0);
-        coordinates = room.testKeyPress(secondRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
-        assertEquals(x + 40, coordinates[0], 0.0);
-    }
 
-    /**
-     * This tests the player movement for the third room.
-     */
-    @Test
-    public void testThirdMovementStrategy() {
-        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
-        MovementStrategy thirdRoomStrategy = new ThirdRoomStrategy();
-        room.setXY(50, 50);
-        float x = 50;
-        float y = 50;
-        float[] coordinates = room.testKeyPress(thirdRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
-        assertEquals(y + 30, coordinates[1], 0.0);
-        coordinates = room.testKeyPress(thirdRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
-        assertEquals(x + 30, coordinates[0], 0.0);
-    }
-
-    /**
-     * This test is for all the different movement strategies across all the rooms.
-     */
-    @Test
-    public void testMovementStrategies() {
-        RoomViewModel room = new RoomViewModel(0, 200, 0, 200);
-        MovementStrategy initialRoomStrategy = new InitialRoomStrategy();
-        MovementStrategy secondRoomStrategy = new SecondRoomStrategy();
-        MovementStrategy thirdRoomStrategy = new ThirdRoomStrategy();
-        room.setXY(50, 50);
-        float x = 50;
-        float y = 50;
-        float[] coordinates = room.testKeyPress(initialRoomStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
-        assertEquals(y + 50, coordinates[1], 0.0);
-        coordinates = room.testKeyPress(secondRoomStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
-        assertEquals(x + 40, coordinates[0], 0.0);
-        y = coordinates[1];
-        coordinates = room.testKeyPress(thirdRoomStrategy, KeyEvent.KEYCODE_DPAD_UP);
-        assertEquals(y - 30, coordinates[1], 0);
-    }
 }

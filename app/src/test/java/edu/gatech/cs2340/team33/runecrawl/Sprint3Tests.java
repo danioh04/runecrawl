@@ -1,210 +1,213 @@
 package edu.gatech.cs2340.team33.runecrawl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.Enemy;
 import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.EnemyType;
 import edu.gatech.cs2340.team33.runecrawl.Model.Game.Difficulty;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerType;
+import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
 /**
- * This class is designed to test the functionality of the player for specifically whether they take
- * damage and die properly
+ * This class is designed to test the functionality of the enemy.
  */
+
 public class Sprint3Tests {
-    private EnemyType enemySlime;
-    private EnemyType enemyOrc;
-    private EnemyType enemyRobot;
+    private static final int MAX_HEALTH = 100;
+    private static final int ROOM_BOUNDARY = 200;
+    private static final int DAMAGE = 20;
+    private Enemy enemy;
 
     @Before
     public void setUp() {
         Player.initialize("testPlayer", Difficulty.EASY, PlayerType.MAGE);
-        enemySlime = EnemyType.SLIME;
-        enemyOrc = EnemyType.ORC;
-        enemyRobot = EnemyType.ROBOT;
+        enemy = new Enemy(EnemyType.SLIME, MAX_HEALTH, 20, 20);
     }
 
     /**
-     * This is the first test to see if the damage is taken and subtracted properly.
+     * A test to make sure that the enemy stays within the boundaries of the room.
      */
     @Test
-    public void testReceiveDamage() {
-        Player player = Player.getInstance();
-        int initialHp = player.getCurrentHp();
-        int damage = 10;
-
-        player.receiveDamage(damage);
-
-        assertEquals(initialHp - damage, player.getCurrentHp());
+    public void enemyShouldMoveWithinRoomBoundaries() {
+        RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY, 0, ROOM_BOUNDARY);
+        enemy.moveRandomly(room);
+        boolean inBounds = enemy.getX() >= room.getLowerXCoordinateLimit() &&
+                enemy.getX() <= room.getUpperXCoordinateLimit() &&
+                enemy.getY() <= room.getUpperYCoordinateLimit() &&
+                enemy.getY() >= room.getLowerYCoordinateLimit();
+        String failureString = String.format("Enemy is out of bounds \nUpper Bound: (%d, %d) " +
+                        "\nLower Bound (0,0)\n Enemy Coordinate: (%f,%f)",
+                ROOM_BOUNDARY, ROOM_BOUNDARY, enemy.getX(), enemy.getY());
+        assertTrue(failureString, inBounds);
     }
 
     /**
-     * This is a test to see when the damage taken is greater than currentHP which means the
-     * character dies so hp should be zero rather than a negative number.
+     * A test that makes sure that the enemy position should change after they move.
      */
     @Test
-    public void testReceiveDamageExceedsCurrentHp() {
-        Player player = Player.getInstance();
-        int damage = player.getCurrentHp() + 50;
-
-        player.receiveDamage(damage);
-
-        assertEquals(0, player.getCurrentHp());
+    public void enemyShouldChangePositionAfterMove() {
+        enemy.setY(100);
+        enemy.setX(100);
+        float initialX = enemy.getX();
+        float initialY = enemy.getY();
+        RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY, 0, ROOM_BOUNDARY);
+        enemy.moveRandomly(room);
+        boolean hasMoved = (initialX != enemy.getX()) || (initialY != enemy.getY());
+        assertTrue("Enemy has not Moved.", hasMoved);
     }
 
     /**
-     * This checks to see that if when the player gets a negative score, it is an illegal state
-     * as it should never happen.
+     * A test to make sure an enemy dies if they take damage equivalent to their max health.
      */
     @Test
-    public void testDecreaseScoreBelowZero() {
-        Player player = Player.getInstance();
-        int timesToDecreaseScore = player.getScore() + 1;
-        player.decreaseScore(timesToDecreaseScore);
-        assertEquals(player.getScore(), 0);
+    public void enemyShouldBeDeadAfterLethalDamage() {
+        enemy.receiveDamage(MAX_HEALTH);
+        assertFalse("Enemy is still alive.", enemy.isAlive());
     }
 
     /**
-     * This is a test to make sure that an invalid username gives an error and doesn't work.
+     * A test that looks at the health of the enemy after taking non-lethal damage.
      */
     @Test
-    public void testIllegalUsername() {
-        assertThrows(IllegalArgumentException.class, () ->
-                Player.initialize(" ", Difficulty.EASY, PlayerType.MAGE));
+    public void enemyHealthShouldDecreaseAfterDamage() {
+        enemy.receiveDamage(DAMAGE);
+        assertEquals(MAX_HEALTH - DAMAGE, enemy.getCurrentHp());
     }
 
     /**
-     * This is a test to make sure that an invalid difficulty gives an error and doesn't work.
+     * This tests to see if the slime enemy will have 1 health after taking as much damage as
+     * possible minus one.
      */
     @Test
-    public void testIllegalDifficulty() {
-        assertThrows(IllegalArgumentException.class, () ->
-                Player.initialize("testPlayer", null, PlayerType.MAGE));
+    public void testEnemyTakingDamage() {
+        Enemy enemyTest = new Enemy(EnemyType.SLIME, 50, 20, 20);
+        int damage = enemyTest.getCurrentHp() - 1;
+        enemyTest.receiveDamage(damage);
+        assertEquals(enemyTest.getCurrentHp(), 1);
     }
 
     /**
-     * This is a test to make sure that an invalid player type gives an error and doesn't work.
+     * Tests if the slime enemy actually dies.
      */
     @Test
-    public void testIllegalPlayerType() {
-        assertThrows(IllegalArgumentException.class, () ->
-                Player.initialize("testPlayer", Difficulty.EASY, null));
+    public void testEnemyDyingSlime() {
+        Enemy enemyTest = new Enemy(EnemyType.SLIME, 50, 20, 20);
+        int damage = enemyTest.getCurrentHp() + 1;
+        enemyTest.receiveDamage(damage);
+        assertFalse("Slime is still Alive.", enemyTest.isAlive());
     }
 
     /**
-     * This tests to see whether the player instance is not null.
+     * Tests if the orc enemy actually dies.
      */
     @Test
-    public void testNullPlayerInstance() {
-        Player instance = Player.getInstance();
-        assertNotNull(instance);
+    public void testEnemyDyingOrc() {
+        Enemy enemyTest = new Enemy(EnemyType.ORC, 50, 20, 20);
+        int damage = enemyTest.getCurrentHp() + 1;
+        enemyTest.receiveDamage(damage);
+        assertFalse("Orc is Still Alive.", enemyTest.isAlive());
     }
 
     /**
-     * This is a test to see how the damage from the slime enemy works.
+     * Tests if the werewolf enemy actually dies.
      */
     @Test
-    public void testReceiveDamageFromSlime() {
-        Player player = Player.getInstance();
-        int initialHp = player.getCurrentHp();
-        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
-                * enemySlime.getBaseDamageRate());
-        player.receiveDamage(damage);
-        assertEquals(player.getCurrentHp(), initialHp - damage);
-
+    public void testEnemyDyingWerewolf() {
+        Enemy enemyTest = new Enemy(EnemyType.WEREWOLF, 50, 20, 20);
+        int damage = enemyTest.getCurrentHp() + 1;
+        enemyTest.receiveDamage(damage);
+        assertFalse("Werewolf is still alive.", enemyTest.isAlive());
     }
 
     /**
-     * This is a test to see how the damage from the orc enemy works.
+     * Tests if the robot enemy actually dies.
      */
     @Test
-    public void testReceiveDamageFromOrc() {
-        Player player = Player.getInstance();
-        int initialHp = player.getCurrentHp();
-        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
-                * enemyOrc.getBaseDamageRate());
-        player.receiveDamage(damage);
-        assertEquals(player.getCurrentHp(), initialHp - damage);
+    public void testEnemyDyingRobot() {
+        Enemy enemyTest = new Enemy(EnemyType.ROBOT, 50, 20, 20);
+        int damage = enemyTest.getCurrentHp() + 1;
+        enemyTest.receiveDamage(damage);
+        assertFalse("Robot is still alive.", enemyTest.isAlive());
     }
 
     /**
-     * This is a test to see how the damage from the robot enemy works.
+     * A test to make sure the attributes of the different enemies are different.
      */
     @Test
-    public void testReceiveDamageFromRobot() {
-        Player player = Player.getInstance();
-        int initialHp = player.getCurrentHp();
-        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
-                * enemyRobot.getBaseDamageRate());
-        player.receiveDamage(damage);
-        assertEquals(player.getCurrentHp(), initialHp - damage);
+    public void testEnemyDiffAttributes() {
+        // Initializing enemy types
+        EnemyType enemyType1 = EnemyType.SLIME;
+        EnemyType enemyType2 = EnemyType.ORC;
+        EnemyType enemyType3 = EnemyType.ROBOT;
+        EnemyType enemyType4 = EnemyType.WEREWOLF;
 
+        // Testing for unique sprite resource IDs
+        assertNotEquals(enemyType1.getSpriteResId(), enemyType2.getSpriteResId());
+        assertNotEquals(enemyType1.getSpriteResId(), enemyType3.getSpriteResId());
+        assertNotEquals(enemyType1.getSpriteResId(), enemyType4.getSpriteResId());
+        assertNotEquals(enemyType2.getSpriteResId(), enemyType3.getSpriteResId());
+        assertNotEquals(enemyType2.getSpriteResId(), enemyType4.getSpriteResId());
+        assertNotEquals(enemyType3.getSpriteResId(), enemyType4.getSpriteResId());
+
+        // Testing for unique base damage rates
+        assertNotEquals(enemyType1.getBaseDamageRate(), enemyType2.getBaseDamageRate());
+        assertNotEquals(enemyType1.getBaseDamageRate(), enemyType3.getBaseDamageRate());
+        assertNotEquals(enemyType1.getBaseDamageRate(), enemyType4.getBaseDamageRate());
+        assertNotEquals(enemyType2.getBaseDamageRate(), enemyType3.getBaseDamageRate());
+        assertNotEquals(enemyType2.getBaseDamageRate(), enemyType4.getBaseDamageRate());
+        assertNotEquals(enemyType3.getBaseDamageRate(), enemyType4.getBaseDamageRate());
+
+        // Testing for unique movement speeds
+        assertNotEquals(enemyType1.getMovementSpeed(), enemyType2.getMovementSpeed());
+        assertNotEquals(enemyType1.getMovementSpeed(), enemyType3.getMovementSpeed());
+        assertNotEquals(enemyType1.getMovementSpeed(), enemyType4.getMovementSpeed());
+        assertNotEquals(enemyType2.getMovementSpeed(), enemyType3.getMovementSpeed());
+        assertNotEquals(enemyType2.getMovementSpeed(), enemyType4.getMovementSpeed());
+        assertNotEquals(enemyType3.getMovementSpeed(), enemyType4.getMovementSpeed());
     }
 
     /**
-     * This is a test to see how the damage from the werewolf enemy works.
+     * This tests all four types of enemies and makes sure no speed is equal.
      */
     @Test
-    public void testReceiveDamageFromWerewolf() {
-        Player player = Player.getInstance();
-        int initialHp = player.getCurrentHp();
-        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
-                * enemyOrc.getBaseDamageRate());
-        player.receiveDamage(damage);
-        assertEquals(player.getCurrentHp(), initialHp - damage);
+    public void testEnemyMovementAttribute() {
+        EnemyType enemyType1 = EnemyType.SLIME;
+        EnemyType enemyType2 = EnemyType.ORC;
+        EnemyType enemyType3 = EnemyType.ROBOT;
+        EnemyType enemyType4 = EnemyType.WEREWOLF;
+
+        int enemyType1Speed = enemyType1.getMovementSpeed();
+        int enemyType2Speed = enemyType2.getMovementSpeed();
+        int enemyType3Speed = enemyType3.getMovementSpeed();
+        int enemyType4Speed = enemyType4.getMovementSpeed();
+
+        assertTrue(enemyType1Speed != enemyType2Speed);
+        assertTrue(enemyType1Speed != enemyType3Speed);
+        assertTrue(enemyType1Speed != enemyType4Speed);
+        assertTrue(enemyType2Speed != enemyType3Speed);
+        assertTrue(enemyType2Speed != enemyType4Speed);
+        assertTrue(enemyType3Speed != enemyType4Speed);
     }
 
     /**
-     * Checks that player's score decreases after collision with enemy
+     * A test to see whether the enemy does move randomly.
      */
     @Test
-    public void testDecreaseScore() {
-        Player player = Player.getInstance();
-        int score = player.getScore();
-        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
-                * EnemyType.ORC.getBaseDamageRate());
-        player.decreaseScore(damage);
-        assertEquals(score - damage, player.getScore());
+    public void testEnemyRandomMovement() {
+        Enemy enemyTest = new Enemy(EnemyType.SLIME, 50, 20, 20);
+        RoomViewModel roomTest = new RoomViewModel(50, 50, 50, 50);
+        float x = enemyTest.getX();
+        float y = enemyTest.getY();
+        enemyTest.moveRandomly(roomTest);
+        assertTrue("Enemy has not moved.", x != enemyTest.getX() || y != enemyTest.getY());
     }
-
-    /**
-     * Checks that player's score is zero after multiple collision with enemy
-     */
-    @Test
-    public void testZeroScoreAfterAttack() {
-        Player.initialize("testPlayer", Difficulty.HARD, PlayerType.MAGE);
-        Player player = Player.getInstance();
-        int score = player.getScore();
-        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
-                * EnemyType.WEREWOLF.getBaseDamageRate());
-        int multi = (score / damage) + 1;
-        damage = damage * multi;
-        player.decreaseScore(damage);
-        assertEquals(0, player.getScore());
-
-    }
-
-    /**
-     * ُTests if player receives damage after score is zero
-     */
-    @Test
-    public void testPlayerRecieveDamageAfterZeroScore() {
-        Player.initialize("testPlayer", Difficulty.HARD, PlayerType.MAGE);
-        Player player = Player.getInstance();
-        int score = player.getScore();
-        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
-                * EnemyType.WEREWOLF.getBaseDamageRate());
-        int multi = (score / damage) + 1;
-        damage = damage * multi;
-        player.decreaseScore(damage + 10);
-        assertEquals(0, player.getScore());
-    }
-
 
 }
+                   
