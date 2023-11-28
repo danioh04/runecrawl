@@ -181,10 +181,11 @@ public class PlayerTest {
         int multi = (score / damage) + 1;
         damage = damage * multi;
         player.decreaseScore(damage);
-        int newScore = player.getScore();
-        assertEquals(0, newScore);
+        int newscore = player.getScore();
+        assertEquals(0, newscore);
 
     }
+
 
 
 }
