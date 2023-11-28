@@ -1,11 +1,11 @@
-package edu.gatech.cs2340.team33.runecrawl.Model.Strategies;
+package edu.gatech.cs2340.team33.runecrawl.Model.RoomStrategies;
 
-import edu.gatech.cs2340.team33.runecrawl.Model.PlayerMovementStrategy;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.MovementStrategy;
 
 /**
  * Represents the third room's specific implementation of a movement strategy.
  */
-public class ThirdRoomStrategy implements PlayerMovementStrategy {
+public class ThirdRoomStrategy implements MovementStrategy {
     /**
      * The specific implementation of a movement strategy's movement speed.
      */

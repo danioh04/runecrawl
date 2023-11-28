@@ -18,22 +18,22 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import edu.gatech.cs2340.team33.runecrawl.Model.Enemy;
-import edu.gatech.cs2340.team33.runecrawl.Model.EnemyFactory;
-import edu.gatech.cs2340.team33.runecrawl.Model.EnemyObserver;
-import edu.gatech.cs2340.team33.runecrawl.Model.EnemyType;
-import edu.gatech.cs2340.team33.runecrawl.Model.GameAttempt;
-import edu.gatech.cs2340.team33.runecrawl.Model.Leaderboard;
-import edu.gatech.cs2340.team33.runecrawl.Model.Player;
-import edu.gatech.cs2340.team33.runecrawl.Model.PlayerMovementStrategy;
-import edu.gatech.cs2340.team33.runecrawl.Model.PlayerObserver;
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.Enemy;
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.EnemyFactory;
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.EnemyObserver;
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.EnemyType;
+import edu.gatech.cs2340.team33.runecrawl.Model.Game.Attempt;
+import edu.gatech.cs2340.team33.runecrawl.Model.Game.Leaderboard;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.MovementStrategy;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerObserver;
 import edu.gatech.cs2340.team33.runecrawl.View.CanvasView;
 import edu.gatech.cs2340.team33.runecrawl.View.EndActivity;
 
 /**
  * Room is a ViewModel class that is the skeleton for all room activity classes.
  * It handles the logic related to properly setting all UI components,
- * decrementing the timer, going to the next screen or the end screen,
+ * generating enemies, going to the next screen or the end screen,
  * coordinate changes when a key is pressed, and collision logic.
  */
 public class RoomViewModel extends Activity {
@@ -114,41 +114,18 @@ public class RoomViewModel extends Activity {
     /**
      * Displays the player's attributes on the screen.
      *
-     * @param playerName The player's name.
-     * @param difficulty The game difficulty.
-     * @param hp         The player's HP.
+     * @param playerName The text view for the player's name.
+     * @param difficulty The text view for the game difficulty.
+     * @param hp         The text view for the player's HP.
+     * @param score      The text view for the player's score.
      */
-    public void populateUIComponents(TextView playerName, TextView difficulty, TextView hp) {
+    public void populateUIComponents(TextView playerName, TextView difficulty, TextView hp,
+                                     TextView score) {
         // Populate UI components with player details
         playerName.setText(String.format("Name: %s", player.getUsername()));
         difficulty.setText(String.format("Difficulty: %s", player.getDifficulty()));
         hp.setText(String.format("HP: %s", player.getCurrentHp()));
-    }
-
-    /**
-     * Decrements the score every half a second.
-     *
-     * @param currentClass The screen the game is currently on.
-     * @param score        The current score.
-     */
-    public void startScoreDecrementTimer(Context currentClass, TextView score) {
-        timer.scheduleAtFixedRate(new TimerTask() {
-            public void run() {
-                runOnUiThread(() -> {
-                    try {
-                        player.decreaseScore();
-                        if (player.isDead()) {
-                            throw new IllegalStateException("player is dead");
-                        }
-                        score.setText(String.format("Score: %s", player.getScore()));
-                    } catch (IllegalStateException e) {
-                        // If an exception is caught, stop the timer and move to the end screen
-                        timer.cancel();
-                        moveToEndScreen(currentClass);
-                    }
-                });
-            }
-        }, 0, 500);
+        score.setText(String.format("Score: %s", player.getScore()));
     }
 
     /**
@@ -289,7 +266,7 @@ public class RoomViewModel extends Activity {
      * @param movementStrategy The movement strategy for the screen.
      * @param keyCode          The key code of the pressed key.
      */
-    public void onKeyDown(PlayerMovementStrategy movementStrategy, int keyCode) {
+    public void onKeyDown(MovementStrategy movementStrategy, int keyCode) {
         int movementSpeed = movementStrategy.getMovementSpeed();
 
         switch (keyCode) {
@@ -457,7 +434,7 @@ public class RoomViewModel extends Activity {
 
         // Add current game attempt to the leaderboard if they finished
         if (player.getCurrentHp() > 0) {
-            GameAttempt currentAttempt = new GameAttempt(player);
+            Attempt currentAttempt = new Attempt(player);
             Leaderboard.getInstance().addAttempt(currentAttempt);
         }
 
@@ -489,7 +466,7 @@ public class RoomViewModel extends Activity {
      * @param keyCode          The code of the key that was pressed.
      * @return An array of floats representing the player's updated coordinates in the format.
      */
-    public float[] testKeyPress(PlayerMovementStrategy movementStrategy, int keyCode) {
+    public float[] testKeyPress(MovementStrategy movementStrategy, int keyCode) {
         // Retrieve the class-specific movement strategy's speed
         int movementSpeed = movementStrategy.getMovementSpeed();
 

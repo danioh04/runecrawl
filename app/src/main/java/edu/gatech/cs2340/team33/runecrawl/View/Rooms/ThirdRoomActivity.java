@@ -7,12 +7,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import edu.gatech.cs2340.team33.runecrawl.Model.Enemy;
-import edu.gatech.cs2340.team33.runecrawl.Model.EnemyObserver;
-import edu.gatech.cs2340.team33.runecrawl.Model.Player;
-import edu.gatech.cs2340.team33.runecrawl.Model.PlayerMovementStrategy;
-import edu.gatech.cs2340.team33.runecrawl.Model.PlayerObserver;
-import edu.gatech.cs2340.team33.runecrawl.Model.Strategies.ThirdRoomStrategy;
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.Enemy;
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.EnemyObserver;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.MovementStrategy;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerObserver;
+import edu.gatech.cs2340.team33.runecrawl.Model.RoomStrategies.ThirdRoomStrategy;
 import edu.gatech.cs2340.team33.runecrawl.R;
 import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
@@ -22,9 +22,10 @@ import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
  * and the other leading to the end.
  */
 public class ThirdRoomActivity extends AppCompatActivity implements PlayerObserver, EnemyObserver {
-    private final PlayerMovementStrategy movementStrategy = new ThirdRoomStrategy();
+    private final MovementStrategy movementStrategy = new ThirdRoomStrategy();
     private final RoomViewModel room = new RoomViewModel(24, 905, 16, 1855);
     private TextView hp;
+    private TextView score;
 
     /**
      * Initializes the game activity screen.
@@ -42,14 +43,11 @@ public class ThirdRoomActivity extends AppCompatActivity implements PlayerObserv
         TextView playerName = findViewById(R.id.playerName);
         TextView difficulty = findViewById(R.id.difficulty);
         hp = findViewById(R.id.hitpoints);
-        TextView score = findViewById(R.id.score);
+        score = findViewById(R.id.score);
         ConstraintLayout screenLayout = findViewById(R.id.room3);
 
         // Populate UI components with player details
-        room.populateUIComponents(playerName, difficulty, hp);
-
-        // Start decrementing the timer
-        room.startScoreDecrementTimer(ThirdRoomActivity.this, score);
+        room.populateUIComponents(playerName, difficulty, hp, score);
 
         // Start enemy movement
         room.startEnemyMovement();
@@ -103,8 +101,11 @@ public class ThirdRoomActivity extends AppCompatActivity implements PlayerObserv
     @Override
     public void playerCollisionOccurred(Enemy enemy) {
         Player player = Player.getInstance();
-        player.receiveDamage((int) player.getDifficulty().getEnemyDamageMultiplier()
+        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
                 * enemy.getBaseDamageRate());
+        player.receiveDamage(damage);
+        player.decreaseScore(damage);
         hp.setText(String.format("HP: %s", player.getCurrentHp()));
+        score.setText(String.format("Score: %s", player.getScore()));
     }
 }

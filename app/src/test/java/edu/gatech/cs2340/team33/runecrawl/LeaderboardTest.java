@@ -9,11 +9,11 @@ import org.junit.Test;
 
 import java.util.List;
 
-import edu.gatech.cs2340.team33.runecrawl.Model.GameAttempt;
-import edu.gatech.cs2340.team33.runecrawl.Model.GameDifficulty;
-import edu.gatech.cs2340.team33.runecrawl.Model.Leaderboard;
-import edu.gatech.cs2340.team33.runecrawl.Model.Player;
-import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
+import edu.gatech.cs2340.team33.runecrawl.Model.Game.Attempt;
+import edu.gatech.cs2340.team33.runecrawl.Model.Game.Difficulty;
+import edu.gatech.cs2340.team33.runecrawl.Model.Game.Leaderboard;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerType;
 
 /**
  * This class is designed to test the functionality of the leaderboard with test cases.
@@ -40,19 +40,19 @@ public class LeaderboardTest {
      */
     @Test
     public void testAddAttempts() {
-        Player.initialize("player1", GameDifficulty.EASY, PlayerType.MAGE);
+        Player.initialize("player1", Difficulty.EASY, PlayerType.MAGE);
         Player player1 = Player.getInstance();
-        player1.decreaseScore();
-        GameAttempt attempt1 = new GameAttempt(player1);
+        player1.decreaseScore(1);
+        Attempt attempt1 = new Attempt(player1);
 
-        Player.initialize("player2", GameDifficulty.EASY, PlayerType.MAGE);
+        Player.initialize("player2", Difficulty.EASY, PlayerType.MAGE);
         Player player2 = Player.getInstance();
-        GameAttempt attempt2 = new GameAttempt(player2);
+        Attempt attempt2 = new Attempt(player2);
 
         leaderboard.addAttempt(attempt1);
         leaderboard.addAttempt(attempt2);
 
-        List<GameAttempt> topAttempts = leaderboard.getTopAttempts();
+        List<Attempt> topAttempts = leaderboard.getTopAttempts();
 
         assertEquals(2, topAttempts.size());
     }
@@ -62,7 +62,7 @@ public class LeaderboardTest {
      */
     @Test
     public void testLeaderboardInOrder() {
-        List<GameAttempt> topAttempts = leaderboard.getTopAttempts();
+        List<Attempt> topAttempts = leaderboard.getTopAttempts();
         assertEquals("player2", topAttempts.get(0).getUsername());
         assertEquals("player1", topAttempts.get(1).getUsername());
     }
@@ -75,19 +75,19 @@ public class LeaderboardTest {
     @Test
     public void testAddAttemptToFullLeaderboard() {
         for (int i = 0; i < 5; i++) {
-            Player.initialize("player" + i, GameDifficulty.EASY, PlayerType.MAGE);
+            Player.initialize("player" + i, Difficulty.EASY, PlayerType.MAGE);
             Player player = Player.getInstance();
-            GameAttempt attempt = new GameAttempt(player);
+            Attempt attempt = new Attempt(player);
             leaderboard.addAttempt(attempt);
         }
 
-        Player.initialize("newPlayer", GameDifficulty.EASY, PlayerType.MAGE);
+        Player.initialize("newPlayer", Difficulty.EASY, PlayerType.MAGE);
         Player newPlayer = Player.getInstance();
-        newPlayer.decreaseScore();
-        GameAttempt newAttempt = new GameAttempt(newPlayer);
+        newPlayer.decreaseScore(1);
+        Attempt newAttempt = new Attempt(newPlayer);
         leaderboard.addAttempt(newAttempt);
 
-        List<GameAttempt> topAttempts = leaderboard.getTopAttempts();
+        List<Attempt> topAttempts = leaderboard.getTopAttempts();
 
         assertEquals(5, topAttempts.size());
         assertEquals("player0", topAttempts.get(0).getUsername());
