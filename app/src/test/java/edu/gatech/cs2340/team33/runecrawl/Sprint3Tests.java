@@ -8,18 +8,16 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.Enemy;
 import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.EnemyType;
 import edu.gatech.cs2340.team33.runecrawl.Model.Game.Difficulty;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerType;
-import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
 /**
  * This class is designed to test the functionality of the player for specifically whether they take
  * damage and die properly
  */
-public class PlayerTest {
+public class Sprint3Tests {
     private EnemyType enemySlime;
     private EnemyType enemyOrc;
     private EnemyType enemyRobot;

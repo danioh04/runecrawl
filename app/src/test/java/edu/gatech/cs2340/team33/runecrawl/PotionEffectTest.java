@@ -39,7 +39,7 @@ public class PotionEffectTest {
     public void testJumboPotionEffect() {
         basicPotion = new BasicPotion();
         JumboPotion jP = new JumboPotion(basicPotion);
-        PotionDecorator decoratorJP = JP;
+        PotionDecorator decoratorJP = jP;
 
         assertEquals(basicPotion.getHealthBoost() + 20, decoratorJP.getHealthBoost());
     }
@@ -52,7 +52,7 @@ public class PotionEffectTest {
     public void testMediumPotionEffect() {
         basicPotion = new BasicPotion();
         MediumPotion mP = new MediumPotion(basicPotion);
-        PotionDecorator decoratorMP = MP;
+        PotionDecorator decoratorMP = mP;
 
         assertEquals(basicPotion.getHealthBoost() + 10, decoratorMP.getHealthBoost());
     }
@@ -65,7 +65,7 @@ public class PotionEffectTest {
     public void testSmallPotionEffect() {
         basicPotion = new BasicPotion();
         SmallPotion sP = new SmallPotion(basicPotion);
-        PotionDecorator decoratorSP = SP;
+        PotionDecorator decoratorSP = sP;
 
         assertEquals(basicPotion.getHealthBoost() + 5, decoratorSP.getHealthBoost());
     }

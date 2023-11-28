@@ -19,7 +19,7 @@ import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
  * This class is designed to test the functionality of the enemy.
  */
 
-public class EnemyTest {
+public class Sprint4Tests {
     private static final int MAX_HEALTH = 100;
     private static final int ROOM_BOUNDARY = 200;
     private static final int DAMAGE = 20;
