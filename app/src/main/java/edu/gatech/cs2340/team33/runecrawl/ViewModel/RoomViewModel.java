@@ -50,7 +50,7 @@ public class RoomViewModel extends Activity {
     private final float lowerYCoordinateLimit;
     private final float upperYCoordinateLimit;
     private final Map<Enemy, RectF> enemyMap = new HashMap<>();
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
     private Bitmap character;
     private CanvasView canvas;
     private float characterWidth;
