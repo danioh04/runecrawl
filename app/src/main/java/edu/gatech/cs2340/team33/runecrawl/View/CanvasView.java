@@ -15,14 +15,13 @@ import java.util.List;
  */
 @SuppressLint("ViewConstructor")
 public class CanvasView extends View {
-    private final Bitmap character;
     private final List<Bitmap> enemySprites;
     private final List<Float> enemyX;
     private final List<Float> enemyY;
+    private Bitmap character;
     private final List<Bitmap> potionSprites;
     private final List<Float> potionX;
     private final List<Float> potionY;
-
     private float playerX;
     private float playerY;
 
@@ -103,6 +102,16 @@ public class CanvasView extends View {
     public void updateEnemyPosition(int enemyIndex, float newX, float newY) {
         enemyX.set(enemyIndex, newX);
         enemyY.set(enemyIndex, newY);
+        invalidate();
+    }
+
+    /**
+     * Updates the sprite of the character.
+     *
+     * @param newSprite The new character sprite.
+     */
+    public void updateSprite(Bitmap newSprite) {
+        character = newSprite;
         invalidate();
     }
 

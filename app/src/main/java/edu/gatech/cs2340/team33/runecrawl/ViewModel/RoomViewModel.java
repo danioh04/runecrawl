@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.os.Handler;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -32,6 +33,7 @@ import edu.gatech.cs2340.team33.runecrawl.Model.Items.SmallPotion;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.MovementStrategy;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerObserver;
+import edu.gatech.cs2340.team33.runecrawl.R;
 import edu.gatech.cs2340.team33.runecrawl.View.CanvasView;
 import edu.gatech.cs2340.team33.runecrawl.View.EndActivity;
 
@@ -53,6 +55,8 @@ public class RoomViewModel extends Activity {
     private final float lowerYCoordinateLimit;
     private final float upperYCoordinateLimit;
     private final Map<Enemy, RectF> enemyMap = new HashMap<>();
+    private final Handler handler = new Handler();
+    private Bitmap character;
     private final List<RectF> potionRectangles;
     private final Map<Potion, RectF> potionMap = new HashMap<>();
     private CanvasView canvas;
@@ -60,6 +64,7 @@ public class RoomViewModel extends Activity {
     private float characterHeight;
     private RectF playerRectangle;
     private Enemy collidedEnemy;
+    private boolean facingRight = true;
 
 
     /**
@@ -274,7 +279,7 @@ public class RoomViewModel extends Activity {
      */
     public void addToCanvas(Context currentClass, ConstraintLayout screenLayout) {
         // Decode the character sprite from the resources based on the player's type
-        Bitmap character = BitmapFactory.decodeResource(currentClass.getResources(),
+        character = BitmapFactory.decodeResource(currentClass.getResources(),
                 player.getType().getSpriteResId());
 
         // Get the width and height of the character sprite
@@ -306,17 +311,121 @@ public class RoomViewModel extends Activity {
      * movement based on the key code. It uses the provided movement strategy to calculate the speed
      * and updates the player's position accordingly.
      *
+     * @param currentClass     The context of the current activity for resource access.
      * @param movementStrategy The movement strategy for the screen.
      * @param keyCode          The key code of the pressed key.
      */
-    public void onKeyDown(MovementStrategy movementStrategy, int keyCode) {
+    public void onKeyDown(Context currentClass, MovementStrategy movementStrategy, int keyCode) {
         int movementSpeed = movementStrategy.getMovementSpeed();
 
         switch (keyCode) {
+        case android.view.KeyEvent.KEYCODE_SPACE:
+            switch (player.getType()) {
+            case MAGE:
+                if (facingRight) {
+                    character = BitmapFactory.decodeResource(currentClass.getResources(),
+                            R.drawable.right_attacking_mage);
+                } else {
+                    character = BitmapFactory.decodeResource(currentClass.getResources(),
+                            R.drawable.left_attacking_mage);
+                }
+
+                handler.postDelayed(() -> runOnUiThread(() -> {
+                    if (facingRight) {
+                        character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                R.drawable.right_still_mage);
+                    } else {
+                        character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                R.drawable.left_still_mage);
+                    }
+                    canvas.updateSprite(character);
+                }), 500);
+
+                break;
+            case WARRIOR:
+                if (facingRight) {
+                    character = BitmapFactory.decodeResource(currentClass.getResources(),
+                            R.drawable.right_attacking_warrior);
+                } else {
+                    character = BitmapFactory.decodeResource(currentClass.getResources(),
+                            R.drawable.left_attacking_warrior);
+                }
+
+                handler.postDelayed(() -> runOnUiThread(() -> {
+                    if (facingRight) {
+                        character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                R.drawable.right_still_warrior);
+                    } else {
+                        character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                R.drawable.left_still_warrior);
+                    }
+                    canvas.updateSprite(character);
+                }), 500);
+
+                break;
+            case ARCHER:
+                if (facingRight) {
+                    character = BitmapFactory.decodeResource(currentClass.getResources(),
+                            R.drawable.right_attacking_archer);
+                } else {
+                    character = BitmapFactory.decodeResource(currentClass.getResources(),
+                            R.drawable.left_attacking_archer);
+                }
+
+                handler.postDelayed(() -> runOnUiThread(() -> {
+                    if (facingRight) {
+                        character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                R.drawable.right_still_archer);
+                    } else {
+                        character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                R.drawable.left_still_archer);
+                    }
+                    canvas.updateSprite(character);
+                }), 500);
+
+                break;
+            default:
+                break;
+            }
+            break;
         case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
+            switch (player.getType()) {
+            case MAGE:
+                character = BitmapFactory.decodeResource(currentClass.getResources(),
+                        R.drawable.left_still_mage);
+                break;
+            case WARRIOR:
+                character = BitmapFactory.decodeResource(currentClass.getResources(),
+                        R.drawable.left_still_warrior);
+                break;
+            case ARCHER:
+                character = BitmapFactory.decodeResource(currentClass.getResources(),
+                        R.drawable.left_still_archer);
+                break;
+            default:
+                break;
+            }
+            facingRight = false;
             updatePosition(-movementSpeed, 0);
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
+            switch (player.getType()) {
+            case MAGE:
+                character = BitmapFactory.decodeResource(currentClass.getResources(),
+                        R.drawable.right_still_mage);
+                break;
+            case WARRIOR:
+                character = BitmapFactory.decodeResource(currentClass.getResources(),
+                        R.drawable.right_still_warrior);
+                break;
+            case ARCHER:
+                character = BitmapFactory.decodeResource(currentClass.getResources(),
+                        R.drawable.right_still_archer);
+                break;
+            default:
+                break;
+            }
+            facingRight = true;
             updatePosition(movementSpeed, 0);
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_UP:
@@ -329,6 +438,7 @@ public class RoomViewModel extends Activity {
             break;
         }
 
+        canvas.updateSprite(character);
         updatePlayerAndHitbox();
     }
 
