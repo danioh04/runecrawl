@@ -222,6 +222,13 @@ public class RoomViewModel extends Activity {
         enemyMap.put(enemy, enemyRectangle);
     }
 
+    /**
+     * Generates potions with random positions within the room and adds them to the canvas.
+     * This method iterates through different potion types, generates each potion with a random
+     * position, and adds them to the game environment.
+     *
+     * @param currentClass The context of the current activity for accessing resources.
+     */
     private void generatePotions(Context currentClass) {
         Potion basePotion = new BasicPotion();
         Potion[] types = {new SmallPotion(basePotion), new MediumPotion(basePotion),
@@ -235,6 +242,15 @@ public class RoomViewModel extends Activity {
         }
     }
 
+    /**
+     * Adds a potion to the game environment.
+     * This method sets the potion's position, creates its hitbox, and adds the potion and its
+     * sprite to the canvas and game lists.
+     *
+     * @param potion   The potion to add.
+     * @param position The position of the potion.
+     * @param sprite   The sprite of the potion.
+     */
     private void addPotionToGame(Potion potion, PointF position, Bitmap sprite) {
         float potionWidth = sprite.getWidth();
         float potionHeight = sprite.getHeight();
@@ -402,6 +418,13 @@ public class RoomViewModel extends Activity {
         }
     }
 
+    /**
+     * Detects collisions between the player and potions.
+     * It checks if the player's hitbox intersects with any potion's hitbox.
+     * If a collision is detected, the player consumes the potion, and it is removed from the game.
+     *
+     * @return true if a collision occurred, false otherwise.
+     */
     public boolean isPotionCollision() {
         List<RectF> potionsToRemove = new ArrayList<>();
         boolean collisionHappened = false;
