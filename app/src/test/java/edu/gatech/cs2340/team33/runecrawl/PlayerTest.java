@@ -194,7 +194,19 @@ public class PlayerTest {
 
     }
 
-    
+    @Test
+    public void testPlayerRecieveDamageAfterZeroScore() {
+        Player.initialize("testPlayer", Difficulty.HARD, PlayerType.MAGE);
+        Player player = Player.getInstance();
+        int score = player.getScore();
+        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
+                * EnemyType.WEREWOLF.getBaseDamageRate());
+        int multi = (score / damage) + 1;
+        damage = damage * multi;
+        player.decreaseScore(damage);
+        player.receiveDamage(10);
+        assertEquals(0, player.getScore());
+    }
 
 
 
