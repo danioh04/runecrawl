@@ -56,16 +56,17 @@ public class RoomViewModel extends Activity {
     private final float upperYCoordinateLimit;
     private final Map<Enemy, RectF> enemyMap = new HashMap<>();
     private final Handler handler = new Handler();
-    private Bitmap character;
     private final List<RectF> potionRectangles;
     private final Map<Potion, RectF> potionMap = new HashMap<>();
+    private Bitmap character;
     private CanvasView canvas;
     private float characterWidth;
     private float characterHeight;
     private RectF playerRectangle;
+    private RectF attackWindow;
+    private boolean isAttacking = false;
     private Enemy collidedEnemy;
     private boolean facingRight = true;
-
 
     /**
      * Constructs a new RoomViewModel with specified upper and lower limits for
@@ -237,7 +238,7 @@ public class RoomViewModel extends Activity {
     private void generatePotions(Context currentClass) {
         Potion basePotion = new BasicPotion();
         Potion[] types = {new SmallPotion(basePotion), new MediumPotion(basePotion),
-                          new JumboPotion(basePotion)};
+                new JumboPotion(basePotion)};
 
         for (Potion potion : types) {
             PointF randomPosition = generateRandomPosition();
@@ -322,15 +323,24 @@ public class RoomViewModel extends Activity {
         case android.view.KeyEvent.KEYCODE_SPACE:
             switch (player.getType()) {
             case MAGE:
+                isAttacking = true;
                 if (facingRight) {
                     character = BitmapFactory.decodeResource(currentClass.getResources(),
                             R.drawable.right_attacking_mage);
+                    attackWindow = new RectF(player.getX() - characterWidth / 2,
+                            player.getY() - characterHeight / 2,
+                            player.getX() + characterWidth,
+                            player.getY() + characterHeight / 2);
                 } else {
                     character = BitmapFactory.decodeResource(currentClass.getResources(),
                             R.drawable.left_attacking_mage);
+                    attackWindow = new RectF(player.getX() - characterWidth,
+                            player.getY() - characterHeight / 2,
+                            player.getX() + characterWidth / 2,
+                            player.getY() + characterHeight / 2);
                 }
-
                 handler.postDelayed(() -> runOnUiThread(() -> {
+                    isAttacking = false;
                     if (facingRight) {
                         character = BitmapFactory.decodeResource(currentClass.getResources(),
                                 R.drawable.right_still_mage);
@@ -340,18 +350,26 @@ public class RoomViewModel extends Activity {
                     }
                     canvas.updateSprite(character);
                 }), 500);
-
                 break;
             case WARRIOR:
+                isAttacking = true;
                 if (facingRight) {
                     character = BitmapFactory.decodeResource(currentClass.getResources(),
                             R.drawable.right_attacking_warrior);
+                    attackWindow = new RectF(player.getX() - characterWidth / 2,
+                            player.getY() - characterHeight / 2,
+                            player.getX() + characterWidth,
+                            player.getY() + characterHeight / 2);
                 } else {
                     character = BitmapFactory.decodeResource(currentClass.getResources(),
                             R.drawable.left_attacking_warrior);
+                    attackWindow = new RectF(player.getX() - characterWidth,
+                            player.getY() - characterHeight / 2,
+                            player.getX() + characterWidth / 2,
+                            player.getY() + characterHeight / 2);
                 }
-
                 handler.postDelayed(() -> runOnUiThread(() -> {
+                    isAttacking = false;
                     if (facingRight) {
                         character = BitmapFactory.decodeResource(currentClass.getResources(),
                                 R.drawable.right_still_warrior);
@@ -361,18 +379,26 @@ public class RoomViewModel extends Activity {
                     }
                     canvas.updateSprite(character);
                 }), 500);
-
                 break;
             case ARCHER:
+                isAttacking = true;
                 if (facingRight) {
                     character = BitmapFactory.decodeResource(currentClass.getResources(),
                             R.drawable.right_attacking_archer);
+                    attackWindow = new RectF(player.getX() - characterWidth / 2,
+                            player.getY() - characterHeight / 2,
+                            player.getX() + characterWidth,
+                            player.getY() + characterHeight / 2);
                 } else {
                     character = BitmapFactory.decodeResource(currentClass.getResources(),
                             R.drawable.left_attacking_archer);
+                    attackWindow = new RectF(player.getX() - characterWidth,
+                            player.getY() - characterHeight / 2,
+                            player.getX() + characterWidth / 2,
+                            player.getY() + characterHeight / 2);
                 }
-
                 handler.postDelayed(() -> runOnUiThread(() -> {
+                    isAttacking = false;
                     if (facingRight) {
                         character = BitmapFactory.decodeResource(currentClass.getResources(),
                                 R.drawable.right_still_archer);
@@ -382,7 +408,6 @@ public class RoomViewModel extends Activity {
                     }
                     canvas.updateSprite(character);
                 }), 500);
-
                 break;
             default:
                 break;
@@ -510,22 +535,44 @@ public class RoomViewModel extends Activity {
      * Handles what happens when a collision has occurred
      * between the character and an enemy.
      * If a collision has occurred, the observers are notified.
+     *
+     * @return true if a collision occurred, false otherwise.
      */
-    public void isEnemyCollision() {
+    public boolean isEnemyCollision() {
+        List<RectF> enemiesToRemove = new ArrayList<>();
+        boolean collisionHappened = false;
+
         for (RectF enemyRectangle : enemyRectangles) {
-            if (playerRectangle.intersect(enemyRectangle)) {
+            if (attackWindow.intersect(enemyRectangle)) {
                 for (Map.Entry<Enemy, RectF> entry : enemyMap.entrySet()) {
                     Enemy enemy = entry.getKey();
                     RectF enemyRect = entry.getValue();
-
-                    // Find the corresponding enemy (to the rectangle that was collided with)
                     if (enemyRect == enemyRectangle) {
                         collidedEnemy = enemy;
                     }
                 }
-                notifyEnemyObservers();
+
+                if (playerRectangle.intersect(enemyRectangle)) {
+                    notifyEnemyObservers();
+                }
+
+                if (isAttacking) {
+                    player.killEnemy();
+                    enemiesToRemove.add(enemyRectangle);
+                    canvas.removeEnemy(enemyRectangle.left + (enemyRectangle.width() / 2),
+                            enemyRectangle.top + (enemyRectangle.height() / 2));
+                    collisionHappened = true;
+                }
             }
         }
+
+        for (RectF enemyRectangle : enemiesToRemove) {
+            enemies.remove(collidedEnemy);
+            enemyRectangles.remove(enemyRectangle);
+            enemyMap.values().removeIf(rect -> rect.equals(enemyRectangle));
+        }
+
+        return collisionHappened;
     }
 
     /**
@@ -589,12 +636,17 @@ public class RoomViewModel extends Activity {
      *
      * @param observer The class to be removed from the list.
      */
-    public void removePlayerObserver(PlayerObserver observer) {
-        playerObservers.remove(observer);
-    }
-
     public void removeEnemyObserver(EnemyObserver observer) {
         enemyObservers.remove(observer);
+    }
+
+    /**
+     * Removes a class from a list of observers.
+     *
+     * @param observer The class to be removed from the list.
+     */
+    public void removePlayerObserver(PlayerObserver observer) {
+        playerObservers.remove(observer);
     }
 
     /**
