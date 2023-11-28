@@ -19,6 +19,10 @@ public class CanvasView extends View {
     private final List<Bitmap> enemySprites;
     private final List<Float> enemyX;
     private final List<Float> enemyY;
+    private final List<Bitmap> potionSprites;
+    private final List<Float> potionX;
+    private final List<Float> potionY;
+
     private float playerX;
     private float playerY;
 
@@ -39,6 +43,10 @@ public class CanvasView extends View {
         this.enemySprites = new ArrayList<>();
         this.enemyX = new ArrayList<>();
         this.enemyY = new ArrayList<>();
+
+        this.potionSprites = new ArrayList<>();
+        this.potionX = new ArrayList<>();
+        this.potionY = new ArrayList<>();
     }
 
     /**
@@ -54,6 +62,10 @@ public class CanvasView extends View {
         for (int i = 0; i < enemySprites.size(); i++) {
             canvas.drawBitmap(enemySprites.get(i), enemyX.get(i), enemyY.get(i), null);
         }
+        
+        for (int i = 0; i < potionSprites.size(); i++) {
+            canvas.drawBitmap(potionSprites.get(i), potionX.get(i), potionY.get(i), null);
+        }
     }
 
     /**
@@ -67,8 +79,6 @@ public class CanvasView extends View {
         enemySprites.add(sprite);
         enemyX.add(x);
         enemyY.add(y);
-
-        enemySprites.size();
     }
 
     /**
@@ -94,5 +104,36 @@ public class CanvasView extends View {
         enemyX.set(enemyIndex, newX);
         enemyY.set(enemyIndex, newY);
         invalidate();
+    }
+
+    /**
+     * Adds a new potion to the game with its sprite and position.
+     *
+     * @param sprite The Bitmap representing the potion's sprite.
+     * @param x      The X coordinate of the potion's position.
+     * @param y      The Y coordinate of the potion's position.
+     */
+    public void addPotion(Bitmap sprite, float x, float y) {
+        potionSprites.add(sprite);
+        potionX.add(x);
+        potionY.add(y);
+    }
+
+    /**
+     * Removes a potion from the canvas.
+     *
+     * @param x The X coordinate of the potion to be removed.
+     * @param y The Y coordinate of the potion to be removed.
+     */
+    public void removePotion(float x, float y) {
+        for (int i = 0; i < potionX.size(); i++) {
+            if (potionX.get(i) == x && potionY.get(i) == y) {
+                potionSprites.remove(i);
+                potionX.remove(i);
+                potionY.remove(i);
+                invalidate();
+                break;
+            }
+        }
     }
 }

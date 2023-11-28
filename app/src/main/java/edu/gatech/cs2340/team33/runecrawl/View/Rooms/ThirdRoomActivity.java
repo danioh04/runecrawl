@@ -73,6 +73,11 @@ public class ThirdRoomActivity extends AppCompatActivity implements PlayerObserv
         room.isDoorCollision(410, 75);
         room.isDoorCollision(670, 75);
         room.isEnemyCollision();
+
+        if (room.isPotionCollision()) {
+            hp.setText(String.format("HP: %s", Player.getInstance().getCurrentHp()));
+        }
+
         return true;
     }
 
@@ -101,14 +106,18 @@ public class ThirdRoomActivity extends AppCompatActivity implements PlayerObserv
     @Override
     public void playerCollisionOccurred(Enemy enemy) {
         Player player = Player.getInstance();
-        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
-                * enemy.getBaseDamageRate());
+
+        // Calculate the damage based on the enemy's damage rate and the player's current
+        // difficulty level
+        int damage = enemy.getDamageRate(player.getDifficulty());
+
         player.receiveDamage(damage);
         player.decreaseScore(damage);
+
         hp.setText(String.format("HP: %s", player.getCurrentHp()));
         score.setText(String.format("Score: %s", player.getScore()));
 
-        // If the player's HP is now 0, move to the end screen
+        // Check if the player's HP has dropped to 0 as a result of the damage
         if (player.getCurrentHp() == 0) {
             room.moveToEndScreen(this);
         }
