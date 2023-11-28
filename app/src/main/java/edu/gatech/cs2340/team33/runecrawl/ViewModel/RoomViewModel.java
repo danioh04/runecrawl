@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.os.Handler;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -284,6 +285,18 @@ public class RoomViewModel extends Activity {
                     character = BitmapFactory.decodeResource(currentClass.getResources(),
                             R.drawable.left_attacking_mage);
                 }
+
+                new Handler().postDelayed(() -> runOnUiThread(() -> {
+                    if (facingRight) {
+                        character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                R.drawable.right_still_mage);
+                    } else {
+                        character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                R.drawable.left_still_mage);
+                    }
+                    canvas.updateSprite(character);
+                }), 500);
+
                 break;
             case WARRIOR:
                 if (facingRight) {
@@ -293,6 +306,18 @@ public class RoomViewModel extends Activity {
                     character = BitmapFactory.decodeResource(currentClass.getResources(),
                             R.drawable.left_attacking_warrior);
                 }
+
+                new Handler().postDelayed(() -> runOnUiThread(() -> {
+                    if (facingRight) {
+                        character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                R.drawable.right_still_warrior);
+                    } else {
+                        character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                R.drawable.left_still_warrior);
+                    }
+                    canvas.updateSprite(character);
+                }), 500);
+
                 break;
             case ARCHER:
                 if (facingRight) {
@@ -302,6 +327,18 @@ public class RoomViewModel extends Activity {
                     character = BitmapFactory.decodeResource(currentClass.getResources(),
                             R.drawable.left_attacking_archer);
                 }
+
+                new Handler().postDelayed(() -> runOnUiThread(() -> {
+                    if (facingRight) {
+                        character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                R.drawable.right_still_archer);
+                    } else {
+                        character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                R.drawable.left_still_archer);
+                    }
+                    canvas.updateSprite(character);
+                }), 500);
+
                 break;
             default:
                 break;
