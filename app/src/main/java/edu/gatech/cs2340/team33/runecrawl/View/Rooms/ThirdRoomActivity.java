@@ -107,5 +107,10 @@ public class ThirdRoomActivity extends AppCompatActivity implements PlayerObserv
         player.decreaseScore(damage);
         hp.setText(String.format("HP: %s", player.getCurrentHp()));
         score.setText(String.format("Score: %s", player.getScore()));
+
+        // If the player's HP is now 0, move to the end screen
+        if (player.getCurrentHp() == 0) {
+            room.moveToEndScreen(this);
+        }
     }
 }
