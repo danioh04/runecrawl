@@ -17,5 +17,5 @@ public interface Potion {
      *
      * @return The resource ID of the drawable for this potion.
      */
-    int getDrawableResourceId();
+    int getSpriteResId();
 }

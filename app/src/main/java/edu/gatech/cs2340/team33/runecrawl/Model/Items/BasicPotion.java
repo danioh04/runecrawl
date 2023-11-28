@@ -20,7 +20,7 @@ public class BasicPotion implements Potion {
      * @return The resource ID of the drawable for this potion.
      */
     @Override
-    public int getDrawableResourceId() {
+    public int getSpriteResId() {
         return 0;
     }
 }

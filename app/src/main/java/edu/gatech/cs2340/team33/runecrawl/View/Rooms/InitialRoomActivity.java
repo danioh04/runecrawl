@@ -72,6 +72,11 @@ public class InitialRoomActivity extends AppCompatActivity
         room.onKeyDown(movementStrategy, keyCode);
         room.isDoorCollision(540, 215);
         room.isEnemyCollision();
+
+        if (room.isPotionCollision()) {
+            hp.setText(String.format("HP: %s", Player.getInstance().getCurrentHp()));
+        }
+
         return true;
     }
 

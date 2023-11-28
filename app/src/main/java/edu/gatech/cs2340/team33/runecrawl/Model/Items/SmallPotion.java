@@ -10,7 +10,8 @@ public class SmallPotion extends PotionDecorator {
     /**
      * Constructor for the SmallPotion decorator.
      *
-     * @param decoratedPotion The potion object that is being decorated with the small potion effect.
+     * @param decoratedPotion The potion object that is being decorated with the small potion
+     *                        effect.
      */
     public SmallPotion(Potion decoratedPotion) {
         super(decoratedPotion);
@@ -32,7 +33,7 @@ public class SmallPotion extends PotionDecorator {
      * @return The resource ID of the drawable for this potion.
      */
     @Override
-    public int getDrawableResourceId() {
+    public int getSpriteResId() {
         return R.drawable.small_potion;
     }
 }

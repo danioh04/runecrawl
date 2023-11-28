@@ -32,7 +32,7 @@ public class MediumPotion extends PotionDecorator {
      * @return The resource ID of the drawable for this potion.
      */
     @Override
-    public int getDrawableResourceId() {
+    public int getSpriteResId() {
         return R.drawable.medium_potion;
     }
 }

@@ -73,6 +73,11 @@ public class SecondRoomActivity extends AppCompatActivity implements PlayerObser
         room.isDoorCollision(410, 210);
         room.isDoorCollision(670, 210);
         room.isEnemyCollision();
+
+        if (room.isPotionCollision()) {
+            hp.setText(String.format("HP: %s", Player.getInstance().getCurrentHp()));
+        }
+
         return true;
     }
 
