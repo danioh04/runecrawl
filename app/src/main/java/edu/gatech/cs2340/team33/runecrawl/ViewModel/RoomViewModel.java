@@ -50,6 +50,7 @@ public class RoomViewModel extends Activity {
     private final float lowerYCoordinateLimit;
     private final float upperYCoordinateLimit;
     private final Map<Enemy, RectF> enemyMap = new HashMap<>();
+    private Handler handler = new Handler();
     private Bitmap character;
     private CanvasView canvas;
     private float characterWidth;
@@ -286,7 +287,7 @@ public class RoomViewModel extends Activity {
                             R.drawable.left_attacking_mage);
                 }
 
-                new Handler().postDelayed(() -> runOnUiThread(() -> {
+                handler.postDelayed(() -> runOnUiThread(() -> {
                     if (facingRight) {
                         character = BitmapFactory.decodeResource(currentClass.getResources(),
                                 R.drawable.right_still_mage);
@@ -307,7 +308,7 @@ public class RoomViewModel extends Activity {
                             R.drawable.left_attacking_warrior);
                 }
 
-                new Handler().postDelayed(() -> runOnUiThread(() -> {
+                handler.postDelayed(() -> runOnUiThread(() -> {
                     if (facingRight) {
                         character = BitmapFactory.decodeResource(currentClass.getResources(),
                                 R.drawable.right_still_warrior);
@@ -328,7 +329,7 @@ public class RoomViewModel extends Activity {
                             R.drawable.left_attacking_archer);
                 }
 
-                new Handler().postDelayed(() -> runOnUiThread(() -> {
+                handler.postDelayed(() -> runOnUiThread(() -> {
                     if (facingRight) {
                         character = BitmapFactory.decodeResource(currentClass.getResources(),
                                 R.drawable.right_still_archer);
