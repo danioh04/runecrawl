@@ -172,8 +172,7 @@ public class PlayerTest {
         int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
                 * EnemyType.ORC.getBaseDamageRate());
         player.decreaseScore(damage);
-        int newScore = player.getScore();
-        assertEquals(score - damage, newScore);
+        assertEquals(score - damage, player.getScore());
     }
 
     /**
@@ -189,8 +188,7 @@ public class PlayerTest {
         int multi = (score / damage) + 1;
         damage = damage * multi;
         player.decreaseScore(damage);
-        int newscore = player.getScore();
-        assertEquals(0, newscore);
+        assertEquals(0, player.getScore());
 
     }
 
@@ -204,9 +202,10 @@ public class PlayerTest {
         int multi = (score / damage) + 1;
         damage = damage * multi;
         player.decreaseScore(damage);
-        player.receiveDamage(10);
+        player.decreaseScore(10); //
         assertEquals(0, player.getScore());
     }
+
 
 
 
