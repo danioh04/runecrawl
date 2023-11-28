@@ -3,14 +3,17 @@ package edu.gatech.cs2340.team33.runecrawl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.Enemy;
 import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.EnemyType;
 import edu.gatech.cs2340.team33.runecrawl.Model.Game.Difficulty;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerType;
+import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
 /**
  * This class is designed to test the functionality of the player for specifically whether they take
@@ -158,4 +161,53 @@ public class PlayerTest {
         player.receiveDamage(damage);
         assertEquals(player.getCurrentHp(), initialHp - damage);
     }
+
+    /**
+     * Checks that player's score decreases after collision with enemy
+     */
+    @Test
+    public void testDecreaseScore() {
+        Player player = Player.getInstance();
+        int score = player.getScore();
+        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
+                * EnemyType.ORC.getBaseDamageRate());
+        player.decreaseScore(damage);
+        int newScore = player.getScore();
+        assertEquals(score - damage, newScore);
+    }
+
+    /**
+     * Checks that player's score is zero after multiple collision with enemy
+     */
+    @Test
+    public void testZeroScoreAfterAttack() {
+        Player.initialize("testPlayer", Difficulty.HARD, PlayerType.MAGE);
+        Player player = Player.getInstance();
+        int score = player.getScore();
+        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
+                * EnemyType.WEREWOLF.getBaseDamageRate());
+        int multi = (score / damage) + 1;
+        damage = damage * multi;
+        player.decreaseScore(damage);
+        int newscore = player.getScore();
+        assertEquals(0, newscore);
+
+    }
+
+    @Test
+    public void testPlayerRecieveDamageAfterZeroScore() {
+        Player.initialize("testPlayer", Difficulty.HARD, PlayerType.MAGE);
+        Player player = Player.getInstance();
+        int score = player.getScore();
+        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
+                * EnemyType.WEREWOLF.getBaseDamageRate());
+        int multi = (score / damage) + 1;
+        damage = damage * multi;
+        player.decreaseScore(damage);
+        player.receiveDamage(10);
+        assertEquals(0, player.getScore());
+    }
+
+
+
 }

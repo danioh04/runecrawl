@@ -30,7 +30,7 @@ public class Attempt {
 
         this.username = player.getUsername();
         this.score = player.getScore();
-        this.dateTime = new Date(); // Captures the current date and time
+        this.dateTime = new Date();
     }
 
     /**

@@ -25,6 +25,11 @@ import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.EnemyObserver;
 import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.EnemyType;
 import edu.gatech.cs2340.team33.runecrawl.Model.Game.Attempt;
 import edu.gatech.cs2340.team33.runecrawl.Model.Game.Leaderboard;
+import edu.gatech.cs2340.team33.runecrawl.Model.Items.BasicPotion;
+import edu.gatech.cs2340.team33.runecrawl.Model.Items.JumboPotion;
+import edu.gatech.cs2340.team33.runecrawl.Model.Items.MediumPotion;
+import edu.gatech.cs2340.team33.runecrawl.Model.Items.Potion;
+import edu.gatech.cs2340.team33.runecrawl.Model.Items.SmallPotion;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.MovementStrategy;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerObserver;
@@ -52,12 +57,15 @@ public class RoomViewModel extends Activity {
     private final Map<Enemy, RectF> enemyMap = new HashMap<>();
     private final Handler handler = new Handler();
     private Bitmap character;
+    private final List<RectF> potionRectangles;
+    private final Map<Potion, RectF> potionMap = new HashMap<>();
     private CanvasView canvas;
     private float characterWidth;
     private float characterHeight;
     private RectF playerRectangle;
     private Enemy collidedEnemy;
     private boolean facingRight = true;
+
 
     /**
      * Constructs a new RoomViewModel with specified upper and lower limits for
@@ -78,6 +86,7 @@ public class RoomViewModel extends Activity {
         this.enemyObservers = new ArrayList<>();
         this.enemyRectangles = new ArrayList<>();
         this.enemies = new ArrayList<>();
+        this.potionRectangles = new ArrayList<>();
     }
 
     /**
@@ -171,7 +180,8 @@ public class RoomViewModel extends Activity {
         for (EnemyType type : types) {
             PointF randomPosition = generateRandomPosition();
             Enemy randomEnemy = EnemyFactory.createEnemy(type);
-            Bitmap enemySprite = loadEnemySprite(currentClass, randomEnemy);
+            Bitmap enemySprite = BitmapFactory.decodeResource(
+                    currentClass.getResources(), randomEnemy.getType().getSpriteResId());
 
             addEnemyToGame(randomEnemy, randomPosition, enemySprite);
         }
@@ -189,18 +199,6 @@ public class RoomViewModel extends Activity {
                 * (this.upperYCoordinateLimit - this.lowerYCoordinateLimit));
 
         return new PointF(randomX, randomY);
-    }
-
-    /**
-     * Loads the sprite for a given enemy.
-     *
-     * @param currentClass The context used to access resources.
-     * @param enemy        The enemy for which the sprite needs to be loaded.
-     * @return Bitmap of the loaded sprite.
-     */
-    private Bitmap loadEnemySprite(Context currentClass, Enemy enemy) {
-        return BitmapFactory.decodeResource(
-                currentClass.getResources(), enemy.getType().getSpriteResId());
     }
 
     /**
@@ -227,6 +225,48 @@ public class RoomViewModel extends Activity {
         enemies.add(enemy);
         enemyRectangles.add(enemyRectangle);
         enemyMap.put(enemy, enemyRectangle);
+    }
+
+    /**
+     * Generates potions with random positions within the room and adds them to the canvas.
+     * This method iterates through different potion types, generates each potion with a random
+     * position, and adds them to the game environment.
+     *
+     * @param currentClass The context of the current activity for accessing resources.
+     */
+    private void generatePotions(Context currentClass) {
+        Potion basePotion = new BasicPotion();
+        Potion[] types = {new SmallPotion(basePotion), new MediumPotion(basePotion),
+                          new JumboPotion(basePotion)};
+
+        for (Potion potion : types) {
+            PointF randomPosition = generateRandomPosition();
+            Bitmap potionSprite = BitmapFactory.decodeResource(
+                    currentClass.getResources(), potion.getSpriteResId());
+            addPotionToGame(potion, randomPosition, potionSprite);
+        }
+    }
+
+    /**
+     * Adds a potion to the game environment.
+     * This method sets the potion's position, creates its hitbox, and adds the potion and its
+     * sprite to the canvas and game lists.
+     *
+     * @param potion   The potion to add.
+     * @param position The position of the potion.
+     * @param sprite   The sprite of the potion.
+     */
+    private void addPotionToGame(Potion potion, PointF position, Bitmap sprite) {
+        float potionWidth = sprite.getWidth();
+        float potionHeight = sprite.getHeight();
+
+        RectF potionRectangle = new RectF(position.x - potionWidth / 2,
+                position.y - potionHeight / 2, position.x + potionWidth / 2,
+                position.y + potionHeight / 2);
+
+        canvas.addPotion(sprite, position.x, position.y);
+        potionRectangles.add(potionRectangle);
+        potionMap.put(potion, potionRectangle);
     }
 
     /**
@@ -257,6 +297,9 @@ public class RoomViewModel extends Activity {
 
         // Call the method to generate and add enemies to the canvas
         generateEnemies(currentClass);
+
+        // Call the method to generate and add potions to the canvas
+        generatePotions(currentClass);
 
         // Add the canvas view to the parent layout to render it on the screen
         screenLayout.addView(canvas);
@@ -459,6 +502,7 @@ public class RoomViewModel extends Activity {
             notifyPlayerObservers();
             return true;
         }
+
         return false;
     }
 
@@ -482,6 +526,44 @@ public class RoomViewModel extends Activity {
                 notifyEnemyObservers();
             }
         }
+    }
+
+    /**
+     * Detects collisions between the player and potions.
+     * It checks if the player's hitbox intersects with any potion's hitbox.
+     * If a collision is detected, the player consumes the potion, and it is removed from the game.
+     *
+     * @return true if a collision occurred, false otherwise.
+     */
+    public boolean isPotionCollision() {
+        List<RectF> potionsToRemove = new ArrayList<>();
+        boolean collisionHappened = false;
+
+        for (RectF potionRectangle : potionRectangles) {
+            if (playerRectangle.intersect(potionRectangle)) {
+                for (Map.Entry<Potion, RectF> entry : potionMap.entrySet()) {
+                    Potion potion = entry.getKey();
+                    RectF potionRect = entry.getValue();
+
+                    if (potionRect.equals(potionRectangle)) {
+                        player.drinkPotion(potion);
+                        potionsToRemove.add(potionRectangle);
+                        canvas.removePotion(potionRect.left + (potionRect.width() / 2),
+                                potionRect.top + (potionRect.height() / 2));
+                        collisionHappened = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Remove potions after iteration to avoid ConcurrentModificationException
+        for (RectF potionRectangle : potionsToRemove) {
+            potionRectangles.remove(potionRectangle);
+            potionMap.values().removeIf(rect -> rect.equals(potionRectangle));
+        }
+
+        return collisionHappened;
     }
 
     /**

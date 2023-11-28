@@ -1,6 +1,7 @@
 package edu.gatech.cs2340.team33.runecrawl.Model.Player;
 
 import edu.gatech.cs2340.team33.runecrawl.Model.Game.Difficulty;
+import edu.gatech.cs2340.team33.runecrawl.Model.Items.Potion;
 
 /**
  * Represents a player in the RuneCrawl game.
@@ -180,6 +181,17 @@ public class Player {
         if (this.currentHp < 0) {
             this.currentHp = 0;
         }
+    }
+
+    /**
+     * Increases the current hit points (HP) of the character by the health boost provided by the
+     * potion.
+     *
+     * @param potion The potion to be consumed. It must not be null and should provide a health
+     *               boost value.
+     */
+    public void drinkPotion(Potion potion) {
+        this.currentHp += potion.getHealthBoost();
     }
 
     /**

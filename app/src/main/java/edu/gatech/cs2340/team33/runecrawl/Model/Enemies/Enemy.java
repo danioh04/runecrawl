@@ -2,6 +2,7 @@ package edu.gatech.cs2340.team33.runecrawl.Model.Enemies;
 
 import android.view.KeyEvent;
 
+import edu.gatech.cs2340.team33.runecrawl.Model.Game.Difficulty;
 import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
 /**
@@ -68,21 +69,13 @@ public class Enemy {
     }
 
     /**
-     * Gets the damage rate of the enemy based on its type.
+     * Gets the damage rate of the enemy based on its type and player difficulty.
      *
+     * @param difficulty The current difficulty of the player.
      * @return The damage rate of this enemy.
      */
-    public int getBaseDamageRate() {
-        return this.type.getBaseDamageRate();
-    }
-
-    /**
-     * Gets the movement speed of the enemy based on its type.
-     *
-     * @return The movement speed of this enemy.
-     */
-    public int getMovementSpeed() {
-        return this.type.getMovementSpeed();
+    public int getDamageRate(Difficulty difficulty) {
+        return (int) (difficulty.getEnemyDamageMultiplier() * this.type.getBaseDamageRate());
     }
 
     /**
@@ -159,16 +152,16 @@ public class Enemy {
         // Adjust the x or y coordinate depending on the generated direction code
         switch (direction) {
         case KeyEvent.KEYCODE_DPAD_UP:
-            this.y -= this.getMovementSpeed();
+            this.y -= this.getType().getMovementSpeed();
             break;
         case KeyEvent.KEYCODE_DPAD_DOWN:
-            this.y += this.getMovementSpeed();
+            this.y += this.getType().getMovementSpeed();
             break;
         case KeyEvent.KEYCODE_DPAD_LEFT:
-            this.x -= this.getMovementSpeed();
+            this.x -= this.getType().getMovementSpeed();
             break;
         case KeyEvent.KEYCODE_DPAD_RIGHT:
-            this.x += this.getMovementSpeed();
+            this.x += this.getType().getMovementSpeed();
             break;
         default:
             throw new IllegalStateException("Invalid direction: " + direction);
