@@ -3,6 +3,7 @@ package edu.gatech.cs2340.team33.runecrawl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -161,6 +162,9 @@ public class PlayerTest {
         assertEquals(player.getCurrentHp(), initialHp - damage);
     }
 
+    /**
+     * Checks that player's score decreases after collision with enemy
+     */
     @Test
     public void testDecreaseScore() {
         Player player = Player.getInstance();
@@ -171,6 +175,10 @@ public class PlayerTest {
         int newScore = player.getScore();
         assertEquals(score - damage, newScore);
     }
+
+    /**
+     * Checks that player's score is zero after multiple collision with enemy
+     */
     @Test
     public void testZeroScoreAfterAttack() {
         Player.initialize("testPlayer", Difficulty.HARD, PlayerType.MAGE);
@@ -185,6 +193,8 @@ public class PlayerTest {
         assertEquals(0, newscore);
 
     }
+
+    
 
 
 
