@@ -31,7 +31,7 @@ public class LeaderboardTest {
      */
     @Test
     public void testAddNullAttempt() {
-        assertThrows(IllegalArgumentException.class, () -> leaderboard.addAttempt(null));
+        assertThrows("Did not throw Exception.", IllegalArgumentException.class, () -> leaderboard.addAttempt(null));
     }
 
     /**
