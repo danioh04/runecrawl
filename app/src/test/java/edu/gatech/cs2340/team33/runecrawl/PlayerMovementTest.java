@@ -35,7 +35,7 @@ public class PlayerMovementTest {
         float x = 50;
         float y = 50;
         float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_LEFT);
-        assertTrue(coordinates[0] < x);
+        assertTrue("Player did not Move Left.",coordinates[0] < x);
         assertEquals(coordinates[1], y, 0.0);
     }
     /**
@@ -49,7 +49,7 @@ public class PlayerMovementTest {
         float x = 50;
         float y = 50;
         float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
-        assertTrue(coordinates[0] > x);
+        assertTrue("Player did not move Right.",coordinates[0] > x);
         assertEquals(coordinates[1], y, 0.0);
     }
     /**
@@ -64,7 +64,7 @@ public class PlayerMovementTest {
         float y = 50;
         float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_UP);
         assertEquals(coordinates[0], x, 0.0);
-        assertTrue(coordinates[1] < y);
+        assertTrue("Player did not move Up.", coordinates[1] < y);
     }
     /**
      * This tests the down movement command of the player
@@ -78,7 +78,7 @@ public class PlayerMovementTest {
         float y = 50;
         float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
         assertEquals(coordinates[0], x, 0.0);
-        assertTrue(coordinates[1] > y);
+        assertTrue("Player did not move down.", coordinates[1] > y);
     }
     /**
      * This tests the left wall to make sure the player cannot pass that point.
@@ -93,7 +93,7 @@ public class PlayerMovementTest {
         for (int i = 0; i < 10; i++) {
             coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_LEFT);
         }
-        assertTrue(coordinates[0] >= 0);
+        assertTrue("Player is out of bounds",coordinates[0] >= 0);
         assertEquals(coordinates[1], y, 0.0);
     }
     /**
@@ -109,7 +109,7 @@ public class PlayerMovementTest {
         for (int i = 0; i < 10; i++) {
             coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
         }
-        assertTrue(coordinates[0] <= 200);
+        assertTrue("Player is out of bounds",coordinates[0] <= 200);
         assertEquals(coordinates[1], y, 0.0);
     }
     /**
@@ -126,7 +126,7 @@ public class PlayerMovementTest {
             coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_UP);
         }
         assertEquals(coordinates[0], x, 0.0);
-        assertTrue(coordinates[1] >= 0);
+        assertTrue("Player is out of bounds",coordinates[1] >= 0);
     }
     /**
      * This tests the lower wall to make sure the player cannot pass that point.
@@ -142,7 +142,7 @@ public class PlayerMovementTest {
             coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
         }
         assertEquals(coordinates[0], x, 0.0);
-        assertTrue(coordinates[1] <= 200);
+        assertTrue("Player is out of bounds",coordinates[1] <= 200);
     }
 
     /**
