@@ -208,5 +208,6 @@ public class EnemyTest {
         enemyTest.moveRandomly(roomTest);
         assertTrue("Enemy has not moved.", x != enemyTest.getX() || y != enemyTest.getY());
     }
+
 }
                    
