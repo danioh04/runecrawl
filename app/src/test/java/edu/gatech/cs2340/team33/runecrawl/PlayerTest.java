@@ -126,7 +126,8 @@ public class PlayerTest {
     public void testReceiveDamageFromSlime() {
         Player player = Player.getInstance();
         int initialHp = player.getCurrentHp();
-        int damage = enemySlime.getDamageRate();
+        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
+                * enemySlime.getBaseDamageRate());
         player.receiveDamage(damage);
 
         assertEquals(player.getCurrentHp(), initialHp - damage);
@@ -139,7 +140,8 @@ public class PlayerTest {
     public void testReceiveDamageFromOrc() {
         Player player = Player.getInstance();
         int initialHp = player.getCurrentHp();
-        int damage = enemyOrc.getDamageRate();
+        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
+                * enemyOrc.getBaseDamageRate());
         player.receiveDamage(damage);
 
         assertEquals(player.getCurrentHp(), initialHp - damage);
@@ -152,10 +154,26 @@ public class PlayerTest {
     public void testReceiveDamageFromRobot() {
         Player player = Player.getInstance();
         int initialHp = player.getCurrentHp();
-        int damage = enemyRobot.getDamageRate();
+        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
+                * enemyRobot.getBaseDamageRate());
         player.receiveDamage(damage);
 
         assertEquals(player.getCurrentHp(), initialHp - damage);
 
     }
+    /**
+     * This is a test to see how the damage from the werewolf enemy works.
+     */
+    @Test
+    public void testReceiveDamageFromWerewolf() {
+        Player player = Player.getInstance();
+        int initialHp = player.getCurrentHp();
+        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
+                * enemyWerewolf.getBaseDamageRate());
+        player.receiveDamage(damage);
+
+        assertEquals(player.getCurrentHp(), initialHp - damage);
+
+    }
+
 }
