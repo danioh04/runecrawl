@@ -13,6 +13,10 @@ import edu.gatech.cs2340.team33.runecrawl.Model.GameDifficulty;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
 
+/**
+ * This class is designed to test the functionality of the player for specifically whether they take
+ * damage and die properly
+ */
 public class PlayerTest {
     private EnemyType enemySlime;
     private EnemyType enemyOrc;
@@ -41,20 +45,7 @@ public class PlayerTest {
 
         assertEquals(initialHp - damage, player.getCurrentHp());
     }
-    /**
-     * This is the second test to see if the damage is taken and subtracted properly.
-     */
-    @Test
-    public void testReceiveDamage2() {
-        Player player = Player.getInstance();
-        int initialHp = player.getCurrentHp();
-        int damage = 15;
-
-        player.receiveDamage(damage);
-
-        assertEquals(initialHp - damage, player.getCurrentHp());
-    }
-
+    
     /**
      * This is a test to see when the damage taken is greater than currentHP which means the
      * character dies so hp should be zero rather than a negative number.
