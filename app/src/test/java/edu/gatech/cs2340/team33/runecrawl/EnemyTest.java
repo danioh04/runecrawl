@@ -2,6 +2,7 @@ package edu.gatech.cs2340.team33.runecrawl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -141,28 +142,35 @@ public class EnemyTest {
      */
     @Test
     public void testEnemyDiffAttributes() {
-        Player player = Player.getInstance();
+        // Initializing enemy types
         EnemyType enemyType1 = EnemyType.SLIME;
         EnemyType enemyType2 = EnemyType.ORC;
         EnemyType enemyType3 = EnemyType.ROBOT;
         EnemyType enemyType4 = EnemyType.WEREWOLF;
 
-        int enemyType1Res = enemyType1.getSpriteResId();
-        int enemyType2Res = enemyType2.getSpriteResId();
-        int enemyType3Res = enemyType3.getSpriteResId();
-        int enemyType4Res = enemyType4.getSpriteResId();
+        // Testing for unique sprite resource IDs
+        assertNotEquals(enemyType1.getSpriteResId(), enemyType2.getSpriteResId());
+        assertNotEquals(enemyType1.getSpriteResId(), enemyType3.getSpriteResId());
+        assertNotEquals(enemyType1.getSpriteResId(), enemyType4.getSpriteResId());
+        assertNotEquals(enemyType2.getSpriteResId(), enemyType3.getSpriteResId());
+        assertNotEquals(enemyType2.getSpriteResId(), enemyType4.getSpriteResId());
+        assertNotEquals(enemyType3.getSpriteResId(), enemyType4.getSpriteResId());
 
-        int enemyType1Damage = (int) (player.getDifficulty().getEnemyDamageMultiplier() * enemy.getBaseDamageRate());
-        int enemyType2Damage = (int) (player.getDifficulty().getEnemyDamageMultiplier() * enemy.getBaseDamageRate());
-        int enemyType3Damage = (int) (player.getDifficulty().getEnemyDamageMultiplier() * enemy.getBaseDamageRate());
-        int enemyType4Damage = (int) (player.getDifficulty().getEnemyDamageMultiplier() * enemy.getBaseDamageRate());
+        // Testing for unique base damage rates
+        assertNotEquals(enemyType1.getBaseDamageRate(), enemyType2.getBaseDamageRate());
+        assertNotEquals(enemyType1.getBaseDamageRate(), enemyType3.getBaseDamageRate());
+        assertNotEquals(enemyType1.getBaseDamageRate(), enemyType4.getBaseDamageRate());
+        assertNotEquals(enemyType2.getBaseDamageRate(), enemyType3.getBaseDamageRate());
+        assertNotEquals(enemyType2.getBaseDamageRate(), enemyType4.getBaseDamageRate());
+        assertNotEquals(enemyType3.getBaseDamageRate(), enemyType4.getBaseDamageRate());
 
-        assertTrue(enemyType1Res != enemyType2Res && enemyType1Damage != enemyType2Damage);
-        assertTrue(enemyType1Res != enemyType3Res && enemyType1Damage != enemyType3Damage);
-        assertTrue(enemyType1Res != enemyType4Res && enemyType1Damage != enemyType4Damage);
-        assertTrue(enemyType2Res != enemyType3Res && enemyType2Damage != enemyType3Damage);
-        assertTrue(enemyType2Res != enemyType4Res && enemyType2Damage != enemyType4Damage);
-        assertTrue(enemyType3Res != enemyType4Res && enemyType3Damage != enemyType4Damage);
+        // Testing for unique movement speeds
+        assertNotEquals(enemyType1.getMovementSpeed(), enemyType2.getMovementSpeed());
+        assertNotEquals(enemyType1.getMovementSpeed(), enemyType3.getMovementSpeed());
+        assertNotEquals(enemyType1.getMovementSpeed(), enemyType4.getMovementSpeed());
+        assertNotEquals(enemyType2.getMovementSpeed(), enemyType3.getMovementSpeed());
+        assertNotEquals(enemyType2.getMovementSpeed(), enemyType4.getMovementSpeed());
+        assertNotEquals(enemyType3.getMovementSpeed(), enemyType4.getMovementSpeed());
     }
 
     /**
