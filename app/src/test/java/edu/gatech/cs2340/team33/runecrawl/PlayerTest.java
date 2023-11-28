@@ -12,6 +12,7 @@ import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.EnemyType;
 import edu.gatech.cs2340.team33.runecrawl.Model.Game.Difficulty;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerType;
+import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
 /**
  * This class is designed to test the functionality of the player for specifically whether they take
@@ -170,6 +171,20 @@ public class PlayerTest {
         int newScore = player.getScore();
         assertEquals(score - damage, newScore);
     }
-    
+    @Test
+    public void testZeroScoreAfterAttack() {
+        Player.initialize("testPlayer", Difficulty.HARD, PlayerType.MAGE);
+        Player player = Player.getInstance();
+        int score = player.getScore();
+        int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
+                * EnemyType.WEREWOLF.getBaseDamageRate());
+        int multi = (score / damage) + 1;
+        damage = damage * multi;
+        player.decreaseScore(damage);
+        int newScore = player.getScore();
+        assertEquals(0, newScore);
+
+    }
+
 
 }
