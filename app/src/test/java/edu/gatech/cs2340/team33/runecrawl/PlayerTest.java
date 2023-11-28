@@ -192,6 +192,7 @@ public class PlayerTest {
 
     }
 
+
     @Test
     public void testPlayerRecieveDamageAfterZeroScore() {
         Player.initialize("testPlayer", Difficulty.HARD, PlayerType.MAGE);
@@ -201,8 +202,7 @@ public class PlayerTest {
                 * EnemyType.WEREWOLF.getBaseDamageRate());
         int multi = (score / damage) + 1;
         damage = damage * multi;
-        player.decreaseScore(damage);
-        player.decreaseScore(10); //
+        player.decreaseScore(damage + 10); 
         assertEquals(0, player.getScore());
     }
 
