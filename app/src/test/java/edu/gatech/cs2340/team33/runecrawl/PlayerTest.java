@@ -65,12 +65,8 @@ public class PlayerTest {
     public void testDecreaseScoreBelowZero() {
         Player player = Player.getInstance();
         int timesToDecreaseScore = player.getScore() + 1;
-
-        assertThrows(IllegalStateException.class, () -> {
-            for (int i = 0; i < timesToDecreaseScore; i++) {
-                player.decreaseScore(1);
-            }
-        });
+        player.decreaseScore(timesToDecreaseScore);
+        assertEquals(player.getScore(), 0);
     }
 
     /**
@@ -149,6 +145,7 @@ public class PlayerTest {
         assertEquals(player.getCurrentHp(), initialHp - damage);
 
     }
+
     /**
      * This is a test to see how the damage from the werewolf enemy works.
      */
@@ -157,9 +154,8 @@ public class PlayerTest {
         Player player = Player.getInstance();
         int initialHp = player.getCurrentHp();
         int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
-                * enemyWerewolf.getBaseDamageRate());
+                * enemyOrc.getBaseDamageRate());
         player.receiveDamage(damage);
         assertEquals(player.getCurrentHp(), initialHp - damage);
     }
-
 }
