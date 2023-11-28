@@ -5,11 +5,11 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.gatech.cs2340.team33.runecrawl.Model.Enemy;
-import edu.gatech.cs2340.team33.runecrawl.Model.EnemyType;
-import edu.gatech.cs2340.team33.runecrawl.Model.GameDifficulty;
-import edu.gatech.cs2340.team33.runecrawl.Model.Player;
-import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.Enemy;
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.EnemyType;
+import edu.gatech.cs2340.team33.runecrawl.Model.Game.Difficulty;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerType;
 import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
 /**
@@ -21,7 +21,7 @@ public class EnemyMovementTest {
 
     @Before
     public void setUp() {
-        Player.initialize("testPlayer", GameDifficulty.EASY, PlayerType.MAGE);
+        Player.initialize("testPlayer", Difficulty.EASY, PlayerType.MAGE);
         enemyTest = new Enemy(EnemyType.ORC, 100, 20, 20);
     }
 
@@ -36,7 +36,7 @@ public class EnemyMovementTest {
         enemyTest.moveRandomly(room);
         boolean inbounds = enemyTest.getX() >= room.getLowerXCoordinateLimit();
         assertTrue("Left Boundary: " + room.getLowerXCoordinateLimit() + " Enemy X: "
-                + enemyTest.getX() + "\n",inbounds);
+                + enemyTest.getX() + "\n", inbounds);
     }
 
     /**
@@ -50,7 +50,7 @@ public class EnemyMovementTest {
         enemyTest.moveRandomly(room);
         boolean inbounds = enemyTest.getX() <= room.getUpperXCoordinateLimit();
         assertTrue("Right Boundary: " + room.getUpperXCoordinateLimit() + " Enemy X: "
-                + enemyTest.getX() + "\n",inbounds);
+                + enemyTest.getX() + "\n", inbounds);
     }
 
     /**
@@ -64,7 +64,7 @@ public class EnemyMovementTest {
         enemyTest.moveRandomly(room);
         boolean inbounds = enemyTest.getY() <= room.getUpperYCoordinateLimit();
         assertTrue("Upper Boundary: " + room.getUpperYCoordinateLimit() + " Enemy Y: "
-                + enemyTest.getY() + "\n",inbounds);
+                + enemyTest.getY() + "\n", inbounds);
     }
 
     /**
@@ -78,6 +78,6 @@ public class EnemyMovementTest {
         enemyTest.moveRandomly(room);
         boolean inbounds = enemyTest.getY() >= room.getLowerYCoordinateLimit();
         assertTrue("Lower Boundary: " + room.getLowerYCoordinateLimit() + " Enemy Y: "
-                + enemyTest.getY() + "\n",inbounds);
+                + enemyTest.getY() + "\n", inbounds);
     }
 }

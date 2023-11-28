@@ -7,11 +7,11 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.gatech.cs2340.team33.runecrawl.Model.Enemy;
-import edu.gatech.cs2340.team33.runecrawl.Model.EnemyType;
-import edu.gatech.cs2340.team33.runecrawl.Model.GameDifficulty;
-import edu.gatech.cs2340.team33.runecrawl.Model.Player;
-import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.Enemy;
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.EnemyType;
+import edu.gatech.cs2340.team33.runecrawl.Model.Game.Difficulty;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerType;
 import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
 /**
@@ -26,7 +26,7 @@ public class EnemyTest {
 
     @Before
     public void setUp() {
-        Player.initialize("testPlayer", GameDifficulty.EASY, PlayerType.MAGE);
+        Player.initialize("testPlayer", Difficulty.EASY, PlayerType.MAGE);
         enemy = new Enemy(EnemyType.SLIME, MAX_HEALTH, 20, 20);
     }
 
@@ -42,9 +42,9 @@ public class EnemyTest {
                 enemy.getY() <= room.getUpperYCoordinateLimit() &&
                 enemy.getY() >= room.getLowerYCoordinateLimit();
         String failureString = String.format("Enemy is out of bounds \nUpper Bound: (%d, %d) " +
-                "\nLower Bound (0,0)\n Enemy Coordinate: (%f,%f)",
+                        "\nLower Bound (0,0)\n Enemy Coordinate: (%f,%f)",
                 ROOM_BOUNDARY, ROOM_BOUNDARY, enemy.getX(), enemy.getY());
-        assertTrue(failureString , inBounds);
+        assertTrue(failureString, inBounds);
     }
 
     /**
@@ -102,6 +102,7 @@ public class EnemyTest {
         enemyTest.receiveDamage(damage);
         assertFalse("Slime is still Alive.", enemyTest.isAlive());
     }
+
     /**
      * Tests if the orc enemy actually dies.
      */
@@ -112,6 +113,7 @@ public class EnemyTest {
         enemyTest.receiveDamage(damage);
         assertFalse("Orc is Still Alive.", enemyTest.isAlive());
     }
+
     /**
      * Tests if the werewolf enemy actually dies.
      */
@@ -122,6 +124,7 @@ public class EnemyTest {
         enemyTest.receiveDamage(damage);
         assertFalse("Werewolf is still alive.", enemyTest.isAlive());
     }
+
     /**
      * Tests if the robot enemy actually dies.
      */
@@ -130,7 +133,7 @@ public class EnemyTest {
         Enemy enemyTest = new Enemy(EnemyType.ROBOT, 50, 20, 20);
         int damage = enemyTest.getCurrentHp() + 1;
         enemyTest.receiveDamage(damage);
-        assertFalse( "Robot is still alive.", enemyTest.isAlive());
+        assertFalse("Robot is still alive.", enemyTest.isAlive());
     }
 
     /**
@@ -195,7 +198,7 @@ public class EnemyTest {
         float x = enemyTest.getX();
         float y = enemyTest.getY();
         enemyTest.moveRandomly(roomTest);
-        assertTrue("Enemy has not moved.",x != enemyTest.getX() || y != enemyTest.getY());
+        assertTrue("Enemy has not moved.", x != enemyTest.getX() || y != enemyTest.getY());
     }
 }
                    

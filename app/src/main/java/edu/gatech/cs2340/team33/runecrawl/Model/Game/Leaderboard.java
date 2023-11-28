@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.team33.runecrawl.Model;
+package edu.gatech.cs2340.team33.runecrawl.Model.Game;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -13,7 +13,7 @@ import java.util.TreeSet;
 public class Leaderboard {
     private static final int MAX_ATTEMPTS = 5;
     private static Leaderboard instance;
-    private final NavigableSet<GameAttempt> attempts;
+    private final NavigableSet<Attempt> attempts;
 
     /**
      * Private constructor to create a Leaderboard instance.
@@ -21,8 +21,8 @@ public class Leaderboard {
      */
     private Leaderboard() {
         // Using a TreeSet to keep top scores sorted
-        this.attempts = new TreeSet<>(Comparator.comparing(GameAttempt::getScore)
-                .reversed().thenComparing(GameAttempt::getUsername));
+        this.attempts = new TreeSet<>(Comparator.comparing(Attempt::getScore)
+                .reversed().thenComparing(Attempt::getUsername));
     }
 
     /**
@@ -43,7 +43,7 @@ public class Leaderboard {
      *
      * @return A list of top game attempts.
      */
-    public List<GameAttempt> getTopAttempts() {
+    public List<Attempt> getTopAttempts() {
         // Converting to a List to return attempts
         return new ArrayList<>(this.attempts);
     }
@@ -56,7 +56,7 @@ public class Leaderboard {
      * @param attempt The game attempt to be added to the leaderboard.
      * @throws IllegalArgumentException If the provided attempt is null.
      */
-    public void addAttempt(GameAttempt attempt) {
+    public void addAttempt(Attempt attempt) {
         if (attempt == null) {
             throw new IllegalArgumentException("Attempt cannot be null");
         }

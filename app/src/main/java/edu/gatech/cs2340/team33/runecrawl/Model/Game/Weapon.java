@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.team33.runecrawl.Model;
+package edu.gatech.cs2340.team33.runecrawl.Model.Game;
 
 /**
  * Represents different weapon types in the game.

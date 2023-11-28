@@ -1,4 +1,6 @@
-package edu.gatech.cs2340.team33.runecrawl.Model;
+package edu.gatech.cs2340.team33.runecrawl.Model.Player;
+
+import edu.gatech.cs2340.team33.runecrawl.Model.Game.Difficulty;
 
 /**
  * Represents a player in the RuneCrawl game.
@@ -8,7 +10,7 @@ package edu.gatech.cs2340.team33.runecrawl.Model;
 public class Player {
     private static Player instance;
     private final String username;
-    private final GameDifficulty difficulty;
+    private final Difficulty difficulty;
     private final PlayerType type;
     private int currentHp;
     private int score;
@@ -25,7 +27,7 @@ public class Player {
      * @throws IllegalArgumentException If the difficulty is null
      * @throws IllegalArgumentException If the player type is null
      */
-    private Player(String username, GameDifficulty difficulty, PlayerType type) {
+    private Player(String username, Difficulty difficulty, PlayerType type) {
         if (username == null || username.trim().isEmpty()) {
             throw new IllegalArgumentException("Username cannot be null, "
                     + "empty, or whitespace");
@@ -43,7 +45,7 @@ public class Player {
         this.difficulty = difficulty;
         this.type = type;
         this.currentHp = difficulty.getStartingHp();
-        this.score = 100; // Temporarily start the player's score at 100
+        this.score = 100;
     }
 
     /**
@@ -54,7 +56,7 @@ public class Player {
      * @param difficulty Chosen difficulty level for the game.
      * @param type       Player's chosen type or character.
      */
-    public static void initialize(String username, GameDifficulty difficulty, PlayerType type) {
+    public static void initialize(String username, Difficulty difficulty, PlayerType type) {
         instance = new Player(username, difficulty, type);
     }
 
@@ -88,7 +90,7 @@ public class Player {
      *
      * @return Chosen game difficulty.
      */
-    public GameDifficulty getDifficulty() {
+    public Difficulty getDifficulty() {
         return this.difficulty;
     }
 
@@ -183,13 +185,13 @@ public class Player {
     /**
      * Decrease the player's score as they take more time to complete the game.
      *
-     * @throws IllegalStateException If the current score is already at 0
+     * @param amount Amount to subtract from the player's score.
      */
-    public void decreaseScore() {
-        if (this.score <= 0) {
-            throw new IllegalStateException("Score is already 0 and cannot be decreased");
-        }
+    public void decreaseScore(int amount) {
+        this.score -= amount;
 
-        this.score -= 1;
+        if (this.score < 0) {
+            this.score = 0;
+        }
     }
 }

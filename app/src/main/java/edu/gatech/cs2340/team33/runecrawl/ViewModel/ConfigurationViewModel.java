@@ -2,9 +2,9 @@ package edu.gatech.cs2340.team33.runecrawl.ViewModel;
 
 import androidx.lifecycle.ViewModel;
 
-import edu.gatech.cs2340.team33.runecrawl.Model.GameDifficulty;
-import edu.gatech.cs2340.team33.runecrawl.Model.Player;
-import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
+import edu.gatech.cs2340.team33.runecrawl.Model.Game.Difficulty;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerType;
 import edu.gatech.cs2340.team33.runecrawl.R;
 
 /**
@@ -14,7 +14,7 @@ import edu.gatech.cs2340.team33.runecrawl.R;
  * controllers and updates the underlying model based on user inputs.
  */
 public class ConfigurationViewModel extends ViewModel {
-    private GameDifficulty difficulty;
+    private Difficulty difficulty;
     private PlayerType archetype;
 
     /**
@@ -24,11 +24,11 @@ public class ConfigurationViewModel extends ViewModel {
      */
     public void setDifficulty(int id) {
         if (id == R.id.easyButton) {
-            difficulty = GameDifficulty.EASY;
+            difficulty = Difficulty.EASY;
         } else if (id == R.id.mediumButton) {
-            difficulty = GameDifficulty.MEDIUM;
+            difficulty = Difficulty.MEDIUM;
         } else if (id == R.id.hardButton) {
-            difficulty = GameDifficulty.HARD;
+            difficulty = Difficulty.HARD;
         }
     }
 

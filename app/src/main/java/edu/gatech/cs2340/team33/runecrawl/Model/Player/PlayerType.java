@@ -1,5 +1,6 @@
-package edu.gatech.cs2340.team33.runecrawl.Model;
+package edu.gatech.cs2340.team33.runecrawl.Model.Player;
 
+import edu.gatech.cs2340.team33.runecrawl.Model.Game.Weapon;
 import edu.gatech.cs2340.team33.runecrawl.R;
 
 /**

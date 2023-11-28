@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.team33.runecrawl.Model;
+package edu.gatech.cs2340.team33.runecrawl.Model.Game;
 
 import androidx.annotation.NonNull;
 
@@ -6,11 +6,13 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
+
 /**
  * Represents a single game attempt by a player, including the username, score, and
  * date/time when the attempt was made.
  */
-public class GameAttempt {
+public class Attempt {
     private final String username;
     private final int score;
     private final Date dateTime;
@@ -21,7 +23,7 @@ public class GameAttempt {
      * @param player The player whose game attempt is being recorded.
      * @throws IllegalArgumentException If the provided player object is null.
      */
-    public GameAttempt(Player player) {
+    public Attempt(Player player) {
         if (player == null) {
             throw new IllegalArgumentException("Player cannot be null");
         }

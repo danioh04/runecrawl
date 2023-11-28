@@ -12,9 +12,9 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
-import edu.gatech.cs2340.team33.runecrawl.Model.GameAttempt;
-import edu.gatech.cs2340.team33.runecrawl.Model.Leaderboard;
-import edu.gatech.cs2340.team33.runecrawl.Model.Player;
+import edu.gatech.cs2340.team33.runecrawl.Model.Game.Attempt;
+import edu.gatech.cs2340.team33.runecrawl.Model.Game.Leaderboard;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
 
 /**
  * EndViewModel is responsible for updating the UI at the end of a game attempt,
@@ -35,14 +35,14 @@ public class EndViewModel extends ViewModel {
                                   TableLayout leaderboardTable) {
         Player player = Player.getInstance();
         if (player != null) {
-            GameAttempt currentAttempt = new GameAttempt(player);
+            Attempt currentAttempt = new Attempt(player);
             currentAttemptView.setText(currentAttempt.toString());
         } else {
             currentAttemptView.setVisibility(View.GONE);
         }
 
-        List<GameAttempt> topAttempts = Leaderboard.getInstance().getTopAttempts();
-        for (GameAttempt attempt : topAttempts) {
+        List<Attempt> topAttempts = Leaderboard.getInstance().getTopAttempts();
+        for (Attempt attempt : topAttempts) {
             TableRow row = new TableRow(context);
             addCellToRow(row, attempt.getUsername());
             addCellToRow(row, String.valueOf(attempt.getScore()));
@@ -62,7 +62,7 @@ public class EndViewModel extends ViewModel {
     public void updateEndScreen(TextView topMessage, ImageView trophy,
                                 ImageView tombstone, TextView tombstoneName) {
         Player player = Player.getInstance();
-        if (player.isDead() || player.getScore() == 0) {
+        if (player.isDead()) {
             topMessage.setText(GAME_OVER_TEXT);
             topMessage.setTextColor(GAME_OVER_TEXT_COLOR);
             trophy.setVisibility(View.INVISIBLE);

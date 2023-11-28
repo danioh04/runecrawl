@@ -7,11 +7,10 @@ import static org.junit.Assert.assertThrows;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.gatech.cs2340.team33.runecrawl.Model.Enemy;
-import edu.gatech.cs2340.team33.runecrawl.Model.EnemyType;
-import edu.gatech.cs2340.team33.runecrawl.Model.GameDifficulty;
-import edu.gatech.cs2340.team33.runecrawl.Model.Player;
-import edu.gatech.cs2340.team33.runecrawl.Model.PlayerType;
+import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.EnemyType;
+import edu.gatech.cs2340.team33.runecrawl.Model.Game.Difficulty;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
+import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerType;
 
 /**
  * This class is designed to test the functionality of the player for specifically whether they take
@@ -21,15 +20,13 @@ public class PlayerTest {
     private EnemyType enemySlime;
     private EnemyType enemyOrc;
     private EnemyType enemyRobot;
-    private EnemyType enemyWerewolf;
+
     @Before
     public void setUp() {
-        Player.initialize("testPlayer", GameDifficulty.EASY, PlayerType.MAGE);
+        Player.initialize("testPlayer", Difficulty.EASY, PlayerType.MAGE);
         enemySlime = EnemyType.SLIME;
         enemyOrc = EnemyType.ORC;
         enemyRobot = EnemyType.ROBOT;
-        enemyWerewolf = EnemyType.WEREWOLF;
-
     }
 
     /**
@@ -45,7 +42,7 @@ public class PlayerTest {
 
         assertEquals(initialHp - damage, player.getCurrentHp());
     }
-    
+
     /**
      * This is a test to see when the damage taken is greater than currentHP which means the
      * character dies so hp should be zero rather than a negative number.
@@ -71,7 +68,7 @@ public class PlayerTest {
 
         assertThrows(IllegalStateException.class, () -> {
             for (int i = 0; i < timesToDecreaseScore; i++) {
-                player.decreaseScore();
+                player.decreaseScore(1);
             }
         });
     }
@@ -82,8 +79,9 @@ public class PlayerTest {
     @Test
     public void testIllegalUsername() {
         assertThrows(IllegalArgumentException.class, () ->
-                Player.initialize(" ", GameDifficulty.EASY, PlayerType.MAGE));
+                Player.initialize(" ", Difficulty.EASY, PlayerType.MAGE));
     }
+
     /**
      * This is a test to make sure that an invalid difficulty gives an error and doesn't work.
      */
@@ -92,13 +90,14 @@ public class PlayerTest {
         assertThrows(IllegalArgumentException.class, () ->
                 Player.initialize("testPlayer", null, PlayerType.MAGE));
     }
+
     /**
      * This is a test to make sure that an invalid player type gives an error and doesn't work.
      */
     @Test
     public void testIllegalPlayerType() {
         assertThrows(IllegalArgumentException.class, () ->
-                Player.initialize("testPlayer", GameDifficulty.EASY, null));
+                Player.initialize("testPlayer", Difficulty.EASY, null));
     }
 
     /**
@@ -120,10 +119,10 @@ public class PlayerTest {
         int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
                 * enemySlime.getBaseDamageRate());
         player.receiveDamage(damage);
-
         assertEquals(player.getCurrentHp(), initialHp - damage);
 
     }
+
     /**
      * This is a test to see how the damage from the orc enemy works.
      */
@@ -134,10 +133,9 @@ public class PlayerTest {
         int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
                 * enemyOrc.getBaseDamageRate());
         player.receiveDamage(damage);
-
         assertEquals(player.getCurrentHp(), initialHp - damage);
-
     }
+
     /**
      * This is a test to see how the damage from the robot enemy works.
      */
@@ -148,7 +146,6 @@ public class PlayerTest {
         int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
                 * enemyRobot.getBaseDamageRate());
         player.receiveDamage(damage);
-
         assertEquals(player.getCurrentHp(), initialHp - damage);
 
     }
@@ -162,9 +159,7 @@ public class PlayerTest {
         int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
                 * enemyWerewolf.getBaseDamageRate());
         player.receiveDamage(damage);
-
         assertEquals(player.getCurrentHp(), initialHp - damage);
-
     }
 
 }

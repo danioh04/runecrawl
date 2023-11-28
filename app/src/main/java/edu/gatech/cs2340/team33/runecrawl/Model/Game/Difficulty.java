@@ -1,4 +1,4 @@
-package edu.gatech.cs2340.team33.runecrawl.Model;
+package edu.gatech.cs2340.team33.runecrawl.Model.Game;
 
 import androidx.annotation.NonNull;
 
@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
  * Represents the different difficulty levels in the game.
  * Each difficulty level has a specific starting HP and enemy damage rate.
  */
-public enum GameDifficulty {
+public enum Difficulty {
     EASY(100, 1),
     MEDIUM(80, 1.5),
     HARD(60, 1.75);
@@ -21,7 +21,7 @@ public enum GameDifficulty {
      * @param enemyDamageMultiplier Damage multiplier of the enemy for this difficulty.
      * @throws IllegalArgumentException If the provided starting HP is <= 0.
      */
-    GameDifficulty(int startingHp, double enemyDamageMultiplier) {
+    Difficulty(int startingHp, double enemyDamageMultiplier) {
         if (startingHp <= 0) {
             throw new IllegalArgumentException("Starting HP cannot be <= 0");
         }
