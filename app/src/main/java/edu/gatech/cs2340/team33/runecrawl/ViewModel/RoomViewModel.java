@@ -27,6 +27,7 @@ import edu.gatech.cs2340.team33.runecrawl.Model.Game.Leaderboard;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.MovementStrategy;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerObserver;
+import edu.gatech.cs2340.team33.runecrawl.R;
 import edu.gatech.cs2340.team33.runecrawl.View.CanvasView;
 import edu.gatech.cs2340.team33.runecrawl.View.EndActivity;
 
@@ -48,11 +49,13 @@ public class RoomViewModel extends Activity {
     private final float lowerYCoordinateLimit;
     private final float upperYCoordinateLimit;
     private final Map<Enemy, RectF> enemyMap = new HashMap<>();
+    private Bitmap character;
     private CanvasView canvas;
     private float characterWidth;
     private float characterHeight;
     private RectF playerRectangle;
     private Enemy collidedEnemy;
+    private boolean facingRight = true;
 
     /**
      * Constructs a new RoomViewModel with specified upper and lower limits for
@@ -234,7 +237,7 @@ public class RoomViewModel extends Activity {
      */
     public void addToCanvas(Context currentClass, ConstraintLayout screenLayout) {
         // Decode the character sprite from the resources based on the player's type
-        Bitmap character = BitmapFactory.decodeResource(currentClass.getResources(),
+        character = BitmapFactory.decodeResource(currentClass.getResources(),
                 player.getType().getSpriteResId());
 
         // Get the width and height of the character sprite
@@ -263,29 +266,98 @@ public class RoomViewModel extends Activity {
      * movement based on the key code. It uses the provided movement strategy to calculate the speed
      * and updates the player's position accordingly.
      *
+     * @param currentClass     The context of the current activity for resource access.
      * @param movementStrategy The movement strategy for the screen.
      * @param keyCode          The key code of the pressed key.
      */
-    public void onKeyDown(MovementStrategy movementStrategy, int keyCode) {
+    public void onKeyDown(Context currentClass, MovementStrategy movementStrategy, int keyCode) {
         int movementSpeed = movementStrategy.getMovementSpeed();
 
         switch (keyCode) {
-        case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
-            updatePosition(-movementSpeed, 0);
-            break;
-        case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
-            updatePosition(movementSpeed, 0);
-            break;
-        case android.view.KeyEvent.KEYCODE_DPAD_UP:
-            updatePosition(0, -movementSpeed);
-            break;
-        case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
-            updatePosition(0, movementSpeed);
-            break;
-        default:
-            break;
+            case android.view.KeyEvent.KEYCODE_SPACE:
+                switch (player.getType()) {
+                    case MAGE:
+                        if (facingRight) {
+                            character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                    R.drawable.right_attacking_mage);
+                        } else {
+                            character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                    R.drawable.left_attacking_mage);
+                        }
+                        break;
+                    case WARRIOR:
+                        if (facingRight) {
+                            character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                    R.drawable.right_attacking_warrior);
+                        } else {
+                            character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                    R.drawable.left_attacking_warrior);
+                        }
+                        break;
+                    case ARCHER:
+                        if (facingRight) {
+                            character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                    R.drawable.right_attacking_archer);
+                        } else {
+                            character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                    R.drawable.left_attacking_archer);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
+                switch (player.getType()) {
+                    case MAGE:
+                        character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                R.drawable.left_still_mage);
+                        break;
+                    case WARRIOR:
+                        character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                R.drawable.left_still_warrior);
+                        break;
+                    case ARCHER:
+                        character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                R.drawable.left_still_archer);
+                        break;
+                    default:
+                        break;
+                }
+                facingRight = false;
+                updatePosition(-movementSpeed, 0);
+                break;
+            case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
+                switch (player.getType()) {
+                    case MAGE:
+                        character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                R.drawable.right_still_mage);
+                        break;
+                    case WARRIOR:
+                        character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                R.drawable.right_still_warrior);
+                        break;
+                    case ARCHER:
+                        character = BitmapFactory.decodeResource(currentClass.getResources(),
+                                R.drawable.right_still_archer);
+                        break;
+                    default:
+                        break;
+                }
+                facingRight = true;
+                updatePosition(movementSpeed, 0);
+                break;
+            case android.view.KeyEvent.KEYCODE_DPAD_UP:
+                updatePosition(0, -movementSpeed);
+                break;
+            case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
+                updatePosition(0, movementSpeed);
+                break;
+            default:
+                break;
         }
 
+        canvas.updateSprite(character);
         updatePlayerAndHitbox();
     }
 
@@ -471,28 +543,28 @@ public class RoomViewModel extends Activity {
         int movementSpeed = movementStrategy.getMovementSpeed();
 
         switch (keyCode) {
-        case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
-            if (player.getX() - movementSpeed >= lowerXCoordinateLimit) {
-                player.setX(player.getX() - movementSpeed);
-            }
-            break;
-        case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
-            if (player.getX() + movementSpeed + 10 <= upperXCoordinateLimit) {
-                player.setX(player.getX() + movementSpeed);
-            }
-            break;
-        case android.view.KeyEvent.KEYCODE_DPAD_UP:
-            if (player.getY() - movementSpeed >= lowerYCoordinateLimit) {
-                player.setY(player.getY() - movementSpeed);
-            }
-            break;
-        case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
-            if (player.getY() + movementSpeed + 10 <= upperYCoordinateLimit) {
-                player.setY(player.getY() + movementSpeed);
-            }
-            break;
-        default:
-            break;
+            case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
+                if (player.getX() - movementSpeed >= lowerXCoordinateLimit) {
+                    player.setX(player.getX() - movementSpeed);
+                }
+                break;
+            case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
+                if (player.getX() + movementSpeed + 10 <= upperXCoordinateLimit) {
+                    player.setX(player.getX() + movementSpeed);
+                }
+                break;
+            case android.view.KeyEvent.KEYCODE_DPAD_UP:
+                if (player.getY() - movementSpeed >= lowerYCoordinateLimit) {
+                    player.setY(player.getY() - movementSpeed);
+                }
+                break;
+            case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
+                if (player.getY() + movementSpeed + 10 <= upperYCoordinateLimit) {
+                    player.setY(player.getY() + movementSpeed);
+                }
+                break;
+            default:
+                break;
         }
 
         return new float[]{player.getX(), player.getY()};

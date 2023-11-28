@@ -69,7 +69,7 @@ public class InitialRoomActivity extends AppCompatActivity
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        room.onKeyDown(movementStrategy, keyCode);
+        room.onKeyDown(this, movementStrategy, keyCode);
         room.isDoorCollision(540, 215);
         room.isEnemyCollision();
         return true;

@@ -87,21 +87,21 @@
 
         <ImageView
             android:id="@+id/mageImage"
-            android:layout_width="140dp"
+            android:layout_width="119dp"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/mage" />
+            app:srcCompat="@drawable/right_still_mage" />
 
         <ImageView
             android:id="@+id/warriorImage"
-            android:layout_width="104dp"
+            android:layout_width="110dp"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/warrior" />
+            app:srcCompat="@drawable/right_still_warrior" />
 
         <ImageView
             android:id="@+id/archerImage"
-            android:layout_width="104dp"
+            android:layout_width="120dp"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/archer" />
+            app:srcCompat="@drawable/right_still_archer" />
     </RadioGroup>
 
     <RadioGroup
@@ -110,12 +110,13 @@
         android:layout_height="55dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.737"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/characters">
 
         <RadioButton
             android:id="@+id/mageButton"
-            android:layout_width="47dp"
+            android:layout_width="41dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Mage" />
@@ -129,11 +130,12 @@
 
         <RadioButton
             android:id="@+id/archerButton"
-            android:layout_width="4dp"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:layout_weight="1"
             android:text="Archer" />
+
     </RadioGroup>
 
     <TextView

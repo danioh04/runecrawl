@@ -8,9 +8,9 @@ import edu.gatech.cs2340.team33.runecrawl.R;
  * Each player type has an associated default weapon and a sprite resource ID for representation.
  */
 public enum PlayerType {
-    MAGE(Weapon.WAND, R.drawable.mage),
-    WARRIOR(Weapon.SWORD, R.drawable.warrior),
-    ARCHER(Weapon.BOW, R.drawable.archer);
+    MAGE(Weapon.WAND, R.drawable.right_still_mage),
+    WARRIOR(Weapon.SWORD, R.drawable.right_still_warrior),
+    ARCHER(Weapon.BOW, R.drawable.right_still_archer);
 
     private final Weapon weapon;
     private final int spriteResId;
