@@ -492,7 +492,7 @@ public class RoomViewModel extends Activity {
     }
 
     /**
-     * Updates the player's position and hitbox on the canvas.This method updates the canvas with
+     * Updates the player's position and hitbox on the canvas. This method updates the canvas with
      * the new position of the player and recalculates the hitbox based on the new position. It
      * ensures that the graphical representation of the player and its hitbox are synchronized.
      */
@@ -540,11 +540,9 @@ public class RoomViewModel extends Activity {
                         collidedEnemy = enemy;
                     }
                 }
-
                 if (playerRectangle.intersect(enemyRectangle)) {
                     notifyEnemyObservers();
                 }
-
                 if (isAttacking) {
                     player.killEnemy();
                     enemiesToRemove.add(enemyRectangle);
