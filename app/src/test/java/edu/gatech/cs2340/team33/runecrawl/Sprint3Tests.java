@@ -38,12 +38,12 @@ public class Sprint3Tests {
     public void enemyShouldMoveWithinRoomBoundaries() {
         RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY, 0, ROOM_BOUNDARY);
         enemy.moveRandomly(room);
-        boolean inBounds = enemy.getX() >= room.getLowerXCoordinateLimit() &&
-                enemy.getX() <= room.getUpperXCoordinateLimit() &&
-                enemy.getY() <= room.getUpperYCoordinateLimit() &&
-                enemy.getY() >= room.getLowerYCoordinateLimit();
-        String failureString = String.format("Enemy is out of bounds \nUpper Bound: (%d, %d) " +
-                        "\nLower Bound (0,0)\n Enemy Coordinate: (%f,%f)",
+        boolean inBounds = enemy.getX() >= room.getLowerXCoordinateLimit()
+                && enemy.getX() <= room.getUpperXCoordinateLimit()
+                && enemy.getY() <= room.getUpperYCoordinateLimit()
+                && enemy.getY() >= room.getLowerYCoordinateLimit();
+        String failureString = String.format("Enemy is out of bounds \nUpper Bound: (%d, %d) "
+                        + "\nLower Bound (0,0)\n Enemy Coordinate: (%f,%f)",
                 ROOM_BOUNDARY, ROOM_BOUNDARY, enemy.getX(), enemy.getY());
         assertTrue(failureString, inBounds);
     }
