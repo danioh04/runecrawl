@@ -18,7 +18,7 @@ import edu.gatech.cs2340.team33.runecrawl.Model.RoomStrategies.ThirdRoomStrategy
 import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
 
-public class PlayerMovementTest {
+public class Sprint4Tests {
     @Before
     public void setUp() {
         Player.initialize("testPlayer", Difficulty.EASY, PlayerType.MAGE);

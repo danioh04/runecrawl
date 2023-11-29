@@ -69,10 +69,13 @@ public class ThirdRoomActivity extends AppCompatActivity implements PlayerObserv
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        room.onKeyDown(movementStrategy, keyCode);
+        room.onKeyDown(this, movementStrategy, keyCode);
         room.isDoorCollision(410, 75);
         room.isDoorCollision(670, 75);
-        room.isEnemyCollision();
+
+        if (room.isEnemyCollision()) {
+            score.setText(String.format("Score: %s", Player.getInstance().getScore()));
+        }
 
         if (room.isPotionCollision()) {
             hp.setText(String.format("HP: %s", Player.getInstance().getCurrentHp()));

@@ -8,18 +8,19 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.Enemy;
 import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.EnemyType;
 import edu.gatech.cs2340.team33.runecrawl.Model.Game.Difficulty;
+import edu.gatech.cs2340.team33.runecrawl.Model.Items.BasicPotion;
+import edu.gatech.cs2340.team33.runecrawl.Model.Items.JumboPotion;
+import edu.gatech.cs2340.team33.runecrawl.Model.Items.PotionDecorator;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerType;
-import edu.gatech.cs2340.team33.runecrawl.ViewModel.RoomViewModel;
 
 /**
  * This class is designed to test the functionality of the player for specifically whether they take
  * damage and die properly
  */
-public class PlayerTest {
+public class Sprint2Tests {
     private EnemyType enemySlime;
     private EnemyType enemyOrc;
     private EnemyType enemyRobot;
@@ -192,6 +193,9 @@ public class PlayerTest {
 
     }
 
+    /**
+     * ُTests if player receives damage after score is zero
+     */
     @Test
     public void testPlayerRecieveDamageAfterZeroScore() {
         Player.initialize("testPlayer", Difficulty.HARD, PlayerType.MAGE);
@@ -201,12 +205,7 @@ public class PlayerTest {
                 * EnemyType.WEREWOLF.getBaseDamageRate());
         int multi = (score / damage) + 1;
         damage = damage * multi;
-        player.decreaseScore(damage);
-        player.decreaseScore(10); //
+        player.decreaseScore(damage + 10);
         assertEquals(0, player.getScore());
     }
-
-
-
-
 }

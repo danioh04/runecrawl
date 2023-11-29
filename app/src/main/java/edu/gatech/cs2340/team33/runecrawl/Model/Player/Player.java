@@ -184,6 +184,13 @@ public class Player {
     }
 
     /**
+     * Increases the score of the character when an enemy is killed.
+     */
+    public void killEnemy() {
+        this.score += 10;
+    }
+
+    /**
      * Increases the current hit points (HP) of the character by the health boost provided by the
      * potion.
      *
@@ -195,7 +202,7 @@ public class Player {
     }
 
     /**
-     * Decrease the player's score as they take more time to complete the game.
+     * Decreases the player's score as they take more time to complete the game.
      *
      * @param amount Amount to subtract from the player's score.
      */

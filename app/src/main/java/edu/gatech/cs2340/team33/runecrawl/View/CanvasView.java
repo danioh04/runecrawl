@@ -15,14 +15,13 @@ import java.util.List;
  */
 @SuppressLint("ViewConstructor")
 public class CanvasView extends View {
-    private final Bitmap character;
     private final List<Bitmap> enemySprites;
     private final List<Float> enemyX;
     private final List<Float> enemyY;
     private final List<Bitmap> potionSprites;
     private final List<Float> potionX;
     private final List<Float> potionY;
-
+    private Bitmap character;
     private float playerX;
     private float playerY;
 
@@ -62,7 +61,7 @@ public class CanvasView extends View {
         for (int i = 0; i < enemySprites.size(); i++) {
             canvas.drawBitmap(enemySprites.get(i), enemyX.get(i), enemyY.get(i), null);
         }
-        
+
         for (int i = 0; i < potionSprites.size(); i++) {
             canvas.drawBitmap(potionSprites.get(i), potionX.get(i), potionY.get(i), null);
         }
@@ -107,6 +106,16 @@ public class CanvasView extends View {
     }
 
     /**
+     * Updates the sprite of the character.
+     *
+     * @param newSprite The new character sprite.
+     */
+    public void updateSprite(Bitmap newSprite) {
+        character = newSprite;
+        invalidate();
+    }
+
+    /**
      * Adds a new potion to the game with its sprite and position.
      *
      * @param sprite The Bitmap representing the potion's sprite.
@@ -131,6 +140,24 @@ public class CanvasView extends View {
                 potionSprites.remove(i);
                 potionX.remove(i);
                 potionY.remove(i);
+                invalidate();
+                break;
+            }
+        }
+    }
+
+    /**
+     * Removes an enemy from the canvas.
+     *
+     * @param x The X coordinate of the enemy to be removed.
+     * @param y The Y coordinate of the enemy to be removed.
+     */
+    public void removeEnemy(float x, float y) {
+        for (int i = 0; i < enemyX.size(); i++) {
+            if (enemyX.get(i) == x && enemyY.get(i) == y) {
+                enemySprites.remove(i);
+                enemyX.remove(i);
+                enemyY.remove(i);
                 invalidate();
                 break;
             }
