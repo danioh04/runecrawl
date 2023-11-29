@@ -193,7 +193,7 @@ public class RoomViewModel extends Activity {
             Bitmap bossSprite = BitmapFactory.decodeResource(currentClass.getResources(),
                     EnemyType.BOSS.getSpriteResId());
             addEnemyToGame(bossEnemy, position, bossSprite);
-            return;
+
         }
 
         for (EnemyType type : types) {
