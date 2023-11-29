@@ -35,7 +35,7 @@ public class Sprint4Tests {
         float x = 50;
         float y = 50;
         float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_LEFT);
-        assertTrue("Player did not Move Left.",coordinates[0] < x);
+        assertTrue("Player did not Move Left.", coordinates[0] < x);
         assertEquals(coordinates[1], y, 0.0);
     }
 
@@ -49,8 +49,9 @@ public class Sprint4Tests {
         room.setXY(50, 50);
         float x = 50;
         float y = 50;
-        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
-        assertTrue("Player did not move Right.",coordinates[0] > x);
+        float[] coordinates = room.testKeyPress(playerMovementStrategy,
+                KeyEvent.KEYCODE_DPAD_RIGHT);
+        assertTrue("Player did not move Right.", coordinates[0] > x);
         assertEquals(coordinates[1], y, 0.0);
     }
 
@@ -97,7 +98,7 @@ public class Sprint4Tests {
         for (int i = 0; i < 10; i++) {
             coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_LEFT);
         }
-        assertTrue("Player is out of bounds",coordinates[0] >= 0);
+        assertTrue("Player is out of bounds", coordinates[0] >= 0);
         assertEquals(coordinates[1], y, 0.0);
     }
 
@@ -110,11 +111,12 @@ public class Sprint4Tests {
         MovementStrategy playerMovementStrategy = new InitialRoomStrategy();
         room.setXY(50, 50);
         float y = 50;
-        float[] coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
+        float[] coordinates = room.testKeyPress(playerMovementStrategy,
+                KeyEvent.KEYCODE_DPAD_RIGHT);
         for (int i = 0; i < 10; i++) {
             coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_RIGHT);
         }
-        assertTrue("Player is out of bounds",coordinates[0] <= 200);
+        assertTrue("Player is out of bounds", coordinates[0] <= 200);
         assertEquals(coordinates[1], y, 0.0);
     }
 
@@ -132,7 +134,7 @@ public class Sprint4Tests {
             coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_UP);
         }
         assertEquals(coordinates[0], x, 0.0);
-        assertTrue("Player is out of bounds",coordinates[1] >= 0);
+        assertTrue("Player is out of bounds", coordinates[1] >= 0);
     }
 
     /**
@@ -149,7 +151,7 @@ public class Sprint4Tests {
             coordinates = room.testKeyPress(playerMovementStrategy, KeyEvent.KEYCODE_DPAD_DOWN);
         }
         assertEquals(coordinates[0], x, 0.0);
-        assertTrue("Player is out of bounds",coordinates[1] <= 200);
+        assertTrue("Player is out of bounds", coordinates[1] <= 200);
     }
 
     /**
