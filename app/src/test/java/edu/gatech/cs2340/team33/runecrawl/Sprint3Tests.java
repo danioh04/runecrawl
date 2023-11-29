@@ -45,6 +45,7 @@ public class Sprint3Tests {
         String failureString = String.format("Enemy is out of bounds \nUpper Bound: (%d, %d) " +
                         "\nLower Bound (0,0)\n Enemy Coordinate: (%f,%f)",
                 ROOM_BOUNDARY, ROOM_BOUNDARY, enemy.getX(), enemy.getY());
+
         assertTrue(failureString, inBounds);
     }
 
@@ -60,6 +61,7 @@ public class Sprint3Tests {
         RoomViewModel room = new RoomViewModel(0, ROOM_BOUNDARY, 0, ROOM_BOUNDARY);
         enemy.moveRandomly(room);
         boolean hasMoved = (initialX != enemy.getX()) || (initialY != enemy.getY());
+
         assertTrue("Enemy has not Moved.", hasMoved);
     }
 
@@ -69,6 +71,7 @@ public class Sprint3Tests {
     @Test
     public void enemyShouldBeDeadAfterLethalDamage() {
         enemy.receiveDamage(MAX_HEALTH);
+
         assertFalse("Enemy is still alive.", enemy.isAlive());
     }
 
@@ -78,6 +81,7 @@ public class Sprint3Tests {
     @Test
     public void enemyHealthShouldDecreaseAfterDamage() {
         enemy.receiveDamage(DAMAGE);
+
         assertEquals(MAX_HEALTH - DAMAGE, enemy.getCurrentHp());
     }
 
@@ -90,6 +94,7 @@ public class Sprint3Tests {
         Enemy enemyTest = new Enemy(EnemyType.SLIME, 50, 20, 20);
         int damage = enemyTest.getCurrentHp() - 1;
         enemyTest.receiveDamage(damage);
+
         assertEquals(enemyTest.getCurrentHp(), 1);
     }
 
@@ -101,6 +106,7 @@ public class Sprint3Tests {
         Enemy enemyTest = new Enemy(EnemyType.SLIME, 50, 20, 20);
         int damage = enemyTest.getCurrentHp() + 1;
         enemyTest.receiveDamage(damage);
+
         assertFalse("Slime is still Alive.", enemyTest.isAlive());
     }
 
@@ -112,6 +118,7 @@ public class Sprint3Tests {
         Enemy enemyTest = new Enemy(EnemyType.ORC, 50, 20, 20);
         int damage = enemyTest.getCurrentHp() + 1;
         enemyTest.receiveDamage(damage);
+
         assertFalse("Orc is Still Alive.", enemyTest.isAlive());
     }
 
@@ -123,6 +130,7 @@ public class Sprint3Tests {
         Enemy enemyTest = new Enemy(EnemyType.WEREWOLF, 50, 20, 20);
         int damage = enemyTest.getCurrentHp() + 1;
         enemyTest.receiveDamage(damage);
+
         assertFalse("Werewolf is still alive.", enemyTest.isAlive());
     }
 
@@ -134,6 +142,7 @@ public class Sprint3Tests {
         Enemy enemyTest = new Enemy(EnemyType.ROBOT, 50, 20, 20);
         int damage = enemyTest.getCurrentHp() + 1;
         enemyTest.receiveDamage(damage);
+
         assertFalse("Robot is still alive.", enemyTest.isAlive());
     }
 
@@ -206,6 +215,7 @@ public class Sprint3Tests {
         float x = enemyTest.getX();
         float y = enemyTest.getY();
         enemyTest.moveRandomly(roomTest);
+
         assertTrue("Enemy has not moved.", x != enemyTest.getX() || y != enemyTest.getY());
     }
 

@@ -214,6 +214,7 @@ public class Sprint5Tests {
         Enemy enemyTest = new Enemy(EnemyType.SLIME, 50, 20, 20);
         int damage = enemyTest.getCurrentHp() -1;
         enemyTest.receiveDamage(damage);
+
         assertEquals(1, enemyTest.getCurrentHp());
     }
 
@@ -228,6 +229,7 @@ public class Sprint5Tests {
         JumboPotion potion1 = new JumboPotion(potion);
         int health = player.getCurrentHp() + potion1.getHealthBoost();
         player.drinkPotion(potion1);
+
         assertEquals(health, player.getCurrentHp());
     }
 }
