@@ -10,7 +10,8 @@ public enum EnemyType {
     SLIME(R.drawable.slime, 2, 30),
     ROBOT(R.drawable.robot, 5, 40),
     ORC(R.drawable.orc, 8, 20),
-    WEREWOLF(R.drawable.werewolf, 10, 45);
+    WEREWOLF(R.drawable.werewolf, 10, 45),
+    BOSS(R.drawable.boss, 50, 30);
 
     private final int spriteResId;
     private final int baseDamageRate;

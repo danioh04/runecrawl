@@ -36,6 +36,9 @@ import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerObserver;
 import edu.gatech.cs2340.team33.runecrawl.R;
 import edu.gatech.cs2340.team33.runecrawl.View.CanvasView;
 import edu.gatech.cs2340.team33.runecrawl.View.EndActivity;
+import edu.gatech.cs2340.team33.runecrawl.View.Rooms.InitialRoomActivity;
+import edu.gatech.cs2340.team33.runecrawl.View.Rooms.SecondRoomActivity;
+import edu.gatech.cs2340.team33.runecrawl.View.Rooms.ThirdRoomActivity;
 
 /**
  * Room is a ViewModel class that is the skeleton for all room activity classes.
@@ -66,6 +69,7 @@ public class RoomViewModel extends Activity {
     private RectF attackWindow;
     private boolean isAttacking = false;
     private Enemy collidedEnemy;
+    private static int currentRoom = 1;
     private boolean facingRight = true;
 
     /**
@@ -177,6 +181,20 @@ public class RoomViewModel extends Activity {
      */
     private void generateEnemies(Context currentClass) {
         EnemyType[] types = {EnemyType.SLIME, EnemyType.ROBOT, EnemyType.ORC, EnemyType.WEREWOLF};
+
+
+        if (currentRoom == 3) {
+            float xCoord = this.lowerXCoordinateLimit + (float) (.5
+                    * (this.upperXCoordinateLimit - this.lowerXCoordinateLimit));
+            float yCoord = this.lowerYCoordinateLimit + (float) (.25
+                    * (this.upperYCoordinateLimit - this.lowerYCoordinateLimit));
+            PointF position = new PointF(xCoord, yCoord);
+            Enemy bossEnemy = EnemyFactory.createEnemy(EnemyType.BOSS);
+            Bitmap bossSprite = BitmapFactory.decodeResource(currentClass.getResources(),
+                    EnemyType.BOSS.getSpriteResId());
+            addEnemyToGame(bossEnemy, position, bossSprite);
+            return;
+        }
 
         for (EnemyType type : types) {
             PointF randomPosition = generateRandomPosition();
@@ -685,7 +703,7 @@ public class RoomViewModel extends Activity {
      */
     public void moveToEndScreen(Context currentClass) {
         timer.cancel();
-
+        currentRoom = 1;
         // Add current game attempt to the leaderboard if they finished
         if (player.getCurrentHp() > 0) {
             Attempt currentAttempt = new Attempt(player);
@@ -705,6 +723,13 @@ public class RoomViewModel extends Activity {
      */
     public void moveToNextScreen(Context currentClass, Class<?> nextClass) {
         timer.cancel();
+        if (nextClass.equals(InitialRoomActivity.class)) {
+            currentRoom = 1;
+        } else if (nextClass.equals(SecondRoomActivity.class)) {
+            currentRoom = 2;
+        } else if (nextClass.equals(ThirdRoomActivity.class)) {
+            currentRoom = 3;
+        }
 
         // Move on to the next screen
         Intent nextActivity = new Intent(currentClass, nextClass);
