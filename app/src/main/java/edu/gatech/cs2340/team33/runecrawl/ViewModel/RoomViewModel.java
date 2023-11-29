@@ -333,19 +333,8 @@ public class RoomViewModel extends Activity {
                             R.drawable.left_attacking_mage);
                     attackWindow = createLeftFacingRectangle();
                 }
-
-                handler.postDelayed(() -> runOnUiThread(() -> {
-                    isAttacking = false;
-                    if (facingRight) {
-                        character = BitmapFactory.decodeResource(currentClass.getResources(),
-                                R.drawable.right_still_mage);
-                    } else {
-                        character = BitmapFactory.decodeResource(currentClass.getResources(),
-                                R.drawable.left_still_mage);
-                    }
-                    canvas.updateSprite(character);
-                }), 500);
-
+                runHandler(currentClass, R.drawable.left_still_mage,
+                        R.drawable.right_still_mage);
                 break;
             case WARRIOR:
                 isAttacking = true;
@@ -358,19 +347,8 @@ public class RoomViewModel extends Activity {
                             R.drawable.left_attacking_warrior);
                     attackWindow = createLeftFacingRectangle();
                 }
-
-                handler.postDelayed(() -> runOnUiThread(() -> {
-                    isAttacking = false;
-                    if (facingRight) {
-                        character = BitmapFactory.decodeResource(currentClass.getResources(),
-                                R.drawable.right_still_warrior);
-                    } else {
-                        character = BitmapFactory.decodeResource(currentClass.getResources(),
-                                R.drawable.left_still_warrior);
-                    }
-                    canvas.updateSprite(character);
-                }), 500);
-
+                runHandler(currentClass, R.drawable.left_still_warrior,
+                        R.drawable.right_still_warrior);
                 break;
             case ARCHER:
                 isAttacking = true;
@@ -383,19 +361,8 @@ public class RoomViewModel extends Activity {
                             R.drawable.left_attacking_archer);
                     attackWindow = createLeftFacingRectangle();
                 }
-
-                handler.postDelayed(() -> runOnUiThread(() -> {
-                    isAttacking = false;
-                    if (facingRight) {
-                        character = BitmapFactory.decodeResource(currentClass.getResources(),
-                                R.drawable.right_still_archer);
-                    } else {
-                        character = BitmapFactory.decodeResource(currentClass.getResources(),
-                                R.drawable.left_still_archer);
-                    }
-                    canvas.updateSprite(character);
-                }), 500);
-
+                runHandler(currentClass, R.drawable.left_still_archer,
+                        R.drawable.right_still_archer);
                 break;
             default:
                 break;
@@ -457,6 +424,27 @@ public class RoomViewModel extends Activity {
 
         canvas.updateSprite(character);
         updatePlayerAndHitbox();
+    }
+
+    /**
+     * Reverts the character back to its original form after half a second after attacking.
+     *
+     * @param currentClass The context of the current activity for resource access.
+     * @param spriteLeft   The resource ID of the sprite when facing left.
+     * @param spriteRight  The resource ID of the sprite when facing right.
+     */
+    public void runHandler(Context currentClass, int spriteLeft, int spriteRight) {
+        handler.postDelayed(() -> runOnUiThread(() -> {
+            isAttacking = false;
+            if (facingRight) {
+                character = BitmapFactory.decodeResource(currentClass.getResources(),
+                        spriteRight);
+            } else {
+                character = BitmapFactory.decodeResource(currentClass.getResources(),
+                        spriteLeft);
+            }
+            canvas.updateSprite(character);
+        }), 500);
     }
 
     /**
