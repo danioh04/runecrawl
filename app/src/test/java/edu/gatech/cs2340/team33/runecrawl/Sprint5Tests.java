@@ -206,6 +206,9 @@ public class Sprint5Tests {
         assertEquals(basicPotion.getHealthBoost() + 5, decoratorSP.getHealthBoost());
     }
 
+    /**
+     * tests if enemy's health decreases when receiving damage
+     */
     @Test
     public void testSlimeTakingDamage() {
         Enemy enemyTest = new Enemy(EnemyType.SLIME, 50, 20, 20);
@@ -214,6 +217,9 @@ public class Sprint5Tests {
         assertEquals(1, enemyTest.getCurrentHp());
     }
 
+    /**
+     * checks that player's health increases after drinking potion
+     */
     @Test
     public void testPlayerDrinkPotion() {
         Player.initialize("testPlayer", Difficulty.HARD, PlayerType.MAGE);
