@@ -327,18 +327,13 @@ public class RoomViewModel extends Activity {
                 if (facingRight) {
                     character = BitmapFactory.decodeResource(currentClass.getResources(),
                             R.drawable.right_attacking_mage);
-                    attackWindow = new RectF(player.getX() - characterWidth / 2,
-                            player.getY() - characterHeight / 2,
-                            player.getX() + characterWidth,
-                            player.getY() + characterHeight / 2);
+                    attackWindow = createRightFacingRectangle();
                 } else {
                     character = BitmapFactory.decodeResource(currentClass.getResources(),
                             R.drawable.left_attacking_mage);
-                    attackWindow = new RectF(player.getX() - characterWidth,
-                            player.getY() - characterHeight / 2,
-                            player.getX() + characterWidth / 2,
-                            player.getY() + characterHeight / 2);
+                    attackWindow = createLeftFacingRectangle();
                 }
+
                 handler.postDelayed(() -> runOnUiThread(() -> {
                     isAttacking = false;
                     if (facingRight) {
@@ -350,24 +345,20 @@ public class RoomViewModel extends Activity {
                     }
                     canvas.updateSprite(character);
                 }), 500);
+
                 break;
             case WARRIOR:
                 isAttacking = true;
                 if (facingRight) {
                     character = BitmapFactory.decodeResource(currentClass.getResources(),
                             R.drawable.right_attacking_warrior);
-                    attackWindow = new RectF(player.getX() - characterWidth / 2,
-                            player.getY() - characterHeight / 2,
-                            player.getX() + characterWidth,
-                            player.getY() + characterHeight / 2);
+                    attackWindow = createRightFacingRectangle();
                 } else {
                     character = BitmapFactory.decodeResource(currentClass.getResources(),
                             R.drawable.left_attacking_warrior);
-                    attackWindow = new RectF(player.getX() - characterWidth,
-                            player.getY() - characterHeight / 2,
-                            player.getX() + characterWidth / 2,
-                            player.getY() + characterHeight / 2);
+                    attackWindow = createLeftFacingRectangle();
                 }
+
                 handler.postDelayed(() -> runOnUiThread(() -> {
                     isAttacking = false;
                     if (facingRight) {
@@ -379,24 +370,20 @@ public class RoomViewModel extends Activity {
                     }
                     canvas.updateSprite(character);
                 }), 500);
+
                 break;
             case ARCHER:
                 isAttacking = true;
                 if (facingRight) {
                     character = BitmapFactory.decodeResource(currentClass.getResources(),
                             R.drawable.right_attacking_archer);
-                    attackWindow = new RectF(player.getX() - characterWidth / 2,
-                            player.getY() - characterHeight / 2,
-                            player.getX() + characterWidth,
-                            player.getY() + characterHeight / 2);
+                    attackWindow = createRightFacingRectangle();
                 } else {
                     character = BitmapFactory.decodeResource(currentClass.getResources(),
                             R.drawable.left_attacking_archer);
-                    attackWindow = new RectF(player.getX() - characterWidth,
-                            player.getY() - characterHeight / 2,
-                            player.getX() + characterWidth / 2,
-                            player.getY() + characterHeight / 2);
+                    attackWindow = createLeftFacingRectangle();
                 }
+
                 handler.postDelayed(() -> runOnUiThread(() -> {
                     isAttacking = false;
                     if (facingRight) {
@@ -408,12 +395,14 @@ public class RoomViewModel extends Activity {
                     }
                     canvas.updateSprite(character);
                 }), 500);
+
                 break;
             default:
                 break;
             }
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
+            createRectangle();
             switch (player.getType()) {
             case MAGE:
                 character = BitmapFactory.decodeResource(currentClass.getResources(),
@@ -434,6 +423,7 @@ public class RoomViewModel extends Activity {
             updatePosition(-movementSpeed, 0);
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
+            createRectangle();
             switch (player.getType()) {
             case MAGE:
                 character = BitmapFactory.decodeResource(currentClass.getResources(),
@@ -454,9 +444,11 @@ public class RoomViewModel extends Activity {
             updatePosition(movementSpeed, 0);
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_UP:
+            attackWindow = createRectangle();
             updatePosition(0, -movementSpeed);
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
+            createRectangle();
             updatePosition(0, movementSpeed);
             break;
         default:
@@ -506,10 +498,7 @@ public class RoomViewModel extends Activity {
      */
     private void updatePlayerAndHitbox() {
         canvas.updatePlayerPosition(player.getX(), player.getY());
-        playerRectangle = new RectF(player.getX() - characterWidth / 2,
-                player.getY() - characterHeight / 2,
-                player.getX() + characterWidth / 2,
-                player.getY() + characterHeight / 2);
+        playerRectangle = createRectangle();
     }
 
     /**
@@ -611,6 +600,27 @@ public class RoomViewModel extends Activity {
         }
 
         return collisionHappened;
+    }
+
+    public RectF createRectangle() {
+        return new RectF(player.getX() - characterWidth / 2,
+                player.getY() - characterHeight / 2,
+                player.getX() + characterWidth / 2,
+                player.getY() + characterHeight / 2);
+    }
+
+    public RectF createLeftFacingRectangle() {
+        return new RectF(player.getX() - characterWidth,
+                player.getY() - characterHeight / 2,
+                player.getX() + characterWidth / 2,
+                player.getY() + characterHeight / 2);
+    }
+
+    public RectF createRightFacingRectangle() {
+        return new RectF(player.getX() - characterWidth / 2,
+                player.getY() - characterHeight / 2,
+                player.getX() + characterWidth,
+                player.getY() + characterHeight / 2);
     }
 
     /**
