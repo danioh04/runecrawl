@@ -184,16 +184,7 @@ public class RoomViewModel extends Activity {
 
 
         if (currentRoom == 3) {
-            float xCoord = this.lowerXCoordinateLimit + (float) (.5
-                    * (this.upperXCoordinateLimit - this.lowerXCoordinateLimit));
-            float yCoord = this.lowerYCoordinateLimit + (float) (.25
-                    * (this.upperYCoordinateLimit - this.lowerYCoordinateLimit));
-            PointF position = new PointF(xCoord, yCoord);
-            Enemy bossEnemy = EnemyFactory.createEnemy(EnemyType.BOSS);
-            Bitmap bossSprite = BitmapFactory.decodeResource(currentClass.getResources(),
-                    EnemyType.BOSS.getSpriteResId());
-            addEnemyToGame(bossEnemy, position, bossSprite);
-            return;
+            spawnBoss(currentClass);
         }
 
         for (EnemyType type : types) {
@@ -204,6 +195,22 @@ public class RoomViewModel extends Activity {
 
             addEnemyToGame(randomEnemy, randomPosition, enemySprite);
         }
+    }
+
+    /**
+     * Spawns the Boss enemy on the third room.
+     * @param currentClass The context of the current activity for accessing resources.
+     */
+    private void spawnBoss(Context currentClass) {
+        float xCoord = this.lowerXCoordinateLimit + (float) (.5
+                * (this.upperXCoordinateLimit - this.lowerXCoordinateLimit));
+        float yCoord = this.lowerYCoordinateLimit + (float) (.25
+                * (this.upperYCoordinateLimit - this.lowerYCoordinateLimit));
+        PointF position = new PointF(xCoord, yCoord);
+        Enemy bossEnemy = EnemyFactory.createEnemy(EnemyType.BOSS);
+        Bitmap bossSprite = BitmapFactory.decodeResource(currentClass.getResources(),
+                EnemyType.BOSS.getSpriteResId());
+        addEnemyToGame(bossEnemy, position, bossSprite);
     }
 
     /**
