@@ -238,7 +238,7 @@ public class RoomViewModel extends Activity {
     private void generatePotions(Context currentClass) {
         Potion basePotion = new BasicPotion();
         Potion[] types = {new SmallPotion(basePotion), new MediumPotion(basePotion),
-            new JumboPotion(basePotion)};
+                new JumboPotion(basePotion)};
 
         for (Potion potion : types) {
             PointF randomPosition = generateRandomPosition();
@@ -402,7 +402,7 @@ public class RoomViewModel extends Activity {
             }
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
-            createRectangle();
+            attackWindow = createRectangle();
             switch (player.getType()) {
             case MAGE:
                 character = BitmapFactory.decodeResource(currentClass.getResources(),
@@ -423,7 +423,7 @@ public class RoomViewModel extends Activity {
             updatePosition(-movementSpeed, 0);
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
-            createRectangle();
+            attackWindow = createRectangle();
             switch (player.getType()) {
             case MAGE:
                 character = BitmapFactory.decodeResource(currentClass.getResources(),
@@ -448,7 +448,7 @@ public class RoomViewModel extends Activity {
             updatePosition(0, -movementSpeed);
             break;
         case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
-            createRectangle();
+            attackWindow = createRectangle();
             updatePosition(0, movementSpeed);
             break;
         default:
@@ -725,28 +725,28 @@ public class RoomViewModel extends Activity {
         int movementSpeed = movementStrategy.getMovementSpeed();
 
         switch (keyCode) {
-        case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
-            if (player.getX() - movementSpeed >= lowerXCoordinateLimit) {
-                player.setX(player.getX() - movementSpeed);
-            }
-            break;
-        case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
-            if (player.getX() + movementSpeed + 10 <= upperXCoordinateLimit) {
-                player.setX(player.getX() + movementSpeed);
-            }
-            break;
-        case android.view.KeyEvent.KEYCODE_DPAD_UP:
-            if (player.getY() - movementSpeed >= lowerYCoordinateLimit) {
-                player.setY(player.getY() - movementSpeed);
-            }
-            break;
-        case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
-            if (player.getY() + movementSpeed + 10 <= upperYCoordinateLimit) {
-                player.setY(player.getY() + movementSpeed);
-            }
-            break;
-        default:
-            break;
+            case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
+                if (player.getX() - movementSpeed >= lowerXCoordinateLimit) {
+                    player.setX(player.getX() - movementSpeed);
+                }
+                break;
+            case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
+                if (player.getX() + movementSpeed + 10 <= upperXCoordinateLimit) {
+                    player.setX(player.getX() + movementSpeed);
+                }
+                break;
+            case android.view.KeyEvent.KEYCODE_DPAD_UP:
+                if (player.getY() - movementSpeed >= lowerYCoordinateLimit) {
+                    player.setY(player.getY() - movementSpeed);
+                }
+                break;
+            case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
+                if (player.getY() + movementSpeed + 10 <= upperYCoordinateLimit) {
+                    player.setY(player.getY() + movementSpeed);
+                }
+                break;
+            default:
+                break;
         }
 
         return new float[]{player.getX(), player.getY()};
