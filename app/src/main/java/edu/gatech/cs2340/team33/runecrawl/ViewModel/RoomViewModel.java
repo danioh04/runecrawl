@@ -602,6 +602,11 @@ public class RoomViewModel extends Activity {
         return collisionHappened;
     }
 
+    /**
+     * Creates a basic rectangular hitbox for a character.
+     *
+     * @return The rectangular hitbox.
+     */
     public RectF createRectangle() {
         return new RectF(player.getX() - characterWidth / 2,
                 player.getY() - characterHeight / 2,
@@ -609,6 +614,11 @@ public class RoomViewModel extends Activity {
                 player.getY() + characterHeight / 2);
     }
 
+    /**
+     * Creates a rectangular attack window that extends left for a character.
+     *
+     * @return The attack window.
+     */
     public RectF createLeftFacingRectangle() {
         return new RectF(player.getX() - characterWidth,
                 player.getY() - characterHeight / 2,
@@ -616,6 +626,11 @@ public class RoomViewModel extends Activity {
                 player.getY() + characterHeight / 2);
     }
 
+    /**
+     * Creates a rectangular attack window that extends right for a character.
+     *
+     * @return The attack window.
+     */
     public RectF createRightFacingRectangle() {
         return new RectF(player.getX() - characterWidth / 2,
                 player.getY() - characterHeight / 2,
