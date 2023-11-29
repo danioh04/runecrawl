@@ -43,7 +43,6 @@ public class Sprint2Tests {
         int damage = 10;
 
         player.receiveDamage(damage);
-
         assertEquals(initialHp - damage, player.getCurrentHp());
     }
 
@@ -57,7 +56,6 @@ public class Sprint2Tests {
         int damage = player.getCurrentHp() + 50;
 
         player.receiveDamage(damage);
-
         assertEquals(0, player.getCurrentHp());
     }
 
@@ -106,7 +104,6 @@ public class Sprint2Tests {
     @Test
     public void testNullPlayerInstance() {
         Player instance = Player.getInstance();
-
         assertNotNull(instance);
     }
 
@@ -120,7 +117,6 @@ public class Sprint2Tests {
         int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
                 * enemySlime.getBaseDamageRate());
         player.receiveDamage(damage);
-
         assertEquals(player.getCurrentHp(), initialHp - damage);
 
     }
@@ -135,7 +131,6 @@ public class Sprint2Tests {
         int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
                 * enemyOrc.getBaseDamageRate());
         player.receiveDamage(damage);
-
         assertEquals(player.getCurrentHp(), initialHp - damage);
     }
 
@@ -149,7 +144,6 @@ public class Sprint2Tests {
         int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
                 * enemyRobot.getBaseDamageRate());
         player.receiveDamage(damage);
-
         assertEquals(player.getCurrentHp(), initialHp - damage);
 
     }
@@ -164,7 +158,6 @@ public class Sprint2Tests {
         int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
                 * enemyOrc.getBaseDamageRate());
         player.receiveDamage(damage);
-
         assertEquals(player.getCurrentHp(), initialHp - damage);
     }
 
@@ -178,7 +171,6 @@ public class Sprint2Tests {
         int damage = (int) (player.getDifficulty().getEnemyDamageMultiplier()
                 * EnemyType.ORC.getBaseDamageRate());
         player.decreaseScore(damage);
-
         assertEquals(score - damage, player.getScore());
     }
 
@@ -195,7 +187,6 @@ public class Sprint2Tests {
         int multi = (score / damage) + 1;
         damage = damage * multi;
         player.decreaseScore(damage);
-
         assertEquals(0, player.getScore());
 
     }
@@ -213,7 +204,6 @@ public class Sprint2Tests {
         int multi = (score / damage) + 1;
         damage = damage * multi;
         player.decreaseScore(damage + 10);
-
         assertEquals(0, player.getScore());
     }
 }
