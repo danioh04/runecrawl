@@ -208,7 +208,4 @@ public class Sprint2Tests {
         player.decreaseScore(damage + 10);
         assertEquals(0, player.getScore());
     }
-
-    
-
 }
