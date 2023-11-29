@@ -71,6 +71,9 @@ public class ExtraTests {
         assertEquals(basicPotion.getHealthBoost() + 5, decoratorSP.getHealthBoost());
     }
 
+    /**
+     * checks that player's health doesn't change after drinking basic potion
+     */
     @Test
     public void testDrinkBasicPotion() {
         Player.initialize("testPlayer", Difficulty.HARD, PlayerType.MAGE);
@@ -80,5 +83,6 @@ public class ExtraTests {
         player.drinkPotion(potion);
         assertEquals(health, player.getCurrentHp());
     }
+
 
 }
