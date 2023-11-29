@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * This class is designed to test the functionality of mutating the score.
  */
-public class PotionEffectTest {
+public class ExtraTests {
     private BasicPotion basicPotion;
 
     @Before
