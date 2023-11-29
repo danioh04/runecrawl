@@ -104,7 +104,8 @@ public class Sprint5Tests {
      */
     @Test
     public void testAddNullAttempt() {
-        assertThrows("Did not throw Exception.", IllegalArgumentException.class, () -> leaderboard.addAttempt(null));
+        assertThrows("Did not throw Exception.", IllegalArgumentException.class,
+                () -> leaderboard.addAttempt(null));
     }
 
     /**
@@ -164,7 +165,8 @@ public class Sprint5Tests {
 
         assertEquals(5, topAttempts.size());
         assertEquals("player0", topAttempts.get(0).getUsername());
-        assertTrue(topAttempts.stream().noneMatch(attempt -> "newPlayer".equals(attempt.getUsername())));
+        assertTrue(topAttempts.stream().noneMatch(attempt ->
+                "newPlayer".equals(attempt.getUsername())));
     }
 
     /**
@@ -209,7 +211,7 @@ public class Sprint5Tests {
     @Test
     public void testSlimeTakingDamage() {
         Enemy enemyTest = new Enemy(EnemyType.SLIME, 50, 20, 20);
-        int damage = enemyTest.getCurrentHp() -1;
+        int damage = enemyTest.getCurrentHp() - 1;
         enemyTest.receiveDamage(damage);
         assertEquals(1, enemyTest.getCurrentHp());
     }
