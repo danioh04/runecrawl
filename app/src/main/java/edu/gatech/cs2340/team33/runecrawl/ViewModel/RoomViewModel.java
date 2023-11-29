@@ -238,7 +238,7 @@ public class RoomViewModel extends Activity {
     private void generatePotions(Context currentClass) {
         Potion basePotion = new BasicPotion();
         Potion[] types = {new SmallPotion(basePotion), new MediumPotion(basePotion),
-                new JumboPotion(basePotion)};
+            new JumboPotion(basePotion)};
 
         for (Potion potion : types) {
             PointF randomPosition = generateRandomPosition();
