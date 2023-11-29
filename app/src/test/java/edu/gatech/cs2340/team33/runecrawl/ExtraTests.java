@@ -25,6 +25,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class PotionEffectTest {
     private BasicPotion basicPotion;
+
     @Before
     public void setUp() {
         basicPotion = new BasicPotion();
@@ -69,6 +70,4 @@ public class PotionEffectTest {
 
         assertEquals(basicPotion.getHealthBoost() + 5, decoratorSP.getHealthBoost());
     }
-
-
 }

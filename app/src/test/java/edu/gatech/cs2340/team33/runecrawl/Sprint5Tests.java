@@ -225,5 +225,4 @@ public class Sprint5Tests {
         player.drinkPotion(potion1);
         assertEquals(health, player.getCurrentHp());
     }
-
 }
