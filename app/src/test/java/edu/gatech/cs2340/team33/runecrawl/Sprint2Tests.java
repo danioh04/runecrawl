@@ -43,7 +43,6 @@ public class Sprint2Tests {
         int damage = 10;
 
         player.receiveDamage(damage);
-
         assertEquals(initialHp - damage, player.getCurrentHp());
     }
 
@@ -57,7 +56,6 @@ public class Sprint2Tests {
         int damage = player.getCurrentHp() + 50;
 
         player.receiveDamage(damage);
-
         assertEquals(0, player.getCurrentHp());
     }
 

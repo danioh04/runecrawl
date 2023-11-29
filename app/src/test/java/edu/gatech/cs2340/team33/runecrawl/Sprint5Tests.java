@@ -176,7 +176,6 @@ public class Sprint5Tests {
         basicPotion = new BasicPotion();
         JumboPotion jP = new JumboPotion(basicPotion);
         PotionDecorator decoratorJP = jP;
-
         assertEquals(basicPotion.getHealthBoost() + 20, decoratorJP.getHealthBoost());
     }
 
@@ -189,7 +188,6 @@ public class Sprint5Tests {
         basicPotion = new BasicPotion();
         MediumPotion mP = new MediumPotion(basicPotion);
         PotionDecorator decoratorMP = mP;
-
         assertEquals(basicPotion.getHealthBoost() + 10, decoratorMP.getHealthBoost());
     }
 
@@ -202,7 +200,6 @@ public class Sprint5Tests {
         basicPotion = new BasicPotion();
         SmallPotion sP = new SmallPotion(basicPotion);
         PotionDecorator decoratorSP = sP;
-
         assertEquals(basicPotion.getHealthBoost() + 5, decoratorSP.getHealthBoost());
     }
 
