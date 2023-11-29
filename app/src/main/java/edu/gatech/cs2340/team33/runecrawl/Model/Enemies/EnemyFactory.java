@@ -38,7 +38,7 @@ public class EnemyFactory {
         case WEREWOLF:
             return 204;
         case BOSS:
-            return 288;
+            return 100;
         default:
             throw new IllegalArgumentException("Unknown enemy type: " + type);
         }
@@ -63,7 +63,7 @@ public class EnemyFactory {
         case WEREWOLF:
             return 228;
         case BOSS:
-            return 160;
+            return 132;
         default:
             throw new IllegalArgumentException("Unknown enemy type: " + type);
         }
