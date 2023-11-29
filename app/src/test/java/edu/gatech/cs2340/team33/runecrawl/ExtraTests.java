@@ -70,4 +70,15 @@ public class PotionEffectTest {
 
         assertEquals(basicPotion.getHealthBoost() + 5, decoratorSP.getHealthBoost());
     }
+
+    @Test
+    public void testDrinkBasicPotion() {
+        Player.initialize("testPlayer", Difficulty.HARD, PlayerType.MAGE);
+        Player player = Player.getInstance();
+        BasicPotion potion = new BasicPotion();
+        int health = player.getCurrentHp();
+        player.drinkPotion(potion);
+        assertEquals(health, player.getCurrentHp());
+    }
+
 }
