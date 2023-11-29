@@ -10,6 +10,9 @@ import org.junit.Test;
 
 import edu.gatech.cs2340.team33.runecrawl.Model.Enemies.EnemyType;
 import edu.gatech.cs2340.team33.runecrawl.Model.Game.Difficulty;
+import edu.gatech.cs2340.team33.runecrawl.Model.Items.BasicPotion;
+import edu.gatech.cs2340.team33.runecrawl.Model.Items.JumboPotion;
+import edu.gatech.cs2340.team33.runecrawl.Model.Items.PotionDecorator;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerType;
 
@@ -206,5 +209,6 @@ public class Sprint2Tests {
         assertEquals(0, player.getScore());
     }
 
+    
 
 }
