@@ -1,7 +1,6 @@
 package edu.gatech.cs2340.team33.runecrawl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +15,6 @@ import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerType;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
