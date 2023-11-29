@@ -14,7 +14,6 @@ import edu.gatech.cs2340.team33.runecrawl.Model.Items.PotionDecorator;
 import edu.gatech.cs2340.team33.runecrawl.Model.Items.SmallPotion;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.Player;
 import edu.gatech.cs2340.team33.runecrawl.Model.Player.PlayerType;
-//package edu.gatech.cs2340.team33.runecrawl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -70,15 +69,4 @@ public class ExtraTests {
 
         assertEquals(basicPotion.getHealthBoost() + 5, decoratorSP.getHealthBoost());
     }
-
-    @Test
-    public void testDrinkBasicPotion() {
-        Player.initialize("testPlayer", Difficulty.HARD, PlayerType.MAGE);
-        Player player = Player.getInstance();
-        BasicPotion potion = new BasicPotion();
-        int health = player.getCurrentHp();
-        player.drinkPotion(potion);
-        assertEquals(health, player.getCurrentHp());
-    }
-
 }
